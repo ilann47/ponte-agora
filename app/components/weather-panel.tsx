@@ -1,7 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { WeatherReport } from '@/lib/weather';
+import {
+  fetchWeatherReport,
+  WEATHER_REFRESH_MS,
+  WEATHER_RETRY_MS,
+  type WeatherReport,
+} from '@/lib/weather';
 
 export function WeatherPanel() {
   const [report, setReport] = useState<WeatherReport | null>(null);
@@ -9,27 +14,35 @@ export function WeatherPanel() {
 
   useEffect(() => {
     let active = true;
+    let timer: number | undefined;
     const refresh = async () => {
+      let nextRefresh = WEATHER_REFRESH_MS;
       try {
-        const response = await fetch('/api/weather');
-        if (!response.ok) throw new Error('clima indisponível');
-        const next = await response.json() as WeatherReport;
+        const next = await fetchWeatherReport();
         if (active) {
           setReport(next);
           setError(false);
         }
       } catch {
+        nextRefresh = WEATHER_RETRY_MS;
         if (active) setError(true);
+      } finally {
+        if (active) timer = window.setTimeout(refresh, nextRefresh);
       }
     };
 
     void refresh();
-    const timer = window.setInterval(refresh, 600_000);
     return () => {
       active = false;
-      window.clearInterval(timer);
+      if (timer !== undefined) window.clearTimeout(timer);
     };
   }, []);
+
+  const sourceStatus = error
+    ? report
+      ? 'Últimos dados disponíveis · tentando atualizar'
+      : 'Clima indisponível · nova tentativa em 1 min'
+    : 'Dados meteorológicos por Open-Meteo';
 
   return (
     <section className="weather-section" aria-labelledby="weather-title">
@@ -38,7 +51,7 @@ export function WeatherPanel() {
           <p className="eyebrow">Clima em Foz do Iguaçu</p>
           <h2 id="weather-title">Agora e próximos dias</h2>
         </div>
-        <span>{error ? 'Últimos dados disponíveis' : 'Dados meteorológicos por Open-Meteo'}</span>
+        <span>{sourceStatus}</span>
       </div>
 
       <div className="weather-grid">

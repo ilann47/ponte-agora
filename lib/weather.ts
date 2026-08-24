@@ -1,5 +1,13 @@
 const OPEN_METEO_URL = 'https://api.open-meteo.com/v1/forecast';
 
+export const WEATHER_REFRESH_MS = 600_000;
+export const WEATHER_RETRY_MS = 60_000;
+
+type WeatherFetcher = (
+  input: RequestInfo | URL,
+  init?: RequestInit,
+) => Promise<Response>;
+
 export type CurrentWeather = {
   observedAt: string;
   temperatureC: number;
@@ -46,6 +54,29 @@ export function buildWeatherUrl(): string {
     forecast_days: '2',
   });
   return `${OPEN_METEO_URL}?${query.toString()}`;
+}
+
+export function buildWeatherRedirect(): Response {
+  return new Response(null, {
+    status: 307,
+    headers: {
+      Location: buildWeatherUrl(),
+      'Cache-Control': 'public, max-age=300',
+    },
+  });
+}
+
+export async function fetchWeatherReport(
+  fetcher: WeatherFetcher = fetch,
+): Promise<WeatherReport> {
+  const response = await fetcher(buildWeatherUrl(), {
+    cache: 'no-store',
+    headers: { Accept: 'application/json' },
+  });
+  if (!response.ok) {
+    throw new Error(`Open-Meteo respondeu ${response.status}`);
+  }
+  return parseWeatherResponse(await response.json());
 }
 
 export function weatherCodeLabel(code: number): string {
