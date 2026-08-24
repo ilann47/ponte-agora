@@ -4,7 +4,7 @@
 
 ## Fase
 
-Organização e distribuição do projeto como um único repositório.
+Domínio próprio ativo e preparação da URL canônica de produção.
 
 ## Decisões vigentes
 
@@ -17,7 +17,8 @@ Organização e distribuição do projeto como um único repositório.
 
 ## Publicação atual
 
-- Site público: `https://ponte-agora.ilanwendling.chatgpt.site/`.
+- Site público principal: `https://filaponte.com.br/`.
+- Endereço original da hospedagem preservado como fallback: `https://ponte-agora.ilanwendling.chatgpt.site/`.
 - Detector local online e alimentando telemetria.
-- Domínio `filaponte.com.br` ainda depende da conclusão do DNS.
+- DNS, validação da propriedade e certificado HTTPS de `filaponte.com.br` estão ativos.
 - Remoto `origin`: GitHub. Remoto `sites`: repositório interno da hospedagem.

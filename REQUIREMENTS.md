@@ -12,11 +12,11 @@
 - Exibir histórico diário de 7 ou 30 dias.
 - Registrar analytics anônimos e proteger a visão administrativa.
 - Publicar telemetria sem bloquear vídeo ou inferência.
+- Responder em `https://filaponte.com.br` com DNS e certificado HTTPS válidos.
 
 ## Próxima versão
 
 - Ativar newsletter diária após configurar o provedor de e-mail.
-- Concluir o domínio `filaponte.com.br`.
 - Auditar a contagem contra amostras manuais.
 - Melhorar o início do vídeo em conexões lentas com carregamento progressivo.
 

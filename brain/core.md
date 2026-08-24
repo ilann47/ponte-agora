@@ -24,6 +24,7 @@ Aplicação Python local que lê um stream HLS da BR-277, detecta veículos com 
 - Ultralytics YOLO para inferência.
 - Open-Meteo para condições e previsão meteorológica.
 - Next/Vinext e TypeScript para o painel web hospedado.
+- Domínio próprio `filaponte.com.br` com DNS no Registro.br e HTTPS gerenciado pela hospedagem.
 - D1 para telemetria atual, contagem horária de veículos e histórico anônimo de visitas.
 - Brevo para e-mail transacional e cron-job.org para disparo periódico.
 - `unittest` para testes automatizados, sem dependência adicional.
@@ -84,3 +85,4 @@ Aplicação Python local que lê um stream HLS da BR-277, detecta veículos com 
 | 2026-08-24 | Adicionada contagem única de passagens no sentido da Ponte e histórico diário público. |
 | 2026-08-24 | Reunidos site, detector, testes e documentação em um único repositório. |
 | 2026-08-24 | Publicado o repositório privado no GitHub com o remoto do Sites preservado. |
+| 2026-08-24 | Ativado o domínio `filaponte.com.br` com DNS, validações e certificado HTTPS. |

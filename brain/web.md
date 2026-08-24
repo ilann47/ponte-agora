@@ -8,7 +8,7 @@ Disponibilizar o monitor da Ponte da Amizade no navegador, com vídeo ao vivo, i
 
 ## Contexto
 
-O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo Python local e publica somente as métricas calculadas, evitando executar visão computacional na hospedagem web. A versão de produção está em `https://ponte-agora.ilanwendling.chatgpt.site`.
+O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo Python local e publica somente as métricas calculadas, evitando executar visão computacional na hospedagem web. A versão de produção está em `https://filaponte.com.br`; o endereço `chatgpt.site` permanece disponível como fallback da hospedagem.
 
 ## Fluxo (camadas da arquitetura)
 
@@ -59,6 +59,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - Open-Meteo para clima e previsão.
 - Detector Python local para telemetria de congestionamento.
 - Banco persistente e autenticação da hospedagem do site.
+- Registro.br para a zona DNS de `filaponte.com.br`, com certificado HTTPS gerenciado pela hospedagem.
 - Google Search Console, após a confirmação manual da propriedade, para acompanhar impressões, cliques e posições.
 - Brevo para confirmação e entrega do resumo diário.
 - cron-job.org para chamar a rota de envio em intervalos regulares.
@@ -89,6 +90,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - `robots.txt`, `sitemap.xml`, canonical, JSON-LD e conteúdo inicial verificados no HTML local antes da publicação.
 - Newsletter coberta por testes de domínio, provedor, persistência, rotas, interface e privacidade.
 - Migração `0003_right_spitfire.sql` inspecionada; TypeScript, lint e build de produção aprovados com a nova rota.
+- Domínio próprio validado nos dois endereços de borda, com DNS público, HTTPS válido e resposta `200`.
 
 ## Decisões Técnicas
 
@@ -138,3 +140,4 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 | 2026-08-24 | Adicionadas inscrição diária, gestão de horário, cancelamento, histórico de trânsito e envio pela Brevo. |
 | 2026-08-24 | Adicionados histórico público de passagens, rota de 7/30 dias e persistência horária idempotente. |
 | 2026-08-24 | Publicada a versão 6 e verificados em produção página, API do histórico, migração e detector online. |
+| 2026-08-24 | Ativado `filaponte.com.br` com registros A/TXT, validação da hospedagem e HTTPS. |

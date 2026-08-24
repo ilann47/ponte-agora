@@ -2,7 +2,7 @@
 
 Monitor público da BR-277 no sentido da Ponte da Amizade. O sistema combina vídeo HLS ao vivo, detecção local de veículos por YOLO, estimativa de congestionamento, contagem diária de passagens, previsão do tempo e histórico privado de acessos.
 
-Site: [ponte-agora.ilanwendling.chatgpt.site](https://ponte-agora.ilanwendling.chatgpt.site/)
+Site: [filaponte.com.br](https://filaponte.com.br/)
 
 ## Estrutura
 

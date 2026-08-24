@@ -87,6 +87,8 @@
 - Mantidos dois remotos explícitos: `origin` para GitHub e `sites` para a hospedagem pública existente.
 - Reescritos os 18 commits existentes para atribuir autoria e responsabilidade à conta GitHub `ilann47`, preservando integralmente arquivos, mensagens e datas.
 - Configurada no repositório a identidade privada `ILAN WENDLING THOELE <41265766+ilann47@users.noreply.github.com>` para os próximos commits.
+- Ativado `filaponte.com.br` com os dois registros A, as verificações TXT e certificado HTTPS válido.
+- Confirmada resposta `200` do domínio próprio nos dois endereços de borda da hospedagem.
 
 ## Decisões tomadas
 
@@ -128,11 +130,12 @@
 - **Histórico horário e visão diária:** a granularidade do banco permite calcular o pico do dia, enquanto o gráfico público mantém leitura simples em 7/30 dias.
 - **Renovação coordenada da telemetria:** a chave do Site e a do novo processo foram trocadas juntas; o detector antigo foi encerrado somente após a primeira gravação válida.
 - **Autoria GitHub com endereço privado:** os commits usam o endereço `noreply` associado à conta `ilann47`, garantindo atribuição ao proprietário sem publicar o e-mail pessoal.
+- **Domínio próprio com fallback:** `filaponte.com.br` é o endereço público principal; o endereço `chatgpt.site` permanece disponível durante a transição da URL canônica.
 
 ## Próximos passos
 
 1. Acompanhar as primeiras horas da contagem e comparar uma amostra manual para calibrar a linha virtual se necessário.
-2. Concluir a transição DNS do Registro.br e apontar `filaponte.com.br` para o Site.
+2. Trocar a URL canônica, o sitemap e os links gerados para `https://filaponte.com.br` em uma nova publicação.
 3. Criar ou acessar a conta Brevo, ativar o envio transacional e verificar o endereço remetente.
 4. Configurar os segredos da newsletter, agendar o disparo e validar uma assinatura real de ponta a ponta.
 5. Confirmar a propriedade no Google Search Console, enviar o sitemap e solicitar a indexação da página inicial.
@@ -151,5 +154,4 @@
 - A hospedagem ainda não possui `BREVO_API_KEY`, `NEWSLETTER_FROM_EMAIL`, `NEWSLETTER_FROM_NAME`, `NEWSLETTER_TOKEN_SECRET` ou `NEWSLETTER_CRON_SECRET`; o formulário agora fica automaticamente oculto até a configuração.
 - A ativação da Brevo exige uma conta externa, uma chave privada e a verificação do remetente; esses passos dependem do proprietário.
 - A criação do agendamento externo depende de uma conta no cron-job.org depois que a rota estiver publicada.
-- O domínio `filaponte.com.br` ainda está na transição de DNS do Registro.br; os registros do Site só poderão ser inseridos após a liberação.
 - O histórico de veículos começa vazio e depende de o detector atualizado permanecer ligado; a precisão deverá ser auditada com amostras de vídeo reais.
