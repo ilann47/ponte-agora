@@ -1,12 +1,14 @@
-import { getTrafficState } from '@/db/repository';
+import { getTrafficState, getVehicleHistorySummary } from '@/db/repository';
 import {
   buildSiteStructuredData,
   resolveSiteOrigin,
 } from '@/lib/seo';
 import { isTrafficFresh } from '@/lib/traffic';
+import { fozVehicleBucket, summarizeVehicleHistory } from '@/lib/vehicle-history';
 import { LiveMonitor } from './components/live-monitor';
 import { NewsletterForm } from './components/newsletter-form';
 import { VisitTracker } from './components/visit-tracker';
+import { VehicleHistoryChart } from './components/vehicle-history-chart';
 import { WeatherPanel } from './components/weather-panel';
 
 const STREAM_URL =
@@ -15,7 +17,10 @@ const STREAM_URL =
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const reading = await getTrafficState().catch(() => null);
+  const [reading, vehicleHistory] = await Promise.all([
+    getTrafficState().catch(() => null),
+    getVehicleHistorySummary(30).catch(() => emptyVehicleHistory()),
+  ]);
   const initialTraffic = {
     reading,
     online: isTrafficFresh(reading?.receivedAt),
@@ -65,6 +70,8 @@ export default async function Home() {
       </section>
 
       <LiveMonitor source={STREAM_URL} initialState={initialTraffic} />
+
+      <VehicleHistoryChart initialSummary={vehicleHistory} />
 
       <WeatherPanel />
 
@@ -151,4 +158,13 @@ export default async function Home() {
       <VisitTracker />
     </main>
   );
+}
+
+function emptyVehicleHistory() {
+  return summarizeVehicleHistory({
+    daily: [],
+    todayHourly: [],
+    periodDays: 30,
+    endDate: fozVehicleBucket(new Date()).date,
+  });
 }

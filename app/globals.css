@@ -207,6 +207,95 @@ button, input { font: inherit; }
 .panel-note { display: flex; align-items: center; gap: 10px; margin: 0; color: #b7c3bc; font-size: 11px; }
 .traffic-panel .panel-note i { background: var(--status-color); }
 
+.vehicle-history-section {
+  width: min(1240px, calc(100% - 40px));
+  margin: 64px auto 0;
+}
+.vehicle-history-heading { align-items: center; }
+.vehicle-period-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.vehicle-period-tabs button {
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.vehicle-period-tabs button[aria-pressed='true'] { background: var(--green); color: #07100a; }
+.vehicle-history-layout { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 12px; }
+.vehicle-history-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.vehicle-history-stats article {
+  min-height: 118px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: var(--surface);
+}
+.vehicle-history-stats span { color: var(--muted); font-size: 10px; line-height: 1.3; }
+.vehicle-history-stats strong { font: 720 21px var(--font-geist-mono); letter-spacing: -.05em; }
+.vehicle-chart-card {
+  position: relative;
+  min-width: 0;
+  min-height: 246px;
+  padding: 20px 22px 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.vehicle-chart-meta { display: flex; justify-content: space-between; gap: 28px; }
+.vehicle-chart-meta span, .vehicle-chart-meta strong { display: block; }
+.vehicle-chart-meta span { color: var(--green); font-size: 9px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.vehicle-chart-meta strong { margin-top: 5px; font-size: 16px; }
+.vehicle-chart-meta small { max-width: 390px; color: var(--muted); font-size: 10px; line-height: 1.45; text-align: right; }
+.vehicle-chart-bars {
+  height: 158px;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(30, minmax(19px, 1fr));
+  align-items: end;
+  gap: 5px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.vehicle-chart-bars.period-7 { grid-template-columns: repeat(7, minmax(62px, 1fr)); gap: 9px; }
+.vehicle-chart-column {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 17px 1fr 16px;
+  align-items: end;
+  justify-items: center;
+  gap: 4px;
+}
+.vehicle-chart-column span, .vehicle-chart-column small { color: #8f9d95; font: 600 8px var(--font-geist-mono); white-space: nowrap; }
+.vehicle-chart-column i {
+  width: min(24px, 82%);
+  min-height: 2px;
+  border-radius: 5px 5px 2px 2px;
+  background: linear-gradient(to top, #38925a, var(--green));
+}
+.vehicle-history-empty {
+  position: absolute;
+  inset: 112px 32px auto;
+  margin: 0;
+  color: #c4d0c8;
+  font-size: 12px;
+  text-align: center;
+}
+.vehicle-history-note { margin: 10px 2px 0; color: #75827a; font-size: 10px; line-height: 1.5; }
+
 .weather-section { width: min(1240px, calc(100% - 40px)); margin: 64px auto 0; }
 .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 18px; }
 .section-heading h2 { margin: 0; font-size: 28px; letter-spacing: -.035em; }
@@ -340,6 +429,9 @@ footer p a { color: #c9d5cd; text-decoration: underline; text-underline-offset: 
 
 @media (max-width: 900px) {
   .monitor-grid { grid-template-columns: 1fr; }
+  .vehicle-history-layout { grid-template-columns: 1fr; }
+  .vehicle-history-stats { grid-template-columns: repeat(4, 1fr); }
+  .vehicle-history-stats article { min-height: 94px; }
   .traffic-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 30px; }
   .traffic-bar, .traffic-summary { grid-column: 1 / -1; }
   .metric-grid { margin: 0; }
@@ -363,6 +455,13 @@ footer p a { color: #c9d5cd; text-decoration: underline; text-underline-offset: 
   .hero h1 { font-size: 42px; }
   .updated-at { margin-top: 22px; text-align: left; }
   .monitor-grid, .weather-section, footer { width: min(100% - 28px, 1240px); }
+  .vehicle-history-section { width: min(100% - 28px, 1240px); margin-top: 48px; }
+  .vehicle-history-stats { grid-template-columns: 1fr 1fr; }
+  .vehicle-history-heading { align-items: start; }
+  .vehicle-chart-card { padding-inline: 16px; }
+  .vehicle-chart-meta { display: block; }
+  .vehicle-chart-meta small { display: block; margin-top: 8px; text-align: left; }
+  .vehicle-chart-bars.period-7 { grid-template-columns: repeat(7, minmax(38px, 1fr)); }
   .traffic-panel { display: block; }
   .metric-grid { margin: 20px 0; }
   .weather-section { margin-top: 48px; }
