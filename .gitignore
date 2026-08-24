@@ -30,6 +30,17 @@ yarn-error.log*
 .env*
 !.env.example
 
+# python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# editors
+.idea/
+.vscode/
+
 # deployment and generated files
 .vercel
 next-env.d.ts

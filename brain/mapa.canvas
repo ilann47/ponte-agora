@@ -1,0 +1,144 @@
+{
+  "nodes": [
+    {
+      "id": "core",
+      "type": "file",
+      "file": "core.md",
+      "x": 0,
+      "y": 0,
+      "width": 420,
+      "height": 300
+    },
+    {
+      "id": "congestionamento",
+      "type": "file",
+      "file": "congestionamento.md",
+      "x": 520,
+      "y": 0,
+      "width": 420,
+      "height": 300
+    },
+    {
+      "id": "clima",
+      "type": "file",
+      "file": "clima.md",
+      "x": 260,
+      "y": 400,
+      "width": 420,
+      "height": 300
+    },
+    {
+      "id": "web",
+      "type": "file",
+      "file": "web.md",
+      "x": 780,
+      "y": 400,
+      "width": 420,
+      "height": 300
+    },
+    {
+      "id": "newsletter",
+      "type": "file",
+      "file": "newsletter.md",
+      "x": 1300,
+      "y": 400,
+      "width": 420,
+      "height": 300
+    },
+    {
+      "id": "contagem-veiculos",
+      "type": "file",
+      "file": "contagem-veiculos.md",
+      "x": 1040,
+      "y": 0,
+      "width": 420,
+      "height": 300
+    }
+  ],
+  "edges": [
+    {
+      "id": "core-congestionamento",
+      "fromNode": "core",
+      "fromSide": "right",
+      "toNode": "congestionamento",
+      "toSide": "left"
+    },
+    {
+      "id": "core-clima",
+      "fromNode": "core",
+      "fromSide": "bottom",
+      "toNode": "clima",
+      "toSide": "left"
+    },
+    {
+      "id": "congestionamento-clima",
+      "fromNode": "congestionamento",
+      "fromSide": "bottom",
+      "toNode": "clima",
+      "toSide": "right"
+    },
+    {
+      "id": "core-web",
+      "fromNode": "core",
+      "fromSide": "right",
+      "toNode": "web",
+      "toSide": "top"
+    },
+    {
+      "id": "congestionamento-web",
+      "fromNode": "congestionamento",
+      "fromSide": "bottom",
+      "toNode": "web",
+      "toSide": "top"
+    },
+    {
+      "id": "clima-web",
+      "fromNode": "clima",
+      "fromSide": "right",
+      "toNode": "web",
+      "toSide": "left"
+    },
+    {
+      "id": "web-newsletter",
+      "fromNode": "web",
+      "fromSide": "right",
+      "toNode": "newsletter",
+      "toSide": "left"
+    },
+    {
+      "id": "clima-newsletter",
+      "fromNode": "clima",
+      "fromSide": "right",
+      "toNode": "newsletter",
+      "toSide": "bottom"
+    },
+    {
+      "id": "congestionamento-newsletter",
+      "fromNode": "congestionamento",
+      "fromSide": "right",
+      "toNode": "newsletter",
+      "toSide": "top"
+    },
+    {
+      "id": "congestionamento-contagem",
+      "fromNode": "congestionamento",
+      "fromSide": "right",
+      "toNode": "contagem-veiculos",
+      "toSide": "left"
+    },
+    {
+      "id": "contagem-web",
+      "fromNode": "contagem-veiculos",
+      "fromSide": "bottom",
+      "toNode": "web",
+      "toSide": "top"
+    },
+    {
+      "id": "contagem-newsletter",
+      "fromNode": "contagem-veiculos",
+      "fromSide": "right",
+      "toNode": "newsletter",
+      "toSide": "top"
+    }
+  ]
+}

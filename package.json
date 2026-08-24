@@ -11,6 +11,9 @@
     "start": "vinext start",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "test": "node --test tests/*.test.ts",
+    "test:detector": "cd detector && python -m unittest discover -s tests -p \"test_*.py\" -v",
+    "test:all": "npm test && npm run test:detector",
+    "start:detector": "cd detector && python teste.py",
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {

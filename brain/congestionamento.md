@@ -1,0 +1,129 @@
+> Links: [[PROJECT]] · [[STATE]] · [[REQUIREMENTS]] · [[ROADMAP]] · [[CONTEXT]] · [[core]] · [[contagem-veiculos]] · [[clima]] · [[web]]
+
+# Congestionamento
+
+## Objetivo
+
+Estimar o nível de congestionamento na pista em direção à Ponte da Amizade a partir da quantidade de veículos e da ocupação visual da pista.
+
+## Contexto
+
+A câmera é fixa, noturna e mostra veículos pequenos ao longe. A inferência em 640 pixels sobre o frame completo não detecta adequadamente esses objetos. O recorte da pista amplia os veículos para o modelo e permite usar 640 pixels com maior velocidade e boa sensibilidade.
+
+## Fluxo (camadas da arquitetura)
+
+1. Capturar e exibir frames continuamente no loop principal.
+2. Enviar um frame ao worker somente quando ele estiver livre, sem criar fila.
+3. Recortar o retângulo envolvente da ROI com uma pequena margem.
+4. Executar YOLO no recorte somente para classes de veículos.
+5. Remapear as caixas para as coordenadas do frame completo.
+6. Filtrar caixas pelo ponto de contato com a ROI poligonal.
+7. Calcular contagem, ocupação sem sobreposição e score bruto.
+8. Reaproveitar o último resultado enquanto a próxima inferência está em andamento.
+9. Reduzir o frame para 1100×650 e remapear as detecções para essa resolução.
+10. Suavizar o score e desenhar painel, ROI e detecções na imagem de exibição.
+11. Aguardar apenas o tempo restante do quadro para manter a reprodução em 25 FPS.
+12. Normalizar ROI e caixas para coordenadas entre 0 e 1.
+13. Publicar leitura, classes e probabilidades no site em segundo plano, no máximo uma vez por segundo e sem fila.
+14. Entregar as detecções aceitas ao [[contagem-veiculos]] somente quando uma nova inferência for concluída.
+
+## Endpoints (se houver)
+
+- Consome o stream HLS e exibe uma janela local.
+- Publica em `POST /api/traffic` do [[web]] quando a conexão está configurada.
+
+## Estrutura de Dados (DTOs, Entidades)
+
+- `Detection`: classe, confiança e caixa delimitadora.
+- `CongestionMetrics`: score, quantidade e ocupação.
+- `CongestionAnalysis`: métricas e detecções aceitas pela ROI.
+- `ExponentialSmoother`: estado do score suavizado.
+- `InferenceSnapshot`: análise concluída e duração da inferência.
+- `AsyncInferenceWorker`: executor de uma única inferência, sem fila de frames.
+- `AsyncTelemetryPublisher`: executor de uma única publicação web, sem fila de leituras.
+- `VehiclePassageCounter`: rastreador leve que emite passagens únicas para a telemetria.
+
+## Integrações externas (se houver)
+
+- Stream HLS do Portal da Cidade.
+- Modelo local `yolo11n.pt` executado pela biblioteca Ultralytics.
+- Painel [[web]] para publicação autenticada da telemetria.
+
+## Tratamento de Erros
+
+- Reconexão após falhas consecutivas de leitura.
+- Liberação garantida da captura e das janelas.
+- Validação antecipada dos parâmetros do cálculo.
+- Limite de 64 caixas por publicação e coordenadas sempre recortadas ao intervalo de 0 a 1.
+- Sessões do contador recebem UUID novo a cada execução, evitando misturar totais após reinício.
+
+## Testes (curl ou equivalente)
+
+Executar `cd detector && python -m unittest discover -s tests -v`.
+
+Cobertura funcional atual:
+
+- Limites dos quatro níveis de congestionamento.
+- Escala de coordenadas normalizadas.
+- Inclusão pela base da caixa dentro da ROI.
+- União de caixas sobrepostas e recorte nos limites do frame.
+- Validação da configuração e suavização exponencial.
+- Importação segura do executável e calibração da inferência.
+- Recorte da ROI e remapeamento das caixas para o frame original.
+- Worker assíncrono sem fila e reaproveitamento do último resultado concluído.
+- Travessia única na direção correta, direção oposta ignorada, múltiplos veículos e expiração de rastros.
+
+Validação de 2026-08-23:
+
+- 29 testes automatizados aprovados, incluindo serialização, limites e publicação assíncrona da telemetria.
+- Imagem de referência após otimização: 6 veículos na ROI, ocupação de 1,902% e score de 20%.
+- Stream real em 2560×1440: média de 107,4 ms em 10 frames, equivalente a 9,3 FPS de inferência.
+- Baseline anterior no mesmo stream: média de 260,0 ms, equivalente a 3,8 FPS de inferência.
+- Pipeline assíncrono no stream real: 125 frames em 5,067 s, equivalente a 24,7 FPS de vídeo e 8,4 FPS de IA.
+- Pipeline com painel meteorológico: 125 frames em 5,080 s, equivalente a 24,6 FPS de vídeo e 6,9 FPS de IA.
+- Pipeline visual otimizado, após aquecimento da IA: 125 frames em 3,56 s, equivalente a 35,1 FPS de processamento sem janela e 6,1 FPS de IA.
+- Reprodução limitada após a otimização: 100 frames em 4,04 s, equivalente a 24,72 FPS e à velocidade original da câmera.
+- Detector reiniciado após a publicação do overlay: 3 carros enviados ao site, vídeo a 24,6 FPS e IA a 15,6 FPS.
+
+## Decisões Técnicas
+
+- Usar coordenadas normalizadas para a ROI.
+- Medir a união das caixas para não contar pixels sobrepostos duas vezes.
+- Separar cálculo puro do loop de vídeo para permitir testes rápidos.
+- Usar o ponto inferior central da caixa como contato do veículo com a pista.
+- Recortar a pista com margem de 5% e inferir em 640 px com confiança 0,20 e NMS IoU 0,40.
+- Remapear as caixas do recorte para o frame completo antes da análise e do desenho.
+- Manter 640 px porque detectou mais veículos que 512 e 576 nos testes comparativos, com diferença pequena de tempo.
+- Executar a IA em um `ThreadPoolExecutor` com apenas um worker.
+- Nunca enfileirar frames: se a IA estiver ocupada, manter o último resultado e continuar exibindo o vídeo.
+- Mostrar separadamente FPS do vídeo e da IA para tornar o desempenho observável.
+- Redimensionar primeiro para a resolução da janela e desenhar nela os efeitos translúcidos, evitando processar 2560×1440 apenas para elementos visuais.
+- Remapear as caixas detectadas para a resolução de exibição sem alterar as coordenadas usadas pelo cálculo de congestionamento.
+- Limitar o ciclo completo a 25 FPS; o tempo de leitura e desenho é descontado da espera para não tornar o vídeo lento.
+- Atualizar a média exponencial a cada 2 segundos com alfa 0,35, mantendo as detecções visuais em tempo real.
+- Publicar o overlay a cada segundo; o score continua suavizado no intervalo próprio de 2 segundos.
+- Normalizar caixas no frame original para o site projetá-las corretamente em telas responsivas.
+- Calibrar inicialmente o limite em 24 veículos, ocupação de 18%, peso de contagem 65% e peso de ocupação 35%.
+- Atualizar o contador apenas com snapshots novos da IA, nunca a cada quadro reapresentado do vídeo.
+
+## Módulos relacionados
+
+- [[core]]
+- [[contagem-veiculos]]
+- [[clima]]
+- [[web]]
+
+## Histórico
+
+| Data | Ação |
+|---|---|
+| 2026-08-23 | Definido o desenho inicial da melhoria do detector de congestionamento. |
+| 2026-08-23 | Implementadas ROI da pista direita, inferência noturna, ocupação por união, painel e suavização. |
+| 2026-08-23 | Verificados testes automatizados, imagem fornecida e stream HLS real. |
+| 2026-08-23 | Recortada a pista antes do YOLO, reduzindo a inferência de 260,0 ms para 107,4 ms em média. |
+| 2026-08-23 | Desacoplados vídeo e IA, elevando a exibição medida de 9,3 para 24,7 FPS. |
+| 2026-08-23 | Transferido o desenho da ROI, caixas e painel para 1100×650, reduzindo o custo visual por quadro. |
+| 2026-08-23 | Corrigida a reprodução acelerada com controle de ritmo verificado em 24,72 FPS. |
+| 2026-08-23 | Adicionada publicação autenticada e não bloqueante das métricas no painel web. |
+| 2026-08-23 | Incluídas ROI, classes, caixas e probabilidades na telemetria web normalizada. |
+| 2026-08-24 | Integradas as detecções ao contador de passagens sem alterar o ritmo de 25 FPS nem o overlay. |

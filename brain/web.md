@@ -1,0 +1,140 @@
+> Links: [[PROJECT]] · [[STATE]] · [[REQUIREMENTS]] · [[ROADMAP]] · [[CONTEXT]] · [[core]] · [[congestionamento]] · [[contagem-veiculos]] · [[clima]] · [[newsletter]]
+
+# Painel Web
+
+## Objetivo
+
+Disponibilizar o monitor da Ponte da Amizade no navegador, com vídeo ao vivo, indicadores de congestionamento, clima, newsletter diária, conteúdo indexável para buscas e uma área administrativa privada para o histórico de acessos reais.
+
+## Contexto
+
+O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo Python local e publica somente as métricas calculadas, evitando executar visão computacional na hospedagem web. A versão de produção está em `https://ponte-agora.ilanwendling.chatgpt.site`.
+
+## Fluxo (camadas da arquitetura)
+
+1. O navegador reproduz o stream HLS original.
+2. A página consulta as métricas de trânsito pelo site e o clima diretamente na Open-Meteo.
+3. `detector/teste.py` envia atualizações autenticadas de congestionamento, ROI, detecções normalizadas, sessão do contador e passagens acumuladas.
+4. Um canvas transparente desenha ROI, caixas, classes e confiança sobre o vídeo original.
+5. Cada visita gera um evento anônimo no banco persistente.
+6. A área administrativa autenticada agrega visitas, visitantes únicos diários, origens, países e dispositivos.
+7. A resposta inicial da página já contém a última situação do trânsito e conteúdo explicativo, permitindo leitura por buscadores antes da execução do JavaScript.
+8. `robots.txt`, `sitemap.xml`, canonical e dados estruturados orientam a descoberta e a indexação das páginas públicas.
+9. A newsletter coleta e-mail e hora com consentimento, confirma a posse do endereço e entrega clima, histórico e trânsito atual no horário escolhido.
+10. O servidor transforma o total acumulado do detector em incrementos idempotentes, agrupados pela data e hora de Foz do Iguaçu.
+11. A página pública apresenta o histórico de passagens em 7 ou 30 dias, fora da imagem da câmera.
+
+## Endpoints (se houver)
+
+- `GET /api/traffic`: última telemetria disponível.
+- `POST /api/traffic`: atualização autenticada enviada pelo detector Python.
+- `GET /api/traffic/history?days=7|30`: resumo público diário de veículos no sentido da Ponte.
+- `POST /api/analytics/visit`: registro anônimo de acesso.
+- `GET /api/admin/analytics`: agregados protegidos para o painel administrativo.
+- `GET /api/weather`: redirecionamento `307` para a consulta pública da Open-Meteo.
+- `GET /robots.txt`: autoriza páginas públicas e bloqueia rastreamento de `/admin` e `/api`.
+- `GET /sitemap.xml`: lista a página inicial e a metodologia pública.
+- `GET /como-funciona`: metodologia, fontes e limitações da análise por IA.
+- `POST /api/newsletter/subscribe`: pedido de inscrição e confirmação por e-mail.
+- `GET /api/newsletter/confirm`: confirmação da assinatura.
+- `GET|PATCH|DELETE /api/newsletter/manage`: consulta, alteração de hora e cancelamento.
+- `GET|POST /api/newsletter/unsubscribe`: descadastro imediato.
+- `POST /api/newsletter/send`: disparo agendado e autenticado.
+- `GET /newsletter/gerenciar`: página privada de preferências.
+
+## Estrutura de Dados (DTOs, Entidades)
+
+- `traffic_state`: estado mais recente com score, nível, veículos, ocupação, FPS, horários, ROI e detecções serializadas.
+- `visit_events`: horário, caminho, origem, campanha, país, dispositivo e identificador diário anônimo.
+- `traffic_samples`: histórico agregado em janelas de cinco minutos.
+- `vehicle_counter_sessions`: último total conhecido de cada execução do detector, usado para impedir dupla contagem.
+- `vehicle_counts`: total de passagens por data e hora no fuso de Foz do Iguaçu.
+- `newsletter_subscriptions`: e-mail, hora, confirmação e último envio.
+- `newsletter_send_log`: idempotência diária sem armazenar o endereço do destinatário.
+- `newsletter_rate_limits`: proteção contra abuso usando hash diário da conexão.
+
+## Integrações externas (se houver)
+
+- Stream HLS do Portal da Cidade.
+- Open-Meteo para clima e previsão.
+- Detector Python local para telemetria de congestionamento.
+- Banco persistente e autenticação da hospedagem do site.
+- Google Search Console, após a confirmação manual da propriedade, para acompanhar impressões, cliques e posições.
+- Brevo para confirmação e entrega do resumo diário.
+- cron-job.org para chamar a rota de envio em intervalos regulares.
+
+## Tratamento de Erros
+
+- O vídeo e o clima continuam disponíveis se o detector estiver offline.
+- Métricas antigas são identificadas pela data da última atualização.
+- O site não armazena endereço IP bruto.
+- A área de histórico exige login e validação do identificador da conta proprietária.
+- A autorização administrativa aceita o identificador específico do Site ou o e-mail confirmado do proprietário, porque o identificador encaminhado pelo login pode variar entre Sites.
+- Eventos de visita com mais de 180 dias são removidos durante novas gravações.
+- `/admin` e `/privacidade` usam `noindex`; rotas internas e APIs ficam fora do sitemap.
+- Origem canônica inválida é substituída pelo endereço público conhecido, evitando metadados inseguros.
+- Links da newsletter são assinados, tokens não ficam no banco e um registro único evita duplicidade diária.
+- O cancelamento remove a assinatura e o e-mail; pedidos pendentes e registros operacionais expiram automaticamente.
+- Leituras antigas sem os campos do contador continuam válidas; leituras com contador incompleto são rejeitadas.
+- Se o histórico não estiver disponível, a página continua abrindo e mostra a coleta iniciada com valores zerados.
+- A inscrição por e-mail fica oculta até que provedor, remetente e segredos internos estejam configurados, evitando formulário público inoperante.
+
+## Testes (curl ou equivalente)
+
+- 55 testes unitários para analytics, autenticação, clima, telemetria, SEO, newsletter, contagem de veículos, projeção do overlay e regressões do Lighthouse.
+- Lint e build de produção aprovados.
+- Rotas públicas verificadas na hospedagem: painel, clima, privacidade, publicação de telemetria e analytics.
+- `/admin` verificado com redirecionamento obrigatório para login.
+- Auditoria de dependências de produção sem vulnerabilidades conhecidas.
+- `robots.txt`, `sitemap.xml`, canonical, JSON-LD e conteúdo inicial verificados no HTML local antes da publicação.
+- Newsletter coberta por testes de domínio, provedor, persistência, rotas, interface e privacidade.
+- Migração `0003_right_spitfire.sql` inspecionada; TypeScript, lint e build de produção aprovados com a nova rota.
+
+## Decisões Técnicas
+
+- Manter o YOLO fora da hospedagem web.
+- Reproduzir o HLS diretamente para preservar fluidez e reduzir custo de banda.
+- Usar armazenamento persistente para histórico, nunca apenas o navegador.
+- Contabilizar visitantes únicos por dia sem persistir IP bruto.
+- Reter eventos por no máximo 180 dias.
+- Manter o site público, mas restringir `/admin` à conta proprietária.
+- Usar uma imagem social própria e metadados Open Graph para compartilhamento.
+- Desenhar a camada da IA em canvas para preservar o HLS e adaptar as coordenadas a qualquer tela.
+- Compartilhar uma única consulta de telemetria entre o player e o painel lateral.
+- Persistir somente o overlay atual, sem histórico de caixas ou imagens.
+- Usar a página inicial para a intenção “fila da Ponte da Amizade agora” e uma página separada para explicar a metodologia sem duplicar conteúdo.
+- Tratar o histórico próprio como fonte de visitantes reais; as estatísticas nativas da hospedagem também contam chamadas automáticas de API.
+- Consultar trânsito a cada dois segundos e pausar quando a aba estiver oculta, reduzindo carga e números artificiais de requisições.
+- Renderizar a última telemetria no servidor para que o estado básico exista no HTML inicial.
+- Usar âncoras HTML nas navegações simples enquanto o `next/link` do Vinext registrar erro de prefetch RSC em produção.
+- Animar a barra de trânsito com `transform: scaleX()` para manter a atualização no compositor, sem recalcular layout por `width`.
+- Não retransmitir o HLS apenas para eliminar alertas de cookies e volume do fornecedor externo; isso transferiria banda e custo para o site.
+- Manter a newsletter em um módulo separado, com dupla confirmação, limite de 250 assinantes e horário de Foz.
+- Consolidar a telemetria em cinco minutos para produzir histórico útil sem crescimento desnecessário do banco.
+- Separar contagem de passagens do número instantâneo de caixas: cada rastreamento conta uma vez ao cruzar a linha virtual no sentido da Ponte.
+- Persistir por hora, mas apresentar por dia, preservando o pico horário de hoje e limitando a consulta pública a 7 ou 30 dias.
+- Manter o gráfico abaixo do monitor para não cobrir o vídeo, a ROI, as caixas ou as probabilidades.
+
+## Módulos relacionados
+
+- [[core]]
+- [[congestionamento]]
+- [[contagem-veiculos]]
+- [[clima]]
+- [[newsletter]]
+
+## Histórico
+
+| Data | Ação |
+|---|---|
+| 2026-08-23 | Definida a arquitetura do painel público com histórico privado de acessos. |
+| 2026-08-23 | Implementados HLS, clima, telemetria, analytics anônimo, privacidade e administração protegida. |
+| 2026-08-23 | Publicada a versão 1 e validado o endereço de produção. |
+| 2026-08-23 | Restaurados ROI, caixas, classes e confiança sobre o vídeo ao vivo e publicada a versão 2. |
+| 2026-08-23 | Adicionados SEO técnico, conteúdo indexável, metodologia pública e separação entre visitas reais e chamadas automáticas. |
+| 2026-08-23 | Corrigida a autorização de `/admin` pelo e-mail confirmado do proprietário e publicada a versão 3. |
+| 2026-08-23 | Removido o prefetch RSC problemático das navegações e convertida a animação da barra para transformação composta após auditoria Lighthouse. |
+| 2026-08-24 | Publicada a versão 5 e validados em produção navegação sem o chunk problemático, trânsito e clima. |
+| 2026-08-24 | Adicionadas inscrição diária, gestão de horário, cancelamento, histórico de trânsito e envio pela Brevo. |
+| 2026-08-24 | Adicionados histórico público de passagens, rota de 7/30 dias e persistência horária idempotente. |
+| 2026-08-24 | Publicada a versão 6 e verificados em produção página, API do histórico, migração e detector online. |
