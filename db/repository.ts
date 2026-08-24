@@ -1,5 +1,5 @@
 import type { DeviceGroup } from '@/lib/analytics';
-import type { TrafficReading } from '@/lib/traffic';
+import { parseTrafficPayload, type TrafficReading } from '@/lib/traffic';
 import { getD1 } from './index';
 import { ensureDatabase } from './setup';
 
@@ -54,8 +54,9 @@ export async function saveTrafficState(reading: TrafficReading): Promise<void> {
     .prepare(`
       INSERT INTO traffic_state (
         id, score, raw_score, level, vehicle_count, occupancy,
-        video_fps, inference_fps, observed_at, received_at
-      ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        video_fps, inference_fps, observed_at, received_at,
+        roi_json, detections_json
+      ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       ON CONFLICT(id) DO UPDATE SET
         score = excluded.score,
         raw_score = excluded.raw_score,
@@ -65,29 +66,55 @@ export async function saveTrafficState(reading: TrafficReading): Promise<void> {
         video_fps = excluded.video_fps,
         inference_fps = excluded.inference_fps,
         observed_at = excluded.observed_at,
-        received_at = excluded.received_at
+        received_at = excluded.received_at,
+        roi_json = excluded.roi_json,
+        detections_json = excluded.detections_json
     `)
     .bind(
       reading.score, reading.rawScore, reading.level, reading.vehicleCount,
       reading.occupancy, reading.videoFps, reading.inferenceFps,
-      reading.observedAt, Date.now(),
+      reading.observedAt, Date.now(), JSON.stringify(reading.roi),
+      JSON.stringify(reading.detections),
     )
     .run();
 }
 
 export async function getTrafficState(): Promise<(TrafficReading & { receivedAt: number }) | null> {
   await ensureDatabase();
-  return (
-    (await getD1()
+  const stored = await getD1()
       .prepare(`
         SELECT score, raw_score AS rawScore, level,
           vehicle_count AS vehicleCount, occupancy,
           video_fps AS videoFps, inference_fps AS inferenceFps,
-          observed_at AS observedAt, received_at AS receivedAt
+          observed_at AS observedAt, received_at AS receivedAt,
+          roi_json AS roiJson, detections_json AS detectionsJson
         FROM traffic_state WHERE id = 1
       `)
-      .first<TrafficReading & { receivedAt: number }>()) ?? null
-  );
+      .first<Omit<TrafficReading, 'roi' | 'detections'> & {
+        receivedAt: number;
+        roiJson: string;
+        detectionsJson: string;
+      }>();
+  if (!stored) return null;
+
+  const { roiJson, detectionsJson, receivedAt, ...reading } = stored;
+  return {
+    ...parseTrafficPayload({
+      ...reading,
+      roi: parseJsonArray(roiJson),
+      detections: parseJsonArray(detectionsJson) ?? [],
+    }),
+    receivedAt,
+  };
+}
+
+function parseJsonArray(value: string): unknown[] | undefined {
+  try {
+    const parsed: unknown = JSON.parse(value);
+    return Array.isArray(parsed) && parsed.length > 0 ? parsed : undefined;
+  } catch {
+    return undefined;
+  }
 }
 
 export async function getAnalyticsSummary(periodDays = 30): Promise<AnalyticsSummary> {

@@ -34,4 +34,6 @@ export const trafficState = sqliteTable('traffic_state', {
   inferenceFps: real('inference_fps').notNull(),
   observedAt: text('observed_at').notNull(),
   receivedAt: integer('received_at').notNull(),
+  roiJson: text('roi_json').notNull().default('[]'),
+  detectionsJson: text('detections_json').notNull().default('[]'),
 });

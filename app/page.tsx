@@ -1,5 +1,4 @@
-import { HlsPlayer } from './components/hls-player';
-import { TrafficPanel } from './components/traffic-panel';
+import { LiveMonitor } from './components/live-monitor';
 import { VisitTracker } from './components/visit-tracker';
 import { WeatherPanel } from './components/weather-panel';
 
@@ -39,22 +38,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="monitor-grid" aria-label="Monitoramento da rodovia">
-        <article className="video-card">
-          <HlsPlayer source={STREAM_URL} />
-          <div className="video-shade" aria-hidden="true" />
-          <div className="camera-meta">
-            <span className="camera-live"><i /> AO VIVO</span>
-            <span>Portal da Cidade</span>
-          </div>
-          <div className="video-caption">
-            <span>BR-277</span>
-            <strong>Sentido Ponte da Amizade</strong>
-          </div>
-        </article>
-
-        <TrafficPanel />
-      </section>
+      <LiveMonitor source={STREAM_URL} />
 
       <WeatherPanel />
 

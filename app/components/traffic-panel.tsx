@@ -1,37 +1,7 @@
-'use client';
-
-import { useEffect, useState } from 'react';
 import type { TrafficReading } from '@/lib/traffic';
+import type { TrafficResponse } from './live-monitor';
 
-type TrafficResponse = {
-  reading: (TrafficReading & { receivedAt: number }) | null;
-  online: boolean;
-};
-
-export function TrafficPanel() {
-  const [state, setState] = useState<TrafficResponse>({ reading: null, online: false });
-
-  useEffect(() => {
-    let active = true;
-    const refresh = async () => {
-      try {
-        const response = await fetch('/api/traffic', { cache: 'no-store' });
-        if (!response.ok) return;
-        const next = await response.json() as TrafficResponse;
-        if (active) setState(next);
-      } catch {
-        if (active) setState((current) => ({ ...current, online: false }));
-      }
-    };
-
-    void refresh();
-    const timer = window.setInterval(refresh, 2_000);
-    return () => {
-      active = false;
-      window.clearInterval(timer);
-    };
-  }, []);
-
+export function TrafficPanel({ state }: { state: TrafficResponse }) {
   const reading = state.reading;
   const score = reading?.score ?? 0;
   const level = state.online && reading ? reading.level : 'Aguardando';

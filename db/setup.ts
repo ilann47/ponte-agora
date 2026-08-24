@@ -57,9 +57,31 @@ async function initializeDatabase(): Promise<void> {
         video_fps REAL NOT NULL,
         inference_fps REAL NOT NULL,
         observed_at TEXT NOT NULL,
-        received_at INTEGER NOT NULL
+        received_at INTEGER NOT NULL,
+        roi_json TEXT NOT NULL DEFAULT '[]',
+        detections_json TEXT NOT NULL DEFAULT '[]'
       )
     `),
     database.prepare('PRAGMA optimize'),
   ]);
+  await ensureTrafficOverlayColumns(database);
+}
+
+async function ensureTrafficOverlayColumns(database: D1Database): Promise<void> {
+  const columns = await database
+    .prepare('PRAGMA table_info(traffic_state)')
+    .all<{ name: string }>();
+  const existing = new Set(columns.results.map((column) => column.name));
+  const additions = [];
+  if (!existing.has('roi_json')) {
+    additions.push(database.prepare(
+      "ALTER TABLE traffic_state ADD COLUMN roi_json TEXT NOT NULL DEFAULT '[]'",
+    ));
+  }
+  if (!existing.has('detections_json')) {
+    additions.push(database.prepare(
+      "ALTER TABLE traffic_state ADD COLUMN detections_json TEXT NOT NULL DEFAULT '[]'",
+    ));
+  }
+  if (additions.length > 0) await database.batch(additions);
 }

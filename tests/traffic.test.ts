@@ -19,10 +19,48 @@ test('aceita uma leitura válida do detector', () => {
     videoFps: 24.72,
     inferenceFps: 6.1,
     observedAt: '2026-08-23T21:30:00-03:00',
+    roi: [[0.455, 0.35], [0.665, 0.35], [0.61, 0.995], [0.44, 0.995]],
+    detections: [
+      { label: 'carro', confidence: 0.87, box: [0.48, 0.42, 0.53, 0.55] },
+    ],
   });
 
   assert.equal(reading.level, 'Livre');
   assert.equal(reading.vehicleCount, 6);
+  assert.equal(reading.detections[0].label, 'carro');
+  assert.equal(reading.detections[0].confidence, 0.87);
+  assert.equal(reading.roi.length, 4);
+});
+
+test('usa a ROI padrão quando uma leitura antiga não possui overlay', () => {
+  const reading = parseTrafficPayload({
+    score: 20,
+    rawScore: 18,
+    vehicleCount: 6,
+    occupancy: 0.019,
+    videoFps: 24.72,
+    inferenceFps: 6.1,
+    observedAt: '2026-08-23T21:30:00-03:00',
+  });
+
+  assert.equal(reading.roi.length, 4);
+  assert.deepEqual(reading.detections, []);
+});
+
+test('rejeita caixas e probabilidades inválidas', () => {
+  assert.throws(
+    () => parseTrafficPayload({
+      score: 20,
+      rawScore: 18,
+      vehicleCount: 1,
+      occupancy: 0.02,
+      videoFps: 25,
+      inferenceFps: 8,
+      observedAt: '2026-08-23T21:30:00-03:00',
+      detections: [{ label: 'carro', confidence: 1.4, box: [0.2, 0.2, 0.3, 0.3] }],
+    }),
+    /detecções inválidas/i,
+  );
 });
 
 test('rejeita métricas fora dos limites', () => {
