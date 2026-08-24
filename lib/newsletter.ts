@@ -1,5 +1,5 @@
-import { congestionLabel, type TrafficReading } from './traffic';
-import type { WeatherReport } from './weather';
+import { congestionLabel, type TrafficReading } from './traffic.ts';
+import type { WeatherReport } from './weather.ts';
 
 export const NEWSLETTER_TIME_ZONE = 'America/Sao_Paulo';
 export const NEWSLETTER_SUBSCRIBER_LIMIT = 250;
@@ -36,6 +36,8 @@ export type NewsletterMessage = {
   text: string;
   unsubscribeUrl: string;
 };
+
+export type SubscriptionEmailMessage = NewsletterMessage;
 
 export function validateNewsletterInput(value: unknown): {
   email: string;
@@ -261,6 +263,71 @@ export function buildNewsletterEmail(input: {
   ].join('\n');
 
   return { subject, html, text, unsubscribeUrl };
+}
+
+export function buildSubscriptionEmail(input: {
+  siteUrl: string;
+  accessToken: string;
+  preferredHour: number;
+  alreadyActive: boolean;
+}): SubscriptionEmailMessage {
+  const siteUrl = input.siteUrl.replace(/\/$/, '');
+  const confirmationUrl = `${siteUrl}/api/newsletter/confirm?token=${encodeURIComponent(input.accessToken)}`;
+  const manageUrl = `${siteUrl}/newsletter/gerenciar?token=${encodeURIComponent(input.accessToken)}`;
+  const unsubscribeUrl = `${siteUrl}/api/newsletter/unsubscribe?token=${encodeURIComponent(input.accessToken)}`;
+  const actionUrl = input.alreadyActive ? manageUrl : confirmationUrl;
+  const actionLabel = input.alreadyActive ? 'Gerenciar minha newsletter' : 'Confirmar inscrição';
+  const subject = input.alreadyActive
+    ? 'Gerenciar sua newsletter do Ponte Agora'
+    : 'Confirme sua newsletter diária do Ponte Agora';
+  const introduction = input.alreadyActive
+    ? 'Recebemos um pedido de acesso para uma assinatura já confirmada.'
+    : 'Falta somente confirmar que este endereço pertence a você.';
+
+  const html = `<!doctype html>
+  <html lang="pt-BR"><body style="margin:0;background:#eef4f0;color:#132019;font-family:Arial,sans-serif">
+    <div style="max-width:600px;margin:0 auto;padding:24px 16px">
+      <div style="background:#0c1712;color:#eef7f1;padding:30px;border-radius:18px 18px 0 0">
+        <div style="font-size:13px;color:#79e39d;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Ponte Agora</div>
+        <h1 style="margin:12px 0 8px;font-size:32px">${input.alreadyActive ? 'Sua assinatura diária' : 'Confirme sua inscrição'}</h1>
+        <p style="margin:0;color:#b8c7bf;line-height:1.6">${introduction}</p>
+      </div>
+      <div style="background:#fff;padding:30px;border-radius:0 0 18px 18px">
+        <p style="line-height:1.65">O resumo está configurado para <strong>${formatHour(input.preferredHour)}</strong>, no horário de Foz do Iguaçu, com clima e trânsito no sentido Paraguai.</p>
+        <a href="${escapeHtml(actionUrl)}" style="display:inline-block;margin-top:10px;background:#173e28;color:#fff;padding:14px 20px;border-radius:10px;text-decoration:none;font-weight:700">${actionLabel}</a>
+        <p style="margin:26px 0 0;color:#617168;font-size:13px;line-height:1.6">Se você não solicitou esta mensagem, pode ignorá-la. Nenhum envio diário começa sem confirmação.</p>
+      </div>
+    </div>
+  </body></html>`;
+  const text = [
+    'PONTE AGORA',
+    introduction,
+    `Horário escolhido: ${formatHour(input.preferredHour)} (horário de Foz do Iguaçu).`,
+    `${actionLabel}: ${actionUrl}`,
+    'Se você não solicitou esta mensagem, ignore-a.',
+  ].join('\n\n');
+
+  return {
+    subject,
+    html,
+    text,
+    unsubscribeUrl,
+  };
+}
+
+export function maskEmail(email: string): string {
+  const [local, domain] = email.split('@');
+  if (!local || !domain) return 'e-mail protegido';
+  return `${local.slice(0, 1)}***@${domain}`;
+}
+
+export function isValidCronAuthorization(
+  authorization: string | null,
+  expectedSecret: string,
+): boolean {
+  if (!expectedSecret || !authorization) return false;
+  const provided = authorization.replace(/^Bearer\s+/i, '');
+  return constantTimeEqual(provided, expectedSecret);
 }
 
 function clampScore(value: number): number {

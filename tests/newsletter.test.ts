@@ -3,9 +3,12 @@ import test from 'node:test';
 
 import {
   buildNewsletterEmail,
+  buildSubscriptionEmail,
   buildTrafficBucket,
   createNewsletterToken,
   fozSchedule,
+  isValidCronAuthorization,
+  maskEmail,
   shouldSendNewsletter,
   summarizeTrafficSamples,
   validateNewsletterInput,
@@ -156,4 +159,33 @@ test('monta o e-mail diário com clima, trânsito, histórico e links de gestão
   assert.match(message.html, /token-seguro/);
   assert.match(message.text, /Alterar horário ou cancelar/i);
   assert.equal(message.unsubscribeUrl, 'https://ponte.example/api/newsletter/unsubscribe?token=token-seguro');
+});
+
+test('monta confirmação para novos assinantes e acesso para quem já confirmou', () => {
+  const pending = buildSubscriptionEmail({
+    siteUrl: 'https://ponte.example',
+    accessToken: 'token-seguro',
+    preferredHour: 7,
+    alreadyActive: false,
+  });
+  const active = buildSubscriptionEmail({
+    siteUrl: 'https://ponte.example',
+    accessToken: 'token-seguro',
+    preferredHour: 9,
+    alreadyActive: true,
+  });
+
+  assert.match(pending.subject, /confirme/i);
+  assert.match(pending.html, /api\/newsletter\/confirm\?token=token-seguro/);
+  assert.match(pending.text, /07:00/);
+  assert.match(active.subject, /gerenciar/i);
+  assert.match(active.html, /newsletter\/gerenciar\?token=token-seguro/);
+  assert.equal(active.unsubscribeUrl, 'https://ponte.example/api/newsletter/unsubscribe?token=token-seguro');
+});
+
+test('mascara o endereço e compara a autorização do agendador', () => {
+  assert.equal(maskEmail('ilan.wendling@example.com'), 'i***@example.com');
+  assert.equal(isValidCronAuthorization('Bearer segredo-longo', 'segredo-longo'), true);
+  assert.equal(isValidCronAuthorization('Bearer segredo-errado', 'segredo-longo'), false);
+  assert.equal(isValidCronAuthorization(null, 'segredo-longo'), false);
 });

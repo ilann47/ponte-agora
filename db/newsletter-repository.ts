@@ -114,6 +114,18 @@ export async function saveNewsletterRequest(input: {
   return (await getNewsletterSubscriptionByEmail(input.email))!;
 }
 
+export async function allowNewsletterEmailRetry(
+  id: string,
+  attemptedAt: number,
+): Promise<void> {
+  await ensureDatabase();
+  await getD1().prepare(`
+    UPDATE newsletter_subscriptions
+    SET confirmation_sent_at = NULL
+    WHERE id = ? AND confirmation_sent_at = ?
+  `).bind(id, attemptedAt).run();
+}
+
 export async function confirmNewsletterSubscription(
   id: string,
   tokenVersion: number,
