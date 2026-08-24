@@ -1,11 +1,14 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import {
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_TITLE,
+  resolveSiteOrigin,
+} from '@/lib/seo';
 import './globals.css';
 
-const siteUrl = process.env.SITE_URL ?? 'http://localhost:3000';
-const title = 'Ponte Agora | Trânsito na Ponte da Amizade';
-const description =
-  'Câmera ao vivo, nível de congestionamento e clima no sentido Ponte da Amizade.';
+const siteOrigin = resolveSiteOrigin(process.env.SITE_URL);
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -18,15 +21,32 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title,
-  description,
+  metadataBase: new URL(siteOrigin),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  alternates: { canonical: '/' },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
   openGraph: {
-    title,
-    description,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: '/',
     type: 'website',
     locale: 'pt_BR',
-    siteName: 'Ponte Agora',
+    siteName: SITE_NAME,
     images: [
       {
         url: '/og.png',
@@ -38,8 +58,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title,
-    description,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     images: ['/og.png'],
   },
 };
@@ -51,6 +71,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
+      <head>
+        <link rel="preconnect" href="https://video02.logicahost.com.br" />
+        <link rel="dns-prefetch" href="https://video02.logicahost.com.br" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
       </body>
