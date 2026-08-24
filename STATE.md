@@ -85,6 +85,8 @@
 - Reunidos site, detector, modelo, testes e documentação na pasta única `ponte-agora/`, preservando o histórico Git e a configuração do Sites.
 - Criado e enviado o repositório privado `ilann47/ponte-agora` com branch principal `main`.
 - Mantidos dois remotos explícitos: `origin` para GitHub e `sites` para a hospedagem pública existente.
+- Reescritos os 18 commits existentes para atribuir autoria e responsabilidade à conta GitHub `ilann47`, preservando integralmente arquivos, mensagens e datas.
+- Configurada no repositório a identidade privada `ILAN WENDLING THOELE <41265766+ilann47@users.noreply.github.com>` para os próximos commits.
 
 ## Decisões tomadas
 
@@ -125,6 +127,7 @@
 - **Passagem única por sessão:** o detector envia um total acumulado e o servidor soma somente o delta, evitando contar novamente uma atualização repetida.
 - **Histórico horário e visão diária:** a granularidade do banco permite calcular o pico do dia, enquanto o gráfico público mantém leitura simples em 7/30 dias.
 - **Renovação coordenada da telemetria:** a chave do Site e a do novo processo foram trocadas juntas; o detector antigo foi encerrado somente após a primeira gravação válida.
+- **Autoria GitHub com endereço privado:** os commits usam o endereço `noreply` associado à conta `ilann47`, garantindo atribuição ao proprietário sem publicar o e-mail pessoal.
 
 ## Próximos passos
 
