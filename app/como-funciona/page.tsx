@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-html-link-for-pages -- Vinext Link registra erro de prefetch RSC em produção. */
 import type { Metadata } from 'next';
-import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Como funciona a análise da fila | Ponte Agora',
@@ -12,11 +12,11 @@ export default function HowItWorksPage() {
   return (
     <main className="content-shell">
       <header className="topbar content-topbar">
-        <Link className="brand" href="/">
+        <a className="brand" href="/">
           <span className="brand-mark">PA</span>
           <span><strong>Ponte Agora</strong><small>Voltar para a câmera</small></span>
-        </Link>
-        <Link className="primary-button compact-button" href="/#camera">Ver trânsito agora</Link>
+        </a>
+        <a className="primary-button compact-button" href="/#camera">Ver trânsito agora</a>
       </header>
 
       <article className="methodology-article">
@@ -89,8 +89,8 @@ export default function HowItWorksPage() {
         </section>
 
         <footer className="article-footer">
-          <Link className="primary-button" href="/#camera">Abrir câmera ao vivo</Link>
-          <Link className="admin-link" href="/privacidade">Política de privacidade</Link>
+          <a className="primary-button" href="/#camera">Abrir câmera ao vivo</a>
+          <a className="admin-link" href="/privacidade">Política de privacidade</a>
         </footer>
       </article>
     </main>

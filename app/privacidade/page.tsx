@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-html-link-for-pages -- Vinext Link registra erro de prefetch RSC em produção. */
 import type { Metadata } from 'next';
-import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Privacidade | Ponte Agora',
@@ -10,10 +10,10 @@ export default function PrivacyPage() {
   return (
     <main className="access-page">
       <article className="privacy-card">
-        <Link className="brand" href="/">
+        <a className="brand" href="/">
           <span className="brand-mark">PA</span>
           <span><strong>Ponte Agora</strong><small>Voltar ao painel</small></span>
-        </Link>
+        </a>
         <p className="eyebrow">Privacidade</p>
         <h1>Estatísticas úteis, sem guardar seu IP.</h1>
         <p>
@@ -30,7 +30,7 @@ export default function PrivacyPage() {
           Não usamos os dados para publicidade, não criamos perfis individuais e
           não vendemos informações de visitantes.
         </p>
-        <Link className="primary-button" href="/">Voltar para a câmera ao vivo</Link>
+        <a className="primary-button" href="/">Voltar para a câmera ao vivo</a>
       </article>
     </main>
   );

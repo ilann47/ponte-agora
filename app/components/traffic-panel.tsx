@@ -20,7 +20,7 @@ export function TrafficPanel({ state }: { state: TrafficResponse }) {
       </div>
 
       <div className="traffic-bar" aria-hidden="true">
-        <span style={{ width: `${score}%` }} />
+        <span style={{ transform: `scaleX(${score / 100})` }} />
       </div>
       <p className="traffic-summary">
         {state.online

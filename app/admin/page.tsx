@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-html-link-for-pages -- Vinext Link registra erro de prefetch RSC em produção. */
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { getAnalyticsSummary } from '@/db/repository';
 import { isAuthorizedAdmin } from '@/lib/admin';
 import { chatGPTSignOutPath, requireChatGPTUser } from '../chatgpt-auth';
@@ -30,7 +30,7 @@ export default async function AdminPage({
           <p className="eyebrow">Área protegida</p>
           <h1>Acesso administrativo não autorizado</h1>
           <p>Você entrou como {user.email}, mas esta conta não está na lista de administradores.</p>
-          <Link className="primary-button" href="/">Voltar ao painel público</Link>
+          <a className="primary-button" href="/">Voltar ao painel público</a>
         </section>
       </main>
     );
@@ -44,10 +44,10 @@ export default async function AdminPage({
   return (
     <main className="admin-shell">
       <header className="admin-topbar">
-        <Link className="brand" href="/">
+        <a className="brand" href="/">
           <span className="brand-mark">PA</span>
           <span><strong>Ponte Agora</strong><small>Histórico de acessos</small></span>
-        </Link>
+        </a>
         <div className="admin-account">
           <span>{user.displayName}</span>
           <a href={chatGPTSignOutPath('/')} className="admin-link">Sair</a>

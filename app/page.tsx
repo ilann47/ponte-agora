@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { getTrafficState } from '@/db/repository';
 import {
   buildSiteStructuredData,
@@ -43,7 +42,7 @@ export default async function Home() {
 
         <nav className="topbar-actions" aria-label="Navegação principal">
           <span className="live-pill"><i /> Câmera ao vivo</span>
-          <Link className="nav-link" href="/como-funciona">Como funciona</Link>
+          <a className="nav-link" href="/como-funciona">Como funciona</a>
           <a className="admin-link" href="/admin">Histórico de acessos</a>
         </nav>
       </header>
@@ -100,9 +99,9 @@ export default async function Home() {
             <p className="eyebrow">Transparência</p>
             <h2>O indicador é uma estimativa visual, não um tempo oficial de espera.</h2>
           </div>
-          <Link className="primary-button" href="/como-funciona">
+          <a className="primary-button" href="/como-funciona">
             Entenda como calculamos
-          </Link>
+          </a>
         </div>
       </section>
 
@@ -137,8 +136,8 @@ export default async function Home() {
         <span>Ponte Agora</span>
         <p>
           Informação para planejamento. Dirija com atenção e respeite a sinalização.
-          {' · '}<Link href="/como-funciona">Como funciona</Link>
-          {' · '}<Link href="/privacidade">Privacidade</Link>
+          {' · '}<a href="/como-funciona">Como funciona</a>
+          {' · '}<a href="/privacidade">Privacidade</a>
         </p>
       </footer>
       <VisitTracker />
