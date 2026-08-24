@@ -30,6 +30,8 @@ test('aceita uma leitura válida do detector', () => {
     videoFps: 24.72,
     inferenceFps: 6.1,
     observedAt: '2026-08-23T21:30:00-03:00',
+    counterSessionId: 'session-20260824',
+    vehiclePassages: 42,
     roi: [[0.455, 0.35], [0.665, 0.35], [0.61, 0.995], [0.44, 0.995]],
     detections: [
       { label: 'carro', confidence: 0.87, box: [0.48, 0.42, 0.53, 0.55] },
@@ -38,6 +40,8 @@ test('aceita uma leitura válida do detector', () => {
 
   assert.equal(reading.level, 'Livre');
   assert.equal(reading.vehicleCount, 6);
+  assert.equal(reading.counterSessionId, 'session-20260824');
+  assert.equal(reading.vehiclePassages, 42);
   assert.equal(reading.detections[0].label, 'carro');
   assert.equal(reading.detections[0].confidence, 0.87);
   assert.equal(reading.roi.length, 4);
@@ -56,6 +60,33 @@ test('usa a ROI padrão quando uma leitura antiga não possui overlay', () => {
 
   assert.equal(reading.roi.length, 4);
   assert.deepEqual(reading.detections, []);
+  assert.equal(reading.counterSessionId, null);
+  assert.equal(reading.vehiclePassages, null);
+});
+
+test('rejeita contador incompleto ou identificador de sessão inválido', () => {
+  const base = {
+    score: 20,
+    rawScore: 18,
+    vehicleCount: 6,
+    occupancy: 0.019,
+    videoFps: 24.72,
+    inferenceFps: 6.1,
+    observedAt: '2026-08-23T21:30:00-03:00',
+  };
+
+  assert.throws(
+    () => parseTrafficPayload({ ...base, vehiclePassages: 2 }),
+    /contador de passagens inválido/i,
+  );
+  assert.throws(
+    () => parseTrafficPayload({
+      ...base,
+      counterSessionId: 'x',
+      vehiclePassages: 2,
+    }),
+    /contador de passagens inválido/i,
+  );
 });
 
 test('rejeita caixas e probabilidades inválidas', () => {

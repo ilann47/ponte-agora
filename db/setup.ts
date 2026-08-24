@@ -85,6 +85,26 @@ async function initializeDatabase(): Promise<void> {
       ON traffic_samples (sample_date, sample_hour)
     `),
     database.prepare(`
+      CREATE TABLE IF NOT EXISTS vehicle_counter_sessions (
+        session_id TEXT PRIMARY KEY NOT NULL,
+        last_total INTEGER NOT NULL,
+        updated_at INTEGER NOT NULL
+      )
+    `),
+    database.prepare(`
+      CREATE TABLE IF NOT EXISTS vehicle_counts (
+        count_date TEXT NOT NULL,
+        count_hour INTEGER NOT NULL,
+        vehicle_count INTEGER NOT NULL DEFAULT 0,
+        updated_at INTEGER NOT NULL,
+        PRIMARY KEY (count_date, count_hour)
+      )
+    `),
+    database.prepare(`
+      CREATE INDEX IF NOT EXISTS idx_vehicle_counts_date
+      ON vehicle_counts (count_date)
+    `),
+    database.prepare(`
       CREATE TABLE IF NOT EXISTS newsletter_subscriptions (
         id TEXT PRIMARY KEY NOT NULL,
         email TEXT NOT NULL,

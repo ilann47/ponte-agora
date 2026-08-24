@@ -23,6 +23,8 @@ export type TrafficReading = {
   videoFps: number;
   inferenceFps: number;
   observedAt: string;
+  counterSessionId: string | null;
+  vehiclePassages: number | null;
   roi: readonly NormalizedPoint[];
   detections: readonly TrafficDetection[];
 };
@@ -55,6 +57,20 @@ export function parseTrafficPayload(value: unknown): TrafficReading {
   const videoFps = boundedNumber(value.videoFps, 0, 120);
   const inferenceFps = boundedNumber(value.inferenceFps, 0, 120);
   const observedAt = typeof value.observedAt === 'string' ? value.observedAt : '';
+  const counterProvided = value.counterSessionId !== undefined || value.vehiclePassages !== undefined;
+  let counterSessionId: string | null = null;
+  let vehiclePassages: number | null = null;
+  if (counterProvided) {
+    const candidateSession = typeof value.counterSessionId === 'string'
+      ? value.counterSessionId
+      : '';
+    const candidateTotal = boundedInteger(value.vehiclePassages, 0, 1_000_000_000);
+    if (!/^[a-zA-Z0-9_-]{8,64}$/.test(candidateSession) || candidateTotal === null) {
+      throw new Error('Telemetria inválida: contador de passagens inválido');
+    }
+    counterSessionId = candidateSession;
+    vehiclePassages = candidateTotal;
+  }
   const roi = value.roi === undefined ? DEFAULT_ROI : parseRoi(value.roi);
   const detections = value.detections === undefined ? [] : parseDetections(value.detections);
 
@@ -82,6 +98,8 @@ export function parseTrafficPayload(value: unknown): TrafficReading {
     videoFps,
     inferenceFps,
     observedAt,
+    counterSessionId,
+    vehiclePassages,
     roi,
     detections,
   };

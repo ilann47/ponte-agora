@@ -1,6 +1,7 @@
 import {
   index,
   integer,
+  primaryKey,
   real,
   sqliteTable,
   text,
@@ -62,6 +63,26 @@ export const trafficSamples = sqliteTable(
   (table) => [
     index('idx_traffic_samples_date').on(table.sampleDate),
     index('idx_traffic_samples_date_hour').on(table.sampleDate, table.sampleHour),
+  ],
+);
+
+export const vehicleCounterSessions = sqliteTable('vehicle_counter_sessions', {
+  sessionId: text('session_id').primaryKey(),
+  lastTotal: integer('last_total').notNull(),
+  updatedAt: integer('updated_at').notNull(),
+});
+
+export const vehicleCounts = sqliteTable(
+  'vehicle_counts',
+  {
+    countDate: text('count_date').notNull(),
+    countHour: integer('count_hour').notNull(),
+    vehicleCount: integer('vehicle_count').notNull().default(0),
+    updatedAt: integer('updated_at').notNull(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.countDate, table.countHour] }),
+    index('idx_vehicle_counts_date').on(table.countDate),
   ],
 );
 

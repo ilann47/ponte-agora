@@ -1,6 +1,13 @@
 import type { DeviceGroup } from '@/lib/analytics';
 import { buildTrafficBucket, type TrafficSample } from '@/lib/newsletter';
 import { parseTrafficPayload, type TrafficReading } from '@/lib/traffic';
+import {
+  fozVehicleBucket,
+  passageDelta,
+  shiftIsoDate,
+  summarizeVehicleHistory,
+  type VehicleHistorySummary,
+} from '@/lib/vehicle-history';
 import { getD1 } from './index';
 import { ensureDatabase } from './setup';
 
@@ -54,7 +61,42 @@ export async function saveTrafficState(reading: TrafficReading): Promise<void> {
   const database = getD1();
   const receivedAt = Date.now();
   const bucket = buildTrafficBucket(new Date(receivedAt));
-  await database.batch([
+  const statements: D1PreparedStatement[] = [];
+
+  if (reading.counterSessionId !== null && reading.vehiclePassages !== null) {
+    const previous = await database.prepare(`
+      SELECT last_total AS lastTotal
+      FROM vehicle_counter_sessions
+      WHERE session_id = ?
+    `).bind(reading.counterSessionId).first<{ lastTotal: number }>();
+    const delta = passageDelta(previous?.lastTotal ?? null, reading.vehiclePassages);
+    const vehicleBucket = fozVehicleBucket(new Date(receivedAt));
+
+    statements.push(database.prepare(`
+      INSERT INTO vehicle_counter_sessions (session_id, last_total, updated_at)
+      VALUES (?, ?, ?)
+      ON CONFLICT(session_id) DO UPDATE SET
+        last_total = excluded.last_total,
+        updated_at = excluded.updated_at
+    `).bind(reading.counterSessionId, reading.vehiclePassages, receivedAt));
+
+    if (delta > 0) {
+      statements.push(database.prepare(`
+        INSERT INTO vehicle_counts (
+          count_date, count_hour, vehicle_count, updated_at
+        ) VALUES (?, ?, ?, ?)
+        ON CONFLICT(count_date, count_hour) DO UPDATE SET
+          vehicle_count = vehicle_count + excluded.vehicle_count,
+          updated_at = excluded.updated_at
+      `).bind(vehicleBucket.date, vehicleBucket.hour, delta, receivedAt));
+    }
+
+    statements.push(database.prepare(`
+      DELETE FROM vehicle_counter_sessions WHERE updated_at < ?
+    `).bind(receivedAt - 2 * 24 * 60 * 60 * 1000));
+  }
+
+  statements.push(
     database.prepare(`
       INSERT INTO traffic_state (
         id, score, raw_score, level, vehicle_count, occupancy,
@@ -98,7 +140,41 @@ export async function saveTrafficState(reading: TrafficReading): Promise<void> {
       reading.score, reading.rawScore, reading.level, reading.vehicleCount,
       reading.occupancy, reading.observedAt, receivedAt,
     ),
+  );
+  await database.batch(statements);
+}
+
+export async function getVehicleHistorySummary(
+  periodDays: 7 | 30 = 30,
+  now = new Date(),
+): Promise<VehicleHistorySummary> {
+  await ensureDatabase();
+  const days = periodDays === 7 ? 7 : 30;
+  const endDate = fozVehicleBucket(now).date;
+  const startDate = shiftIsoDate(endDate, -(days - 1));
+  const database = getD1();
+  const [daily, todayHourly] = await Promise.all([
+    database.prepare(`
+      SELECT count_date AS date, SUM(vehicle_count) AS count
+      FROM vehicle_counts
+      WHERE count_date >= ? AND count_date <= ?
+      GROUP BY count_date
+      ORDER BY count_date ASC
+    `).bind(startDate, endDate).all<{ date: string; count: number }>(),
+    database.prepare(`
+      SELECT count_hour AS hour, vehicle_count AS count
+      FROM vehicle_counts
+      WHERE count_date = ?
+      ORDER BY count_hour ASC
+    `).bind(endDate).all<{ hour: number; count: number }>(),
   ]);
+
+  return summarizeVehicleHistory({
+    daily: daily.results,
+    todayHourly: todayHourly.results,
+    periodDays: days,
+    endDate,
+  });
 }
 
 export async function getTrafficSamples(sampleDate: string): Promise<TrafficSample[]> {
