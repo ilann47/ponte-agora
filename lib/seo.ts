@@ -53,6 +53,7 @@ export function buildSiteStructuredData(
         'Câmera ao vivo da BR-277 sentido Ponte da Amizade',
         'Análise de congestionamento por inteligência artificial',
         'Clima atual e previsão para hoje e amanhã',
+        'Resumo diário de clima e trânsito por e-mail',
       ],
       offers: {
         '@type': 'Offer',

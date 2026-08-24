@@ -171,11 +171,9 @@ export async function unsubscribeNewsletter(input: {
 }): Promise<boolean> {
   await ensureDatabase();
   const result = await getD1().prepare(`
-    UPDATE newsletter_subscriptions
-    SET status = 'unsubscribed', token_version = token_version + 1,
-      unsubscribed_at = ?, updated_at = ?
-    WHERE id = ? AND token_version = ? AND status != 'unsubscribed'
-  `).bind(input.now, input.now, input.id, input.tokenVersion).run();
+    DELETE FROM newsletter_subscriptions
+    WHERE id = ? AND token_version = ?
+  `).bind(input.id, input.tokenVersion).run();
   return Number(result.meta.changes ?? 0) > 0;
 }
 
@@ -263,6 +261,7 @@ export async function pruneNewsletterOperationalData(beforeDate: string): Promis
   await ensureDatabase();
   await getD1().batch([
     getD1().prepare('DELETE FROM newsletter_rate_limits WHERE limit_date < ?').bind(beforeDate),
+    getD1().prepare('DELETE FROM newsletter_send_log WHERE local_date < ?').bind(beforeDate),
     getD1().prepare(`
       DELETE FROM newsletter_subscriptions
       WHERE status = 'pending' AND updated_at < ?
