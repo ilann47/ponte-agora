@@ -83,3 +83,4 @@ Aplicação Python local que lê um stream HLS da BR-277, detecta veículos com 
 | 2026-08-24 | Integrada a newsletter diária com histórico agregado, previsão e gestão por link seguro. |
 | 2026-08-24 | Adicionada contagem única de passagens no sentido da Ponte e histórico diário público. |
 | 2026-08-24 | Reunidos site, detector, testes e documentação em um único repositório. |
+| 2026-08-24 | Publicado o repositório privado no GitHub com o remoto do Sites preservado. |

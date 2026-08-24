@@ -3,7 +3,7 @@
 # Estado do Projeto
 
 **Última atualização:** 2026-08-24
-**Fase atual:** versão 6 publicada; projeto reunido e em validação para envio ao GitHub
+**Fase atual:** versão 6 publicada e projeto unificado no GitHub privado
 
 ## O que foi feito
 
@@ -83,6 +83,8 @@
 - Renovada a chave privada entre detector e site sem expor o valor, e reiniciado somente o processo `teste.py`.
 - Verificados em produção página e histórico com resposta `200`, detector online único e a primeira passagem registrada no total de hoje.
 - Reunidos site, detector, modelo, testes e documentação na pasta única `ponte-agora/`, preservando o histórico Git e a configuração do Sites.
+- Criado e enviado o repositório privado `ilann47/ponte-agora` com branch principal `main`.
+- Mantidos dois remotos explícitos: `origin` para GitHub e `sites` para a hospedagem pública existente.
 
 ## Decisões tomadas
 
@@ -138,7 +140,7 @@
 - O score ainda depende de calibração heurística; não há conjunto rotulado que prove a correspondência com o congestionamento real.
 - A previsão é produzida por modelo meteorológico e pode divergir da condição observada localmente.
 - O HLS do navegador e o detector são consumidores independentes; pode existir pequeno deslocamento temporal entre veículo e caixa.
-- O repositório unificado ainda precisa concluir a validação e o primeiro envio ao GitHub privado.
+- A pasta residual `web/` ficou vazia após a movimentação; a remoção automática foi bloqueada pela proteção local, sem deixar código ou dados duplicados.
 - O cadastro no Google Search Console depende de uma confirmação manual na conta Google; o código já aceita o token de verificação quando ele for fornecido.
 - A indexação e a posição nos resultados não podem ser forçadas pelo site; o Google informa que um novo rastreamento pode levar de alguns dias a algumas semanas.
 - Os avisos Lighthouse sobre Shared Storage, Protected Audience e `StorageType.persistent` vêm do script `main.js` administrado pela hospedagem, não do código do projeto.

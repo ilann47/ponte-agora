@@ -16,7 +16,7 @@ Rastreamento de passagens, persistência horária e gráfico público de 7/30 di
 
 ## Fase 4 — Distribuição · em andamento
 
-Repositório único no GitHub, domínio próprio, Search Console e auditoria inicial da contagem.
+Repositório único no GitHub concluído; domínio próprio, Search Console e auditoria inicial da contagem continuam em andamento.
 
 ## Fase 5 — Comunicação · pendente
 

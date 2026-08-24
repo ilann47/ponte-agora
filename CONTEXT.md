@@ -12,7 +12,7 @@ Organização e distribuição do projeto como um único repositório.
 - O código Python, os testes e o modelo ficam isolados em `detector/`.
 - A documentação viva permanece em `brain/` na raiz do projeto.
 - O remoto interno do Sites será preservado como `sites`; o GitHub será o remoto principal `origin`.
-- O repositório GitHub começa privado para permitir revisão antes de eventual abertura.
+- O repositório GitHub `ilann47/ponte-agora` está privado e usa `main` como branch padrão.
 - Arquivos `.env`, caches, builds e artefatos temporários permanecem fora do versionamento.
 
 ## Publicação atual
@@ -20,3 +20,4 @@ Organização e distribuição do projeto como um único repositório.
 - Site público: `https://ponte-agora.ilanwendling.chatgpt.site/`.
 - Detector local online e alimentando telemetria.
 - Domínio `filaponte.com.br` ainda depende da conclusão do DNS.
+- Remoto `origin`: GitHub. Remoto `sites`: repositório interno da hospedagem.
