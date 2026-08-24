@@ -2,7 +2,7 @@
 
 # Estado do Projeto
 
-**Última atualização:** 2026-08-24  
+**Última atualização:** 2026-08-24
 **Fase atual:** versão 6 publicada; projeto reunido e em validação para envio ao GitHub
 
 ## O que foi feito
