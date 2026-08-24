@@ -10,6 +10,8 @@ test('a página principal oferece inscrição com e-mail, horário e consentimen
   );
 
   assert.match(home, /NewsletterForm/);
+  assert.match(home, /newsletterEnabled/);
+  assert.match(home, /process\.env\.BREVO_API_KEY/);
   assert.match(component, /type="email"/);
   assert.match(component, /preferredHour/);
   assert.match(component, /Array\.from\(\{ length: 24 \}/);

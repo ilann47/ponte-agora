@@ -28,6 +28,12 @@ export default async function Home() {
   const structuredData = buildSiteStructuredData(
     resolveSiteOrigin(process.env.SITE_URL),
   );
+  const newsletterEnabled = Boolean(
+    process.env.BREVO_API_KEY
+    && process.env.NEWSLETTER_FROM_EMAIL
+    && process.env.NEWSLETTER_TOKEN_SECRET
+    && process.env.NEWSLETTER_CRON_SECRET,
+  );
 
   return (
     <main className="site-shell">
@@ -49,7 +55,7 @@ export default async function Home() {
         <nav className="topbar-actions" aria-label="Navegação principal">
           <span className="live-pill"><i /> Câmera ao vivo</span>
           <a className="nav-link" href="/como-funciona">Como funciona</a>
-          <a className="nav-link" href="#newsletter">Resumo por e-mail</a>
+          {newsletterEnabled && <a className="nav-link" href="#newsletter">Resumo por e-mail</a>}
           <a className="admin-link" href="/admin">Histórico de acessos</a>
         </nav>
       </header>
@@ -75,7 +81,7 @@ export default async function Home() {
 
       <WeatherPanel />
 
-      <NewsletterForm />
+      {newsletterEnabled && <NewsletterForm />}
 
       <section className="information-section" aria-labelledby="ponte-agora-title">
         <div className="section-heading information-heading">
@@ -140,10 +146,12 @@ export default async function Home() {
             <summary>As informações são gratuitas?</summary>
             <p>Sim. O Ponte Agora pode ser consultado gratuitamente pelo navegador, sem cadastro.</p>
           </details>
-          <details>
-            <summary>Posso receber o trânsito e a previsão por e-mail?</summary>
-            <p>Sim. Escolha um horário no resumo diário, confirme seu e-mail e altere ou cancele quando quiser pelo link de gestão.</p>
-          </details>
+          {newsletterEnabled && (
+            <details>
+              <summary>Posso receber o trânsito e a previsão por e-mail?</summary>
+              <p>Sim. Escolha um horário no resumo diário, confirme seu e-mail e altere ou cancele quando quiser pelo link de gestão.</p>
+            </details>
+          )}
         </div>
       </section>
 
