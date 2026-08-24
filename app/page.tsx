@@ -5,6 +5,7 @@ import {
 } from '@/lib/seo';
 import { isTrafficFresh } from '@/lib/traffic';
 import { LiveMonitor } from './components/live-monitor';
+import { NewsletterForm } from './components/newsletter-form';
 import { VisitTracker } from './components/visit-tracker';
 import { WeatherPanel } from './components/weather-panel';
 
@@ -43,6 +44,7 @@ export default async function Home() {
         <nav className="topbar-actions" aria-label="Navegação principal">
           <span className="live-pill"><i /> Câmera ao vivo</span>
           <a className="nav-link" href="/como-funciona">Como funciona</a>
+          <a className="nav-link" href="#newsletter">Resumo por e-mail</a>
           <a className="admin-link" href="/admin">Histórico de acessos</a>
         </nav>
       </header>
@@ -65,6 +67,8 @@ export default async function Home() {
       <LiveMonitor source={STREAM_URL} initialState={initialTraffic} />
 
       <WeatherPanel />
+
+      <NewsletterForm />
 
       <section className="information-section" aria-labelledby="ponte-agora-title">
         <div className="section-heading information-heading">
@@ -128,6 +132,10 @@ export default async function Home() {
           <details>
             <summary>As informações são gratuitas?</summary>
             <p>Sim. O Ponte Agora pode ser consultado gratuitamente pelo navegador, sem cadastro.</p>
+          </details>
+          <details>
+            <summary>Posso receber o trânsito e a previsão por e-mail?</summary>
+            <p>Sim. Escolha um horário no resumo diário, confirme seu e-mail e altere ou cancele quando quiser pelo link de gestão.</p>
           </details>
         </div>
       </section>
