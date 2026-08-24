@@ -1,13 +1,24 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { congestionLabel, parseTrafficPayload } from '../lib/traffic.ts';
+import {
+  congestionLabel,
+  isTrafficFresh,
+  parseTrafficPayload,
+} from '../lib/traffic.ts';
 
 test('converte os limites de fila nos mesmos níveis do detector', () => {
   assert.equal(congestionLabel(24), 'Livre');
   assert.equal(congestionLabel(25), 'Moderado');
   assert.equal(congestionLabel(50), 'Intenso');
   assert.equal(congestionLabel(75), 'Congestionado');
+});
+
+test('considera online somente uma leitura recente', () => {
+  const now = 1_800_000;
+  assert.equal(isTrafficFresh(now - 19_999, now), true);
+  assert.equal(isTrafficFresh(now - 20_000, now), false);
+  assert.equal(isTrafficFresh(undefined, now), false);
 });
 
 test('aceita uma leitura válida do detector', () => {

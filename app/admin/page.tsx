@@ -1,9 +1,14 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getAnalyticsSummary } from '@/db/repository';
 import { isAuthorizedAdmin } from '@/lib/admin';
 import { chatGPTSignOutPath, requireChatGPTUser } from '../chatgpt-auth';
 
 export const dynamic = 'force-dynamic';
+export const metadata: Metadata = {
+  title: 'Histórico de acessos | Ponte Agora',
+  robots: { index: false, follow: false },
+};
 
 export default async function AdminPage({
   searchParams,
@@ -65,11 +70,16 @@ export default async function AdminPage({
       </section>
 
       <section className="analytics-metrics" aria-label="Resumo de acessos">
-        <MetricCard label={`Visitas em ${days} dias`} value={summary.totals.visits} />
+        <MetricCard label={`Visitas reais em ${days} dias`} value={summary.totals.visits} />
         <MetricCard label="Visitantes únicos" value={summary.totals.visitors} />
         <MetricCard label="Visitas hoje" value={summary.today.visits} />
         <MetricCard label="Visitantes hoje" value={summary.today.visitors} />
       </section>
+
+      <p className="analytics-explanation">
+        Este relatório conta somente páginas abertas por visitantes. Atualizações automáticas
+        de trânsito e clima não entram nestes totais.
+      </p>
 
       <section className="analytics-grid">
         <article className="analytics-card timeline-card">

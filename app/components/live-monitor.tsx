@@ -10,12 +10,21 @@ export type TrafficResponse = {
   online: boolean;
 };
 
-export function LiveMonitor({ source }: { source: string }) {
-  const [state, setState] = useState<TrafficResponse>({ reading: null, online: false });
+export function LiveMonitor({
+  source,
+  initialState = { reading: null, online: false },
+}: {
+  source: string;
+  initialState?: TrafficResponse;
+}) {
+  const [state, setState] = useState<TrafficResponse>(initialState);
 
   useEffect(() => {
     let active = true;
+    let refreshing = false;
     const refresh = async () => {
+      if (!active || refreshing || document.hidden) return;
+      refreshing = true;
       try {
         const response = await fetch('/api/traffic', { cache: 'no-store' });
         if (!response.ok) return;
@@ -23,19 +32,26 @@ export function LiveMonitor({ source }: { source: string }) {
         if (active) setState(next);
       } catch {
         if (active) setState((current) => ({ ...current, online: false }));
+      } finally {
+        refreshing = false;
       }
     };
 
     void refresh();
-    const timer = window.setInterval(refresh, 1_000);
+    const timer = window.setInterval(refresh, 2_000);
+    const resume = () => {
+      if (!document.hidden) void refresh();
+    };
+    document.addEventListener('visibilitychange', resume);
     return () => {
       active = false;
       window.clearInterval(timer);
+      document.removeEventListener('visibilitychange', resume);
     };
   }, []);
 
   return (
-    <section className="monitor-grid" aria-label="Monitoramento da rodovia">
+    <section className="monitor-grid" id="camera" aria-label="Câmera e trânsito da Ponte da Amizade agora">
       <article className="video-card">
         <HlsPlayer source={source} reading={state.reading} detectorOnline={state.online} />
         <div className="video-shade" aria-hidden="true" />

@@ -1,12 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getTrafficState, saveTrafficState } from '@/db/repository';
-import { parseTrafficPayload } from '@/lib/traffic';
+import { isTrafficFresh, parseTrafficPayload } from '@/lib/traffic';
 
 export async function GET() {
   const reading = await getTrafficState();
-  const online = reading
-    ? Date.now() - reading.receivedAt < 20_000
-    : false;
+  const online = isTrafficFresh(reading?.receivedAt);
 
   return NextResponse.json(
     { reading, online },

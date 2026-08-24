@@ -1,7 +1,9 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Privacidade | Ponte Agora',
+  robots: { index: false, follow: true },
 };
 
 export default function PrivacyPage() {

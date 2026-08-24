@@ -27,6 +27,17 @@ export type TrafficReading = {
   detections: readonly TrafficDetection[];
 };
 
+export function isTrafficFresh(
+  receivedAt: number | undefined,
+  now = Date.now(),
+  maximumAgeMs = 20_000,
+): boolean {
+  return typeof receivedAt === 'number' &&
+    Number.isFinite(receivedAt) &&
+    now - receivedAt >= 0 &&
+    now - receivedAt < maximumAgeMs;
+}
+
 export function congestionLabel(score: number): TrafficReading['level'] {
   if (score < 25) return 'Livre';
   if (score < 50) return 'Moderado';
