@@ -1,4 +1,5 @@
 import type { DeviceGroup } from '@/lib/analytics';
+import { buildTrafficBucket, type TrafficSample } from '@/lib/newsletter';
 import { parseTrafficPayload, type TrafficReading } from '@/lib/traffic';
 import { getD1 } from './index';
 import { ensureDatabase } from './setup';
@@ -50,8 +51,11 @@ export async function recordVisit(input: VisitInput): Promise<void> {
 
 export async function saveTrafficState(reading: TrafficReading): Promise<void> {
   await ensureDatabase();
-  await getD1()
-    .prepare(`
+  const database = getD1();
+  const receivedAt = Date.now();
+  const bucket = buildTrafficBucket(new Date(receivedAt));
+  await database.batch([
+    database.prepare(`
       INSERT INTO traffic_state (
         id, score, raw_score, level, vehicle_count, occupancy,
         video_fps, inference_fps, observed_at, received_at,
@@ -73,10 +77,46 @@ export async function saveTrafficState(reading: TrafficReading): Promise<void> {
     .bind(
       reading.score, reading.rawScore, reading.level, reading.vehicleCount,
       reading.occupancy, reading.videoFps, reading.inferenceFps,
-      reading.observedAt, Date.now(), JSON.stringify(reading.roi),
+      reading.observedAt, receivedAt, JSON.stringify(reading.roi),
       JSON.stringify(reading.detections),
-    )
-    .run();
+    ),
+    database.prepare(`
+      INSERT INTO traffic_samples (
+        bucket_start, sample_date, sample_hour, score, raw_score, level,
+        vehicle_count, occupancy, observed_at, received_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(bucket_start) DO UPDATE SET
+        score = excluded.score,
+        raw_score = excluded.raw_score,
+        level = excluded.level,
+        vehicle_count = excluded.vehicle_count,
+        occupancy = excluded.occupancy,
+        observed_at = excluded.observed_at,
+        received_at = excluded.received_at
+    `).bind(
+      bucket.bucketStart, bucket.sampleDate, bucket.sampleHour,
+      reading.score, reading.rawScore, reading.level, reading.vehicleCount,
+      reading.occupancy, reading.observedAt, receivedAt,
+    ),
+  ]);
+}
+
+export async function getTrafficSamples(sampleDate: string): Promise<TrafficSample[]> {
+  await ensureDatabase();
+  const result = await getD1().prepare(`
+    SELECT score, sample_hour AS sampleHour
+    FROM traffic_samples
+    WHERE sample_date = ?
+    ORDER BY bucket_start ASC
+  `).bind(sampleDate).all<TrafficSample>();
+  return result.results;
+}
+
+export async function pruneTrafficSamples(beforeTimestamp: number): Promise<void> {
+  await ensureDatabase();
+  await getD1().prepare(
+    'DELETE FROM traffic_samples WHERE bucket_start < ?',
+  ).bind(beforeTimestamp).run();
 }
 
 export async function getTrafficState(): Promise<(TrafficReading & { receivedAt: number }) | null> {

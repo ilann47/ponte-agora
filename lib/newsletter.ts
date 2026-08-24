@@ -1,5 +1,5 @@
-import { congestionLabel, type TrafficReading } from './traffic.ts';
-import type { WeatherReport } from './weather.ts';
+import { congestionLabel, type TrafficReading } from './traffic';
+import type { WeatherReport } from './weather';
 
 export const NEWSLETTER_TIME_ZONE = 'America/Sao_Paulo';
 export const NEWSLETTER_SUBSCRIBER_LIMIT = 250;

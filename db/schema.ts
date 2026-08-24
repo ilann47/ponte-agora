@@ -1,4 +1,11 @@
-import { index, integer, real, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import {
+  index,
+  integer,
+  real,
+  sqliteTable,
+  text,
+  uniqueIndex,
+} from 'drizzle-orm/sqlite-core';
 
 export const visitEvents = sqliteTable(
   'visit_events',
@@ -37,3 +44,83 @@ export const trafficState = sqliteTable('traffic_state', {
   roiJson: text('roi_json').notNull().default('[]'),
   detectionsJson: text('detections_json').notNull().default('[]'),
 });
+
+export const trafficSamples = sqliteTable(
+  'traffic_samples',
+  {
+    bucketStart: integer('bucket_start').primaryKey(),
+    sampleDate: text('sample_date').notNull(),
+    sampleHour: integer('sample_hour').notNull(),
+    score: integer('score').notNull(),
+    rawScore: integer('raw_score').notNull(),
+    level: text('level').notNull(),
+    vehicleCount: integer('vehicle_count').notNull(),
+    occupancy: real('occupancy').notNull(),
+    observedAt: text('observed_at').notNull(),
+    receivedAt: integer('received_at').notNull(),
+  },
+  (table) => [
+    index('idx_traffic_samples_date').on(table.sampleDate),
+    index('idx_traffic_samples_date_hour').on(table.sampleDate, table.sampleHour),
+  ],
+);
+
+export const newsletterSubscriptions = sqliteTable(
+  'newsletter_subscriptions',
+  {
+    id: text('id').primaryKey(),
+    email: text('email').notNull(),
+    preferredHour: integer('preferred_hour').notNull(),
+    timezone: text('timezone').notNull().default('America/Sao_Paulo'),
+    status: text('status').notNull().default('pending'),
+    tokenVersion: integer('token_version').notNull().default(1),
+    createdAt: integer('created_at').notNull(),
+    updatedAt: integer('updated_at').notNull(),
+    confirmationSentAt: integer('confirmation_sent_at'),
+    confirmedAt: integer('confirmed_at'),
+    unsubscribedAt: integer('unsubscribed_at'),
+    lastSentDate: text('last_sent_date'),
+    lastSentAt: integer('last_sent_at'),
+  },
+  (table) => [
+    uniqueIndex('idx_newsletter_subscriptions_email').on(table.email),
+    index('idx_newsletter_subscriptions_due').on(
+      table.status,
+      table.preferredHour,
+      table.lastSentDate,
+    ),
+  ],
+);
+
+export const newsletterSendLog = sqliteTable(
+  'newsletter_send_log',
+  {
+    id: text('id').primaryKey(),
+    subscriptionId: text('subscription_id').notNull(),
+    localDate: text('local_date').notNull(),
+    status: text('status').notNull(),
+    attemptedAt: integer('attempted_at').notNull(),
+    sentAt: integer('sent_at'),
+    providerMessageId: text('provider_message_id'),
+    errorCode: text('error_code'),
+  },
+  (table) => [
+    uniqueIndex('idx_newsletter_send_once').on(table.subscriptionId, table.localDate),
+    index('idx_newsletter_send_status').on(table.status, table.attemptedAt),
+  ],
+);
+
+export const newsletterRateLimits = sqliteTable(
+  'newsletter_rate_limits',
+  {
+    id: text('id').primaryKey(),
+    visitorHash: text('visitor_hash').notNull(),
+    limitDate: text('limit_date').notNull(),
+    requestCount: integer('request_count').notNull().default(1),
+    updatedAt: integer('updated_at').notNull(),
+  },
+  (table) => [
+    uniqueIndex('idx_newsletter_rate_visitor_date').on(table.visitorHash, table.limitDate),
+    index('idx_newsletter_rate_date').on(table.limitDate),
+  ],
+);
