@@ -1,5 +1,5 @@
 export const DEFAULT_SITE_ORIGIN =
-  'https://ponte-agora.ilanwendling.chatgpt.site';
+  'https://filaponte.com.br';
 export const SITE_NAME = 'Ponte Agora';
 export const SITE_TITLE =
   'Fila da Ponte da Amizade Agora | Câmera e Trânsito ao Vivo';
@@ -13,8 +13,12 @@ export function resolveSiteOrigin(configured?: string): string {
     const parsed = new URL(configured);
     const localHttp = parsed.protocol === 'http:' &&
       ['localhost', '127.0.0.1'].includes(parsed.hostname);
-    if (parsed.protocol !== 'https:' && !localHttp) return DEFAULT_SITE_ORIGIN;
-    return parsed.origin;
+    if (localHttp) return parsed.origin;
+    if (
+      parsed.protocol === 'https:' &&
+      parsed.hostname === 'filaponte.com.br'
+    ) return DEFAULT_SITE_ORIGIN;
+    return DEFAULT_SITE_ORIGIN;
   } catch {
     return DEFAULT_SITE_ORIGIN;
   }

@@ -10,8 +10,18 @@ import {
 } from '../lib/seo.ts';
 
 test('usa a URL publica como origem canonica segura', () => {
+  assert.equal(DEFAULT_SITE_ORIGIN, 'https://filaponte.com.br');
   assert.equal(resolveSiteOrigin(), DEFAULT_SITE_ORIGIN);
-  assert.equal(resolveSiteOrigin('https://exemplo.com/caminho'), 'https://exemplo.com');
+  assert.equal(
+    resolveSiteOrigin('https://ponte-agora.ilanwendling.chatgpt.site'),
+    DEFAULT_SITE_ORIGIN,
+  );
+  assert.equal(
+    resolveSiteOrigin('https://filaponte.com.br/caminho'),
+    DEFAULT_SITE_ORIGIN,
+  );
+  assert.equal(resolveSiteOrigin('https://exemplo.com/caminho'), DEFAULT_SITE_ORIGIN);
+  assert.equal(resolveSiteOrigin('http://localhost:3000/caminho'), 'http://localhost:3000');
   assert.equal(resolveSiteOrigin('javascript:alert(1)'), DEFAULT_SITE_ORIGIN);
   assert.equal(resolveSiteOrigin('valor-invalido'), DEFAULT_SITE_ORIGIN);
 });

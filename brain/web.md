@@ -19,7 +19,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 5. Cada visita gera um evento anônimo no banco persistente.
 6. A área administrativa autenticada agrega visitas, visitantes únicos diários, origens, países e dispositivos.
 7. A resposta inicial da página já contém a última situação do trânsito e conteúdo explicativo, permitindo leitura por buscadores antes da execução do JavaScript.
-8. `robots.txt`, `sitemap.xml`, canonical e dados estruturados orientam a descoberta e a indexação das páginas públicas.
+8. `robots.txt`, `sitemap.xml`, canonical, Open Graph e dados estruturados usam `https://filaponte.com.br` e orientam a descoberta e a indexação das páginas públicas.
 9. A newsletter coleta e-mail e hora com consentimento, confirma a posse do endereço e entrega clima, histórico e trânsito atual no horário escolhido.
 10. O servidor transforma o total acumulado do detector em incrementos idempotentes, agrupados pela data e hora de Foz do Iguaçu.
 11. A página pública apresenta o histórico de passagens em 7 ou 30 dias, fora da imagem da câmera.
@@ -74,6 +74,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - Eventos de visita com mais de 180 dias são removidos durante novas gravações.
 - `/admin` e `/privacidade` usam `noindex`; rotas internas e APIs ficam fora do sitemap.
 - Origem canônica inválida é substituída pelo endereço público conhecido, evitando metadados inseguros.
+- A origem antiga `chatgpt.site` também é convertida para `https://filaponte.com.br`, impedindo que uma configuração legada volte a declarar conteúdo duplicado.
 - Links da newsletter são assinados, tokens não ficam no banco e um registro único evita duplicidade diária.
 - O cancelamento remove a assinatura e o e-mail; pedidos pendentes e registros operacionais expiram automaticamente.
 - Leituras antigas sem os campos do contador continuam válidas; leituras com contador incompleto são rejeitadas.
@@ -116,6 +117,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - Separar contagem de passagens do número instantâneo de caixas: cada rastreamento conta uma vez ao cruzar a linha virtual no sentido da Ponte.
 - Persistir por hora, mas apresentar por dia, preservando o pico horário de hoje e limitando a consulta pública a 7 ou 30 dias.
 - Manter o gráfico abaixo do monitor para não cobrir o vídeo, a ROI, as caixas ou as probabilidades.
+- Tratar `filaponte.com.br` como a única origem canônica; o endereço técnico da hospedagem permanece acessível apenas como fallback.
 
 ## Módulos relacionados
 
@@ -141,3 +143,4 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 | 2026-08-24 | Adicionados histórico público de passagens, rota de 7/30 dias e persistência horária idempotente. |
 | 2026-08-24 | Publicada a versão 6 e verificados em produção página, API do histórico, migração e detector online. |
 | 2026-08-24 | Ativado `filaponte.com.br` com registros A/TXT, validação da hospedagem e HTTPS. |
+| 2026-08-24 | Corrigidos canonical, Open Graph, sitemap, robots e links gerados para o domínio próprio. |

@@ -3,7 +3,7 @@ import { resolveSiteOrigin } from '@/lib/seo';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteOrigin = resolveSiteOrigin(process.env.SITE_URL);
-  const lastModified = new Date('2026-08-23T12:00:00-03:00');
+  const lastModified = new Date('2026-08-24T12:00:00-03:00');
 
   return [
     {

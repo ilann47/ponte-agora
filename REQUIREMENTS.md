@@ -13,6 +13,7 @@
 - Registrar analytics anônimos e proteger a visão administrativa.
 - Publicar telemetria sem bloquear vídeo ou inferência.
 - Responder em `https://filaponte.com.br` com DNS e certificado HTTPS válidos.
+- Publicar canonical, Open Graph, `robots.txt`, sitemap e links externos usando exclusivamente `https://filaponte.com.br`.
 
 ## Próxima versão
 

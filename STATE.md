@@ -3,7 +3,7 @@
 # Estado do Projeto
 
 **Última atualização:** 2026-08-24
-**Fase atual:** versão 6 publicada e projeto unificado no GitHub privado
+**Fase atual:** domínio próprio canônico e preparação da solicitação de indexação
 
 ## O que foi feito
 
@@ -89,6 +89,9 @@
 - Configurada no repositório a identidade privada `ILAN WENDLING THOELE <41265766+ilann47@users.noreply.github.com>` para os próximos commits.
 - Ativado `filaponte.com.br` com os dois registros A, as verificações TXT e certificado HTTPS válido.
 - Confirmada resposta `200` do domínio próprio nos dois endereços de borda da hospedagem.
+- Corrigidos canonical, Open Graph, `robots.txt`, sitemap e links gerados para usar somente `https://filaponte.com.br`.
+- Tratado o endereço `chatgpt.site` como origem legada, evitando que uma configuração antiga volte a marcar o domínio próprio como duplicado.
+- Validada a correção com 55 testes web, TypeScript, lint, build e inspeção HTTP local dos metadados.
 
 ## Decisões tomadas
 
@@ -131,15 +134,15 @@
 - **Renovação coordenada da telemetria:** a chave do Site e a do novo processo foram trocadas juntas; o detector antigo foi encerrado somente após a primeira gravação válida.
 - **Autoria GitHub com endereço privado:** os commits usam o endereço `noreply` associado à conta `ilann47`, garantindo atribuição ao proprietário sem publicar o e-mail pessoal.
 - **Domínio próprio com fallback:** `filaponte.com.br` é o endereço público principal; o endereço `chatgpt.site` permanece disponível durante a transição da URL canônica.
+- **Canonical único:** mesmo que uma variável hospedada ainda contenha o endereço antigo, metadados e links públicos convertem essa origem para `https://filaponte.com.br`.
 
 ## Próximos passos
 
 1. Acompanhar as primeiras horas da contagem e comparar uma amostra manual para calibrar a linha virtual se necessário.
-2. Trocar a URL canônica, o sitemap e os links gerados para `https://filaponte.com.br` em uma nova publicação.
+2. Confirmar a propriedade no Google Search Console, enviar o sitemap e solicitar a indexação da página inicial.
 3. Criar ou acessar a conta Brevo, ativar o envio transacional e verificar o endereço remetente.
 4. Configurar os segredos da newsletter, agendar o disparo e validar uma assinatura real de ponta a ponta.
-5. Confirmar a propriedade no Google Search Console, enviar o sitemap e solicitar a indexação da página inicial.
-6. Coletar exemplos rotulados de pista livre, moderada e congestionada para recalibrar os limites heurísticos e auditar a contagem.
+5. Coletar exemplos rotulados de pista livre, moderada e congestionada para recalibrar os limites heurísticos e auditar a contagem.
 
 ## Bloqueios / Dívidas técnicas
 

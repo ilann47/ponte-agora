@@ -21,4 +21,5 @@ Domínio próprio ativo e preparação da URL canônica de produção.
 - Endereço original da hospedagem preservado como fallback: `https://ponte-agora.ilanwendling.chatgpt.site/`.
 - Detector local online e alimentando telemetria.
 - DNS, validação da propriedade e certificado HTTPS de `filaponte.com.br` estão ativos.
+- Canonical, Open Graph, sitemap, `robots.txt` e links gerados usam `https://filaponte.com.br`; o endereço original é tratado somente como legado.
 - Remoto `origin`: GitHub. Remoto `sites`: repositório interno da hospedagem.
