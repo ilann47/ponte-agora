@@ -2,8 +2,8 @@
 
 # Estado do Projeto
 
-**Última atualização:** 2026-08-24
-**Fase atual:** domínio próprio canônico e preparação da solicitação de indexação
+**Última atualização:** 2026-08-25
+**Fase atual:** versão 7 publicada com domínio próprio canônico; Search Console pendente
 
 ## O que foi feito
 
@@ -92,6 +92,9 @@
 - Corrigidos canonical, Open Graph, `robots.txt`, sitemap e links gerados para usar somente `https://filaponte.com.br`.
 - Tratado o endereço `chatgpt.site` como origem legada, evitando que uma configuração antiga volte a marcar o domínio próprio como duplicado.
 - Validada a correção com 55 testes web, TypeScript, lint, build e inspeção HTTP local dos metadados.
+- Atualizada na hospedagem a variável pública `SITE_URL` para `https://filaponte.com.br`.
+- Publicada a versão 7 e confirmados em produção canonical, Open Graph, `robots.txt` e sitemap sem nenhuma referência ao endereço antigo.
+- Confirmado que até o endereço técnico `chatgpt.site` declara `https://filaponte.com.br` como canonical.
 
 ## Decisões tomadas
 
@@ -151,6 +154,7 @@
 - O HLS do navegador e o detector são consumidores independentes; pode existir pequeno deslocamento temporal entre veículo e caixa.
 - A pasta residual `web/` ficou vazia após a movimentação; a remoção automática foi bloqueada pela proteção local, sem deixar código ou dados duplicados.
 - O cadastro no Google Search Console depende de uma confirmação manual na conta Google; o código já aceita o token de verificação quando ele for fornecido.
+- O Search Console abriu autenticado na conta proprietária, mas o controle automático do Chrome não conseguiu acionar os controles da página; adicionar a propriedade, enviar o sitemap e solicitar a indexação permanecem como ações manuais.
 - A indexação e a posição nos resultados não podem ser forçadas pelo site; o Google informa que um novo rastreamento pode levar de alguns dias a algumas semanas.
 - Os avisos Lighthouse sobre Shared Storage, Protected Audience e `StorageType.persistent` vêm do script `main.js` administrado pela hospedagem, não do código do projeto.
 - Os avisos de cookie e o volume dos segmentos de vídeo vêm de `video02.logicahost.com.br` e não podem ser corrigidos sem controle do fornecedor ou retransmissão do HLS.

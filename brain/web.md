@@ -92,6 +92,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - Newsletter coberta por testes de domínio, provedor, persistência, rotas, interface e privacidade.
 - Migração `0003_right_spitfire.sql` inspecionada; TypeScript, lint e build de produção aprovados com a nova rota.
 - Domínio próprio validado nos dois endereços de borda, com DNS público, HTTPS válido e resposta `200`.
+- Versão 7 verificada em produção com canonical, Open Graph, robots e sitemap exclusivamente no domínio próprio.
 
 ## Decisões Técnicas
 
@@ -144,3 +145,4 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 | 2026-08-24 | Publicada a versão 6 e verificados em produção página, API do histórico, migração e detector online. |
 | 2026-08-24 | Ativado `filaponte.com.br` com registros A/TXT, validação da hospedagem e HTTPS. |
 | 2026-08-24 | Corrigidos canonical, Open Graph, sitemap, robots e links gerados para o domínio próprio. |
+| 2026-08-25 | Publicada a versão 7 e confirmados em produção todos os sinais canônicos de `filaponte.com.br`. |

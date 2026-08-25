@@ -4,7 +4,7 @@
 
 ## Fase
 
-Domínio próprio ativo e preparação da URL canônica de produção.
+Versão 7 publicada no domínio próprio e preparação da solicitação de indexação no Google.
 
 ## Decisões vigentes
 
@@ -22,4 +22,5 @@ Domínio próprio ativo e preparação da URL canônica de produção.
 - Detector local online e alimentando telemetria.
 - DNS, validação da propriedade e certificado HTTPS de `filaponte.com.br` estão ativos.
 - Canonical, Open Graph, sitemap, `robots.txt` e links gerados usam `https://filaponte.com.br`; o endereço original é tratado somente como legado.
+- A versão 7 está ativa e foi verificada em produção nos dois endereços públicos.
 - Remoto `origin`: GitHub. Remoto `sites`: repositório interno da hospedagem.

@@ -87,3 +87,4 @@ Aplicação Python local que lê um stream HLS da BR-277, detecta veículos com 
 | 2026-08-24 | Publicado o repositório privado no GitHub com o remoto do Sites preservado. |
 | 2026-08-24 | Ativado o domínio `filaponte.com.br` com DNS, validações e certificado HTTPS. |
 | 2026-08-24 | Tornado `filaponte.com.br` a origem canônica única para indexação e links públicos. |
+| 2026-08-25 | Publicada a versão 7 e validado o domínio próprio como canonical também no endereço técnico da hospedagem. |
