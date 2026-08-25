@@ -93,6 +93,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - Migração `0003_right_spitfire.sql` inspecionada; TypeScript, lint e build de produção aprovados com a nova rota.
 - Domínio próprio validado nos dois endereços de borda, com DNS público, HTTPS válido e resposta `200`.
 - Versão 7 verificada em produção com canonical, Open Graph, robots e sitemap exclusivamente no domínio próprio.
+- Credencial da telemetria renovada após reprodução de respostas `401`; publicação da revisão de ambiente e detector reiniciado com estado online validado na API pública.
 
 ## Decisões Técnicas
 
@@ -119,6 +120,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - Persistir por hora, mas apresentar por dia, preservando o pico horário de hoje e limitando a consulta pública a 7 ou 30 dias.
 - Manter o gráfico abaixo do monitor para não cobrir o vídeo, a ROI, as caixas ou as probabilidades.
 - Tratar `filaponte.com.br` como a única origem canônica; o endereço técnico da hospedagem permanece acessível apenas como fallback.
+- Validar uma rotação da telemetria com uma requisição autenticada sem persistência antes de iniciar o detector, distinguindo falha de credencial de falha do modelo ou do vídeo.
 
 ## Módulos relacionados
 
@@ -146,3 +148,4 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 | 2026-08-24 | Ativado `filaponte.com.br` com registros A/TXT, validação da hospedagem e HTTPS. |
 | 2026-08-24 | Corrigidos canonical, Open Graph, sitemap, robots e links gerados para o domínio próprio. |
 | 2026-08-25 | Publicada a versão 7 e confirmados em produção todos os sinais canônicos de `filaponte.com.br`. |
+| 2026-08-25 | Sincronizada a credencial da telemetria, republicada a configuração da versão 7 e restaurada a IA online no painel público. |

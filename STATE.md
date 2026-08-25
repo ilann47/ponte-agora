@@ -3,7 +3,7 @@
 # Estado do Projeto
 
 **Última atualização:** 2026-08-25
-**Fase atual:** versão 7 publicada com domínio próprio canônico; Search Console pendente
+**Fase atual:** versão 7 publicada, domínio próprio verificado no Search Console e telemetria da IA restaurada
 
 ## O que foi feito
 
@@ -95,6 +95,12 @@
 - Atualizada na hospedagem a variável pública `SITE_URL` para `https://filaponte.com.br`.
 - Publicada a versão 7 e confirmados em produção canonical, Open Graph, `robots.txt` e sitemap sem nenhuma referência ao endereço antigo.
 - Confirmado que até o endereço técnico `chatgpt.site` declara `https://filaponte.com.br` como canonical.
+- Confirmada a propriedade de domínio `filaponte.com.br` no Google Search Console por registro TXT público.
+- Validado em produção que `robots.txt` responde `200`, libera as páginas públicas e referencia o sitemap canônico; `sitemap.xml` responde `200` com as páginas públicas do domínio próprio.
+- Diagnosticada a indisponibilidade da IA como divergência entre a credencial local do detector e a credencial de telemetria aceita pela hospedagem, que respondia `401` às publicações.
+- Renovada e sincronizada a credencial de telemetria entre a hospedagem e o ambiente local, mantendo o valor exclusivamente como segredo.
+- Republicada a configuração da versão 7 com a revisão 6 do ambiente e reiniciado o detector local.
+- Confirmada em produção a recuperação da IA com estado online, 14 detecções, vídeo a 25 FPS e inferência a aproximadamente 11,8 FPS.
 
 ## Decisões tomadas
 
@@ -138,11 +144,12 @@
 - **Autoria GitHub com endereço privado:** os commits usam o endereço `noreply` associado à conta `ilann47`, garantindo atribuição ao proprietário sem publicar o e-mail pessoal.
 - **Domínio próprio com fallback:** `filaponte.com.br` é o endereço público principal; o endereço `chatgpt.site` permanece disponível durante a transição da URL canônica.
 - **Canonical único:** mesmo que uma variável hospedada ainda contenha o endereço antigo, metadados e links públicos convertem essa origem para `https://filaponte.com.br`.
+- **Rotação coordenada da telemetria:** a credencial hospedada e a configuração local devem ser atualizadas juntas e validadas por autenticação antes de reiniciar o detector, evitando um processo ativo que tenha suas leituras rejeitadas.
 
 ## Próximos passos
 
 1. Acompanhar as primeiras horas da contagem e comparar uma amostra manual para calibrar a linha virtual se necessário.
-2. Confirmar a propriedade no Google Search Console, enviar o sitemap e solicitar a indexação da página inicial.
+2. Acompanhar no Google Search Console o processamento do sitemap e solicitar a indexação das páginas públicas.
 3. Criar ou acessar a conta Brevo, ativar o envio transacional e verificar o endereço remetente.
 4. Configurar os segredos da newsletter, agendar o disparo e validar uma assinatura real de ponta a ponta.
 5. Coletar exemplos rotulados de pista livre, moderada e congestionada para recalibrar os limites heurísticos e auditar a contagem.
