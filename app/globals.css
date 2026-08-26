@@ -207,6 +207,30 @@ button, input { font: inherit; }
 .panel-note { display: flex; align-items: center; gap: 10px; margin: 0; color: #b7c3bc; font-size: 11px; }
 .traffic-panel .panel-note i { background: var(--status-color); }
 
+.crossing-route-section {
+  width: min(1240px, calc(100% - 40px));
+  margin: 16px auto 0;
+  padding: 27px 30px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(380px, .8fr);
+  gap: 36px;
+  align-items: center;
+  border: 1px solid rgba(121, 227, 157, .22);
+  border-radius: 18px;
+  background: linear-gradient(110deg, rgba(23, 62, 40, .52), var(--surface));
+}
+.crossing-route-copy h2 { margin: 0; font-size: clamp(24px, 3vw, 34px); letter-spacing: -.04em; }
+.crossing-route-copy > p:last-child { max-width: 680px; margin: 11px 0 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.crossing-route-action { display: flex; align-items: stretch; flex-direction: column; gap: 10px; }
+.crossing-route-points { display: flex; align-items: center; justify-content: center; gap: 10px; color: #c7d3cb; font-size: 10px; }
+.crossing-route-points span { display: inline-flex; align-items: center; gap: 7px; }
+.crossing-route-points i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(121, 227, 157, .09); }
+.crossing-route-points b { color: #718078; font-weight: 500; }
+.maps-button { padding: 13px 16px; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 11px; background: var(--green); color: #07100a; font-size: 13px; font-weight: 850; text-align: center; }
+.maps-button:hover { background: #91eaae; }
+.maps-button span { font-size: 15px; }
+.crossing-route-action small { color: #839188; font-size: 9px; line-height: 1.45; text-align: center; }
+
 .vehicle-history-section {
   width: min(1240px, calc(100% - 40px));
   margin: 64px auto 0;
@@ -444,6 +468,7 @@ footer p a { color: #c9d5cd; text-decoration: underline; text-underline-offset: 
   .information-grid article:last-child { grid-column: 1 / -1; }
   .timeline-card { grid-column: 1 / -1; }
   .breakdown-card:last-child { grid-column: 1 / -1; }
+  .crossing-route-section { grid-template-columns: 1fr; gap: 24px; }
 }
 
 @media (max-width: 640px) {
@@ -455,6 +480,9 @@ footer p a { color: #c9d5cd; text-decoration: underline; text-underline-offset: 
   .hero h1 { font-size: 42px; }
   .updated-at { margin-top: 22px; text-align: left; }
   .monitor-grid, .weather-section, footer { width: min(100% - 28px, 1240px); }
+  .crossing-route-section { width: min(100% - 28px, 1240px); padding: 23px; }
+  .crossing-route-points { align-items: flex-start; flex-direction: column; }
+  .crossing-route-points b { display: none; }
   .vehicle-history-section { width: min(100% - 28px, 1240px); margin-top: 48px; }
   .vehicle-history-stats { grid-template-columns: 1fr 1fr; }
   .vehicle-history-heading { align-items: start; }

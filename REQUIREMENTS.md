@@ -8,6 +8,7 @@
 - Manter ROI, caixas, classes e probabilidades sobre a imagem ao vivo.
 - Mostrar congestionamento, veículos visíveis, ocupação e FPS.
 - Mostrar clima atual, previsão de hoje e de amanhã.
+- Oferecer uma rota gratuita da aduana brasileira à paraguaia para consultar o tempo atual de travessia no Google Maps, sem chave de API.
 - Contar cada passagem uma vez no sentido da Ponte.
 - Exibir histórico diário de 7 ou 30 dias.
 - Registrar analytics anônimos e proteger a visão administrativa.

@@ -2,10 +2,13 @@
 
 # Estado do Projeto
 
-**Última atualização:** 2026-08-25
-**Fase atual:** versão 7 publicada, domínio próprio verificado no Search Console e telemetria da IA restaurada
+**Última atualização:** 2026-08-26
+**Fase atual:** consulta gratuita do tempo de travessia em validação antes da publicação
 
 ## O que foi feito
+
+- Adicionado cartão de tempo de travessia com rota pronta da aduana brasileira à paraguaia no Google Maps, sem chave, cobrança ou configuração externa.
+- Mantida a duração dentro do Google Maps para respeitar a alternativa oficial gratuita e preservar o desempenho da câmera, da ROI e da IA.
 
 - Refatorado `teste.py` para eliminar efeitos colaterais na importação e organizar o loop em `main()`.
 - Criado `congestion_core.py` com ROI, ocupação, score e suavização testáveis.
@@ -145,14 +148,16 @@
 - **Domínio próprio com fallback:** `filaponte.com.br` é o endereço público principal; o endereço `chatgpt.site` permanece disponível durante a transição da URL canônica.
 - **Canonical único:** mesmo que uma variável hospedada ainda contenha o endereço antigo, metadados e links públicos convertem essa origem para `https://filaponte.com.br`.
 - **Rotação coordenada da telemetria:** a credencial hospedada e a configuração local devem ser atualizadas juntas e validadas por autenticação antes de reiniciar o detector, evitando um processo ativo que tenha suas leituras rejeitadas.
+- **Rota pública do Google Maps:** oferece a duração atual da travessia sem chave nem cobrança; o valor permanece dentro do Maps porque a opção gratuita não fornece o tempo para o painel próprio.
 
 ## Próximos passos
 
-1. Acompanhar as primeiras horas da contagem e comparar uma amostra manual para calibrar a linha virtual se necessário.
-2. Acompanhar no Google Search Console o processamento do sitemap e solicitar a indexação das páginas públicas.
-3. Criar ou acessar a conta Brevo, ativar o envio transacional e verificar o endereço remetente.
-4. Configurar os segredos da newsletter, agendar o disparo e validar uma assinatura real de ponta a ponta.
-5. Coletar exemplos rotulados de pista livre, moderada e congestionada para recalibrar os limites heurísticos e auditar a contagem.
+1. Publicar o cartão de tempo de travessia após a aprovação do proprietário.
+2. Acompanhar as primeiras horas da contagem e comparar uma amostra manual para calibrar a linha virtual se necessário.
+3. Acompanhar no Google Search Console o processamento do sitemap e solicitar a indexação das páginas públicas.
+4. Criar ou acessar a conta Brevo, ativar o envio transacional e verificar o endereço remetente.
+5. Configurar os segredos da newsletter, agendar o disparo e validar uma assinatura real de ponta a ponta.
+6. Coletar exemplos rotulados de pista livre, moderada e congestionada para recalibrar os limites heurísticos e auditar a contagem.
 
 ## Bloqueios / Dívidas técnicas
 

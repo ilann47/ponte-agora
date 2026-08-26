@@ -4,6 +4,7 @@ import {
   resolveSiteOrigin,
 } from '@/lib/seo';
 import { isTrafficFresh } from '@/lib/traffic';
+import { GOOGLE_MAPS_CROSSING_ROUTE_URL } from '@/lib/maps-route';
 import { fozVehicleBucket, summarizeVehicleHistory } from '@/lib/vehicle-history';
 import { LiveMonitor } from './components/live-monitor';
 import { NewsletterForm } from './components/newsletter-form';
@@ -77,6 +78,33 @@ export default async function Home() {
 
       <LiveMonitor source={STREAM_URL} initialState={initialTraffic} />
 
+      <section className="crossing-route-section" aria-labelledby="crossing-route-title">
+        <div className="crossing-route-copy">
+          <p className="eyebrow">Tempo de travessia</p>
+          <h2 id="crossing-route-title">Veja a estimativa atual no Google Maps</h2>
+          <p>
+            A rota já abre pronta da aduana brasileira até a aduana paraguaia,
+            considerando o trânsito informado pelo Google no momento da consulta.
+          </p>
+        </div>
+        <div className="crossing-route-action">
+          <div className="crossing-route-points" aria-label="Trecho consultado">
+            <span><i /> Aduana brasileira</span>
+            <b aria-hidden="true">→</b>
+            <span><i /> Aduana paraguaia</span>
+          </div>
+          <a
+            className="maps-button"
+            href={GOOGLE_MAPS_CROSSING_ROUTE_URL}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Ver tempo agora no Google Maps <span aria-hidden="true">↗</span>
+          </a>
+          <small>Gratuito, sem cadastro no Ponte Agora e sem instalar nada.</small>
+        </div>
+      </section>
+
       <VehicleHistoryChart initialSummary={vehicleHistory} />
 
       <WeatherPanel />
@@ -145,6 +173,10 @@ export default async function Home() {
           <details>
             <summary>As informações são gratuitas?</summary>
             <p>Sim. O Ponte Agora pode ser consultado gratuitamente pelo navegador, sem cadastro.</p>
+          </details>
+          <details>
+            <summary>Como vejo o tempo estimado para atravessar a ponte?</summary>
+            <p>Use o botão “Ver tempo agora no Google Maps”. A rota abre da aduana brasileira até a aduana paraguaia e o próprio Google informa a duração atual conforme o trânsito disponível.</p>
           </details>
           {newsletterEnabled && (
             <details>

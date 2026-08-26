@@ -23,6 +23,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 9. A newsletter coleta e-mail e hora com consentimento, confirma a posse do endereço e entrega clima, histórico e trânsito atual no horário escolhido.
 10. O servidor transforma o total acumulado do detector em incrementos idempotentes, agrupados pela data e hora de Foz do Iguaçu.
 11. A página pública apresenta o histórico de passagens em 7 ou 30 dias, fora da imagem da câmera.
+12. Um cartão abre no Google Maps a rota da aduana brasileira à paraguaia para consultar a duração atual da travessia sem usar chave de API.
 
 ## Endpoints (se houver)
 
@@ -63,6 +64,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - Google Search Console, após a confirmação manual da propriedade, para acompanhar impressões, cliques e posições.
 - Brevo para confirmação e entrega do resumo diário.
 - cron-job.org para chamar a rota de envio em intervalos regulares.
+- Google Maps URLs para a rota pública da travessia, sem integração paga nem extração automática da duração.
 
 ## Tratamento de Erros
 
@@ -79,16 +81,18 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - O cancelamento remove a assinatura e o e-mail; pedidos pendentes e registros operacionais expiram automaticamente.
 - Leituras antigas sem os campos do contador continuam válidas; leituras com contador incompleto são rejeitadas.
 - Se o histórico não estiver disponível, a página continua abrindo e mostra a coleta iniciada com valores zerados.
+- Se o Google Maps estiver indisponível, câmera, IA, histórico e clima continuam funcionando normalmente; o cartão é apenas um link externo.
 - A inscrição por e-mail fica oculta até que provedor, remetente e segredos internos estejam configurados, evitando formulário público inoperante.
 
 ## Testes (curl ou equivalente)
 
-- 55 testes unitários para analytics, autenticação, clima, telemetria, SEO, newsletter, contagem de veículos, projeção do overlay e regressões do Lighthouse.
+- 56 testes unitários para analytics, autenticação, clima, telemetria, SEO, newsletter, contagem de veículos, rota do Maps, projeção do overlay e regressões do Lighthouse.
 - Lint e build de produção aprovados.
 - Rotas públicas verificadas na hospedagem: painel, clima, privacidade, publicação de telemetria e analytics.
 - `/admin` verificado com redirecionamento obrigatório para login.
 - Auditoria de dependências de produção sem vulnerabilidades conhecidas.
 - `robots.txt`, `sitemap.xml`, canonical, JSON-LD e conteúdo inicial verificados no HTML local antes da publicação.
+- Rota pública coberta por teste de origem, destino, modo de direção e ausência de chave de API.
 - Newsletter coberta por testes de domínio, provedor, persistência, rotas, interface e privacidade.
 - Migração `0003_right_spitfire.sql` inspecionada; TypeScript, lint e build de produção aprovados com a nova rota.
 - Domínio próprio validado nos dois endereços de borda, com DNS público, HTTPS válido e resposta `200`.
@@ -121,6 +125,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - Manter o gráfico abaixo do monitor para não cobrir o vídeo, a ROI, as caixas ou as probabilidades.
 - Tratar `filaponte.com.br` como a única origem canônica; o endereço técnico da hospedagem permanece acessível apenas como fallback.
 - Validar uma rotação da telemetria com uma requisição autenticada sem persistência antes de iniciar o detector, distinguindo falha de credencial de falha do modelo ou do vídeo.
+- Manter o tempo de travessia dentro do Google Maps: a alternativa oficial sem chave abre a rota, mas não devolve a duração para um cartão próprio.
 
 ## Módulos relacionados
 
@@ -149,3 +154,4 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 | 2026-08-24 | Corrigidos canonical, Open Graph, sitemap, robots e links gerados para o domínio próprio. |
 | 2026-08-25 | Publicada a versão 7 e confirmados em produção todos os sinais canônicos de `filaponte.com.br`. |
 | 2026-08-25 | Sincronizada a credencial da telemetria, republicada a configuração da versão 7 e restaurada a IA online no painel público. |
+| 2026-08-26 | Adicionado cartão gratuito que abre a rota da travessia no Google Maps sem chave de API. |

@@ -23,6 +23,7 @@ Aplicação Python local que lê um stream HLS da BR-277, detecta veículos com 
 - OpenCV para captura e desenho.
 - Ultralytics YOLO para inferência.
 - Open-Meteo para condições e previsão meteorológica.
+- Google Maps URLs para abrir a estimativa atual da travessia sem chave, conta de faturamento ou chamada de API pelo site.
 - Next/Vinext e TypeScript para o painel web hospedado.
 - Domínio próprio `filaponte.com.br` com DNS no Registro.br e HTTPS gerenciado pela hospedagem.
 - D1 para telemetria atual, contagem horária de veículos e histórico anônimo de visitas.
@@ -53,6 +54,7 @@ Aplicação Python local que lê um stream HLS da BR-277, detecta veículos com 
 - A newsletter confirma a posse do e-mail, usa links HMAC sem token persistido e remove a PII no cancelamento.
 - O histórico de trânsito mantém somente uma amostra por janela de cinco minutos.
 - O contador de passagens mantém uma sessão única por execução do detector e publica apenas o total acumulado; o servidor persiste somente o incremento novo.
+- A consulta de tempo de travessia usa uma URL pública de direções e mantém a duração dentro do Google Maps, evitando credenciais, cobrança e coleta indevida do resultado.
 
 ## Módulos relacionados
 
@@ -88,3 +90,4 @@ Aplicação Python local que lê um stream HLS da BR-277, detecta veículos com 
 | 2026-08-24 | Ativado o domínio `filaponte.com.br` com DNS, validações e certificado HTTPS. |
 | 2026-08-24 | Tornado `filaponte.com.br` a origem canônica única para indexação e links públicos. |
 | 2026-08-25 | Publicada a versão 7 e validado o domínio próprio como canonical também no endereço técnico da hospedagem. |
+| 2026-08-26 | Adicionada consulta gratuita do tempo atual de travessia por rota pública do Google Maps. |
