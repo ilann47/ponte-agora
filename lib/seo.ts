@@ -2,9 +2,9 @@ export const DEFAULT_SITE_ORIGIN =
   'https://filaponte.com.br';
 export const SITE_NAME = 'Ponte Agora';
 export const SITE_TITLE =
-  'Fila da Ponte da Amizade Agora | Câmera e Trânsito ao Vivo';
+  'Fila da Ponte da Amizade Agora | 9 Câmeras ao Vivo';
 export const SITE_DESCRIPTION =
-  'Veja a fila da Ponte da Amizade agora, com câmera ao vivo da BR-277 sentido Paraguai, análise de trânsito por IA e previsão do tempo em Foz do Iguaçu.';
+  'Veja nove câmeras ao vivo da fronteira, incluindo a BR-277 sentido Paraguai com análise por IA, clima e trânsito da Ponte da Amizade em Foz do Iguaçu.';
 
 export function resolveSiteOrigin(configured?: string): string {
   if (!configured) return DEFAULT_SITE_ORIGIN;
@@ -54,7 +54,8 @@ export function buildSiteStructuredData(
       inLanguage: 'pt-BR',
       areaServed: ['Foz do Iguaçu', 'Ciudad del Este'],
       featureList: [
-        'Câmera ao vivo da BR-277 sentido Ponte da Amizade',
+        'Nove câmeras ao vivo da fronteira entre Brasil, Paraguai e Argentina',
+        'Câmera principal da BR-277 sentido Ponte da Amizade',
         'Análise de congestionamento por inteligência artificial',
         'Clima atual e previsão para hoje e amanhã',
         'Resumo diário de clima e trânsito por e-mail',

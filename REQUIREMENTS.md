@@ -5,6 +5,7 @@
 ## Versão atual
 
 - Exibir o stream HLS da BR-277 no sentido da Ponte da Amizade.
+- Reunir nove câmeras públicas da fronteira em uma galeria, carregando somente a transmissão selecionada e exibindo a origem.
 - Manter ROI, caixas, classes e probabilidades sobre a imagem ao vivo.
 - Mostrar congestionamento, veículos visíveis, ocupação e FPS.
 - Mostrar clima atual, previsão de hoje e de amanhã.
@@ -29,3 +30,4 @@
 - Reconhecer placas ou identificar pessoas.
 - Armazenar imagens ou vídeos da câmera.
 - Retransmitir o HLS pela hospedagem atual.
+- Aplicar ROI, probabilidades ou métricas da IA às câmeras externas.

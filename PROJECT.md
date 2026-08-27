@@ -4,7 +4,7 @@
 
 ## Visão
 
-Oferecer uma consulta gratuita e simples da fila no sentido Paraguai da Ponte da Amizade, reunindo câmera ao vivo, leitura visual por IA, clima e histórico diário de veículos.
+Oferecer uma consulta gratuita e simples da fronteira, reunindo nove câmeras ao vivo, leitura visual por IA na BR-277, clima e histórico diário de veículos no sentido Paraguai.
 
 ## Arquitetura
 
@@ -17,6 +17,7 @@ Oferecer uma consulta gratuita e simples da fila no sentido Paraguai da Ponte da
 ## Princípios
 
 - O HLS é consumido diretamente da origem.
+- Players externos são incorporados com atribuição e somente um deles é carregado por vez.
 - O vídeo mantém o ritmo original de 25 FPS.
 - A IA nunca bloqueia o loop de exibição.
 - Nenhuma chave, e-mail de assinante ou endereço IP bruto entra no repositório.

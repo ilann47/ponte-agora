@@ -8,7 +8,7 @@ ROI poligonal, YOLO assíncrono, congestionamento, painel OpenCV, clima e reprod
 
 ## Fase 2 — Painel web · concluída
 
-HLS ao vivo, overlay da IA, telemetria autenticada, analytics privado, clima e SEO.
+HLS ao vivo, galeria com nove câmeras da fronteira, overlay da IA na câmera principal, telemetria autenticada, analytics privado, clima e SEO.
 
 ## Fase 3 — Fluxo diário · concluída
 

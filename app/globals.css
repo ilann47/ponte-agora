@@ -207,6 +207,134 @@ button, input { font: inherit; }
 .panel-note { display: flex; align-items: center; gap: 10px; margin: 0; color: #b7c3bc; font-size: 11px; }
 .traffic-panel .panel-note i { background: var(--status-color); }
 
+.camera-gallery-section {
+  width: min(1240px, calc(100% - 40px));
+  margin: 64px auto 0;
+}
+.camera-gallery-heading { align-items: center; }
+.camera-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 12px;
+  border: 1px solid rgba(121, 227, 157, .22);
+  border-radius: 999px;
+  color: #cfe0d5;
+  background: rgba(121, 227, 157, .06);
+  font-size: 11px;
+  font-weight: 750;
+}
+.camera-count i, .camera-viewer-live i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 5px rgba(121, 227, 157, .1);
+}
+.camera-gallery-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(300px, .7fr);
+  gap: 12px;
+  align-items: start;
+}
+.camera-viewer, .camera-selector {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: 0 18px 70px rgba(0, 0, 0, .16);
+}
+.camera-viewer { overflow: hidden; }
+.camera-embed-shell {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #050806;
+}
+.camera-embed-shell iframe { width: 100%; height: 100%; display: block; border: 0; }
+.camera-viewer-live {
+  position: absolute;
+  top: 17px;
+  left: 18px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 9px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 8px;
+  color: white;
+  background: rgba(5, 10, 7, .72);
+  backdrop-filter: blur(10px);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .09em;
+}
+.camera-viewer-caption {
+  min-height: 90px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+}
+.camera-viewer-caption > div > span { color: var(--green); font: 650 9px var(--font-geist-mono); text-transform: uppercase; }
+.camera-viewer-caption h3 { margin: 5px 0 0; font-size: 18px; letter-spacing: -.025em; }
+.camera-viewer-caption > a { flex: 0 0 auto; color: #afbbb4; font-size: 10px; font-weight: 650; }
+.camera-viewer-caption > a:hover { color: var(--green); }
+.camera-viewer-caption > a span { color: var(--green); }
+.camera-selector { max-height: 540px; overflow-y: auto; padding: 9px; scrollbar-color: #34443b transparent; }
+.camera-selector-heading { padding: 12px 12px 15px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.camera-selector-heading strong { font-size: 13px; }
+.camera-selector-heading span { color: #75837b; font-size: 9px; }
+.camera-option {
+  width: 100%;
+  min-height: 63px;
+  padding: 10px 11px;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  color: inherit;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.camera-option + .camera-option { margin-top: 3px; }
+.camera-option:hover { background: rgba(121, 227, 157, .045); }
+.camera-option[aria-pressed='true'] { border-color: rgba(121, 227, 157, .2); background: rgba(121, 227, 157, .09); }
+.camera-option-primary { border-bottom-color: rgba(230, 240, 233, .08); }
+.camera-option-index { color: #617068; font: 650 9px var(--font-geist-mono); }
+.camera-option-copy { min-width: 0; }
+.camera-option-copy strong, .camera-option-copy small { display: block; }
+.camera-option-copy strong { overflow: hidden; color: #dbe5de; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.camera-option-copy small { margin-top: 4px; overflow: hidden; color: #75837b; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.camera-option-arrow { color: #6e7c74; font-size: 13px; }
+.camera-option[aria-pressed='true'] .camera-option-index,
+.camera-option[aria-pressed='true'] .camera-option-arrow { color: var(--green); }
+.camera-option-badge {
+  padding: 5px 7px;
+  border-radius: 6px;
+  color: var(--green);
+  background: rgba(121, 227, 157, .09);
+  font-size: 8px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.camera-gallery-note {
+  margin-top: 10px;
+  padding: 0 4px;
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  color: #738078;
+  font-size: 9px;
+  line-height: 1.55;
+}
+.camera-gallery-note p { max-width: 580px; margin: 0; }
+.camera-gallery-note strong { color: #9faea5; }
+
 .crossing-route-section {
   width: min(1240px, calc(100% - 40px));
   margin: 16px auto 0;
@@ -471,6 +599,8 @@ footer {
 
 @media (max-width: 900px) {
   .monitor-grid { grid-template-columns: 1fr; }
+  .camera-gallery-layout { grid-template-columns: 1fr; }
+  .camera-selector { max-height: 390px; }
   .vehicle-history-layout { grid-template-columns: 1fr; }
   .vehicle-history-stats { grid-template-columns: repeat(4, 1fr); }
   .vehicle-history-stats article { min-height: 94px; }
@@ -497,7 +627,12 @@ footer {
   .hero { width: min(100% - 28px, 1240px); padding-top: 40px; display: block; }
   .hero h1 { font-size: 42px; }
   .updated-at { margin-top: 22px; text-align: left; }
-  .monitor-grid, .weather-section, footer { width: min(100% - 28px, 1240px); }
+  .monitor-grid, .camera-gallery-section, .weather-section, footer { width: min(100% - 28px, 1240px); }
+  .camera-gallery-section { margin-top: 48px; }
+  .camera-gallery-heading { align-items: flex-start; }
+  .camera-viewer-caption { min-height: 105px; align-items: flex-start; flex-direction: column; gap: 9px; }
+  .camera-selector { max-height: 420px; }
+  .camera-gallery-note { flex-direction: column; gap: 8px; }
   .crossing-route-section { width: min(100% - 28px, 1240px); padding: 23px; }
   .crossing-route-points { align-items: flex-start; flex-direction: column; }
   .crossing-route-points b { display: none; }

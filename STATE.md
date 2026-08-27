@@ -3,9 +3,15 @@
 # Estado do Projeto
 
 **Última atualização:** 2026-08-27
-**Fase atual:** versão 9 publicada com o tempo total do WakaTime
+**Fase atual:** versão 10 preparada localmente com a galeria de câmeras
 
 ## O que foi feito
+
+- Catalogadas as seis câmeras públicas do Portal da Cidade e três visões adicionais encontradas no Ponte Agora, totalizando nove pontos sem duplicidade.
+- Mantidos o HLS, a ROI, as caixas e as probabilidades da câmera principal sem alterações.
+- Criada galeria responsiva que carrega somente um player externo por vez, com localização, provedor, atribuição e link de contingência.
+- Adicionada navegação para a nova seção e atualizada a apresentação da página para informar as nove câmeras.
+- Validados 62 testes web, TypeScript, lint, build, troca de câmera, layout desktop e celular e ausência de erros no console.
 
 - Adicionado cartão de tempo de travessia com rota pronta da aduana brasileira à paraguaia no Google Maps, sem chave, cobrança ou configuração externa.
 - Mantida a duração dentro do Google Maps para respeitar a alternativa oficial gratuita e preservar o desempenho da câmera, da ROI e da IA.
@@ -111,6 +117,10 @@
 
 ## Decisões tomadas
 
+- **Uma transmissão externa por vez:** evita multiplicar banda, uso de CPU e tempo de carregamento em conexões móveis.
+- **IA exclusiva da câmera principal:** as métricas existentes descrevem somente a BR-277 e não devem ser aplicadas a ângulos sem calibração.
+- **Players incorporados com atribuição:** o site organiza fontes públicas, não retransmite nem armazena as imagens de terceiros.
+
 - **Recorte da pista em 640 px:** mantém os veículos grandes para o modelo e evita processar áreas irrelevantes do frame.
 - **Confiança 0,20 e IoU 0,40:** aumentam a sensibilidade e removem caixas duplicadas.
 - **ROI pela base da caixa:** aproxima a posição real do veículo sobre a pista.
@@ -156,6 +166,9 @@
 - **Badge público do WakaTime:** o total é carregado diretamente da imagem oficial do perfil e se mantém atualizado sem expor credencial ou adicionar backend.
 
 ## Próximos passos
+
+1. Publicar a versão 10 após confirmação explícita do usuário.
+2. Verificar no domínio próprio as nove opções, a troca de player e os links de origem.
 
 1. Acompanhar as primeiras horas da contagem e comparar uma amostra manual para calibrar a linha virtual se necessário.
 2. Acompanhar no Google Search Console o processamento do sitemap e solicitar a indexação das páginas públicas.

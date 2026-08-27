@@ -11,6 +11,7 @@ import { NewsletterForm } from './components/newsletter-form';
 import { VisitTracker } from './components/visit-tracker';
 import { VehicleHistoryChart } from './components/vehicle-history-chart';
 import { WeatherPanel } from './components/weather-panel';
+import { CameraGallery } from './components/camera-gallery';
 
 const STREAM_URL =
   'https://video02.logicahost.com.br/portaldacidade/fozsentidopontedaamizade01.stream/chunklist_w121647601.m3u8';
@@ -55,6 +56,7 @@ export default async function Home() {
 
         <nav className="topbar-actions" aria-label="Navegação principal">
           <span className="live-pill"><i /> Câmera ao vivo</span>
+          <a className="nav-link" href="#cameras">Câmeras</a>
           <a className="nav-link" href="/como-funciona">Como funciona</a>
           {newsletterEnabled && <a className="nav-link" href="#newsletter">Resumo por e-mail</a>}
           <a className="admin-link" href="/admin">Histórico de acessos</a>
@@ -66,8 +68,8 @@ export default async function Home() {
           <p className="eyebrow">Trânsito em tempo real</p>
           <h1>Fila da Ponte da Amizade agora</h1>
           <p className="hero-description">
-            Veja a câmera ao vivo da BR-277 no sentido Paraguai, o volume de
-            veículos analisado por IA e a previsão do tempo em Foz do Iguaçu.
+            Veja nove câmeras ao vivo da fronteira, acompanhe a BR-277 no sentido
+            Paraguai com análise por IA e confira a previsão do tempo em Foz do Iguaçu.
           </p>
         </div>
         <div className="updated-at">
@@ -77,6 +79,8 @@ export default async function Home() {
       </section>
 
       <LiveMonitor source={STREAM_URL} initialState={initialTraffic} />
+
+      <CameraGallery />
 
       <section className="crossing-route-section" aria-labelledby="crossing-route-title">
         <div className="crossing-route-copy">

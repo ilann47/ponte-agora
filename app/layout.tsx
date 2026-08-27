@@ -74,6 +74,8 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://video02.logicahost.com.br" />
         <link rel="dns-prefetch" href="https://video02.logicahost.com.br" />
+        <link rel="preconnect" href="https://playerv.logicahost.com.br" />
+        <link rel="dns-prefetch" href="https://playerv.logicahost.com.br" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}

@@ -1,4 +1,4 @@
-> Links: [[PROJECT]] · [[STATE]] · [[REQUIREMENTS]] · [[ROADMAP]] · [[CONTEXT]] · [[congestionamento]] · [[contagem-veiculos]] · [[clima]] · [[web]] · [[newsletter]]
+> Links: [[PROJECT]] · [[STATE]] · [[REQUIREMENTS]] · [[ROADMAP]] · [[CONTEXT]] · [[congestionamento]] · [[contagem-veiculos]] · [[clima]] · [[web]] · [[newsletter]] · [[cameras]]
 
 # Núcleo do Projeto
 
@@ -15,6 +15,7 @@ Aplicação Python local que lê um stream HLS da BR-277, detecta veículos com 
 - `detector/telemetry_publisher.py`: envia métricas autenticadas ao painel web sem bloquear o vídeo.
 - `app/`, `db/` e `lib/`: site público, APIs, banco persistente e área administrativa protegida.
 - `brain/newsletter.md`: fluxo de assinatura, histórico agregado e entrega diária por e-mail.
+- `brain/cameras.md`: catálogo, origem e carregamento seletivo das câmeras públicas da fronteira.
 - `tests/`: verifica as regras sem abrir câmera, janela ou carregar o modelo.
 
 ## Infraestrutura
@@ -44,6 +45,7 @@ Aplicação Python local que lê um stream HLS da BR-277, detecta veículos com 
 - O loop respeita o ritmo original de 25 FPS, mesmo quando consegue consumir o buffer HLS mais rapidamente.
 - Um publicador de telemetria com worker único envia somente a leitura mais recente a cada segundo, incluindo ROI e caixas normalizadas.
 - O site reproduz o HLS diretamente; o detector local não retransmite frames.
+- A galeria incorpora somente um player externo por vez e preserva o monitor principal como a única câmera com análise por IA.
 - O navegador desenha a camada da IA em canvas transparente sobre o vídeo original.
 - O detector Python não ganhou dependências; telemetria e testes continuam usando a biblioteca padrão.
 - O site renderiza a última telemetria disponível no HTML inicial e continua a atualização no navegador a cada dois segundos.
@@ -63,6 +65,7 @@ Aplicação Python local que lê um stream HLS da BR-277, detecta veículos com 
 - [[clima]]
 - [[web]]
 - [[newsletter]]
+- [[cameras]]
 
 ## Histórico
 
@@ -92,3 +95,4 @@ Aplicação Python local que lê um stream HLS da BR-277, detecta veículos com 
 | 2026-08-25 | Publicada a versão 7 e validado o domínio próprio como canonical também no endereço técnico da hospedagem. |
 | 2026-08-26 | Adicionada consulta gratuita do tempo atual de travessia por rota pública do Google Maps. |
 | 2026-08-27 | Adicionadas ao rodapé as conexões públicas e a autoria pessoal do projeto. |
+| 2026-08-27 | Reunidas nove câmeras da fronteira em uma galeria leve, mantendo o monitor principal e a IA intactos. |

@@ -4,7 +4,7 @@
 
 ## Fase
 
-Versão 9 publicada no domínio próprio com a integração pública do WakaTime.
+Versão 10 preparada localmente com a galeria de nove câmeras; publicação ainda depende de confirmação explícita.
 
 ## Decisões vigentes
 
@@ -23,6 +23,7 @@ Versão 9 publicada no domínio próprio com a integração pública do WakaTime
 - DNS, validação da propriedade e certificado HTTPS de `filaponte.com.br` estão ativos.
 - Canonical, Open Graph, sitemap, `robots.txt` e links gerados usam `https://filaponte.com.br`; o endereço original é tratado somente como legado.
 - A versão 9 está ativa e foi verificada em produção no domínio próprio.
+- A versão 10 está validada localmente com oito players externos, atribuição de origem e apenas uma transmissão adicional carregada por vez.
 - O cartão de travessia abre a rota pública do Google Maps sem chave de API, e o rodapé divulga portfólio, GitHub e LinkedIn do autor.
 - O rodapé usa o badge oficial do perfil `@ilann47` para mostrar o tempo total de programação sempre atualizado, sem armazenar credenciais.
 - Remoto `origin`: GitHub. Remoto `sites`: repositório interno da hospedagem.

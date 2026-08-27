@@ -53,6 +53,15 @@
       "y": 0,
       "width": 420,
       "height": 300
+    },
+    {
+      "id": "cameras",
+      "type": "file",
+      "file": "cameras.md",
+      "x": 780,
+      "y": 800,
+      "width": 420,
+      "height": 300
     }
   ],
   "edges": [
@@ -138,6 +147,20 @@
       "fromNode": "contagem-veiculos",
       "fromSide": "right",
       "toNode": "newsletter",
+      "toSide": "top"
+    },
+    {
+      "id": "core-cameras",
+      "fromNode": "core",
+      "fromSide": "bottom",
+      "toNode": "cameras",
+      "toSide": "left"
+    },
+    {
+      "id": "web-cameras",
+      "fromNode": "web",
+      "fromSide": "bottom",
+      "toNode": "cameras",
       "toSide": "top"
     }
   ]

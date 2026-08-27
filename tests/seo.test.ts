@@ -28,7 +28,7 @@ test('usa a URL publica como origem canonica segura', () => {
 
 test('metadados priorizam a busca pela fila da Ponte da Amizade', () => {
   assert.match(SITE_TITLE, /Fila da Ponte da Amizade Agora/i);
-  assert.match(SITE_DESCRIPTION, /câmera ao vivo/i);
+  assert.match(SITE_DESCRIPTION, /câmeras? ao vivo/i);
   assert.match(SITE_DESCRIPTION, /BR-277/i);
   assert.match(SITE_DESCRIPTION, /IA/i);
 });

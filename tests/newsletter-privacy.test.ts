@@ -21,4 +21,6 @@ test('a política explica dados, confirmação, retenção e cancelamento', asyn
   assert.match(privacy, /7 dias/i);
   assert.match(privacy, /31 dias/i);
   assert.match(privacy, /cancel/i);
+  assert.match(privacy, /players externos/i);
+  assert.match(privacy, /Portal da Cidade/i);
 });

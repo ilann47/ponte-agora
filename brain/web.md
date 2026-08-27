@@ -1,10 +1,10 @@
-> Links: [[PROJECT]] · [[STATE]] · [[REQUIREMENTS]] · [[ROADMAP]] · [[CONTEXT]] · [[core]] · [[congestionamento]] · [[contagem-veiculos]] · [[clima]] · [[newsletter]]
+> Links: [[PROJECT]] · [[STATE]] · [[REQUIREMENTS]] · [[ROADMAP]] · [[CONTEXT]] · [[core]] · [[congestionamento]] · [[contagem-veiculos]] · [[clima]] · [[newsletter]] · [[cameras]]
 
 # Painel Web
 
 ## Objetivo
 
-Disponibilizar o monitor da Ponte da Amizade no navegador, com vídeo ao vivo, indicadores de congestionamento, clima, newsletter diária, conteúdo indexável para buscas e uma área administrativa privada para o histórico de acessos reais.
+Disponibilizar o monitor da Ponte da Amizade no navegador, com nove câmeras da fronteira, indicadores de congestionamento, clima, newsletter diária, conteúdo indexável para buscas e uma área administrativa privada para o histórico de acessos reais.
 
 ## Contexto
 
@@ -26,6 +26,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 12. Um cartão abre no Google Maps a rota da aduana brasileira à paraguaia para consultar a duração atual da travessia sem usar chave de API.
 13. O rodapé credita o projeto pessoal e oferece conexões públicas para o portfólio, GitHub e LinkedIn do autor.
 14. O rodapé carrega o badge oficial do WakaTime para mostrar o tempo total público de programação do autor.
+15. A galeria oferece oito players externos além do monitor principal e mantém apenas a transmissão escolhida no DOM.
 
 ## Endpoints (se houver)
 
@@ -69,6 +70,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - Google Maps URLs para a rota pública da travessia, sem integração paga nem extração automática da duração.
 - Portfólio público, GitHub e LinkedIn de Ilan Wendling Thoele.
 - WakaTime para o badge público e atualizado do perfil `@ilann47`, sem uso de chave de API.
+- Portal da Cidade, Lógica Host, Atacado Connect e Mega Eletrônicos para as transmissões externas atribuídas na galeria.
 
 ## Tratamento de Erros
 
@@ -87,10 +89,11 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - Se o histórico não estiver disponível, a página continua abrindo e mostra a coleta iniciada com valores zerados.
 - Se o Google Maps estiver indisponível, câmera, IA, histórico e clima continuam funcionando normalmente; o cartão é apenas um link externo.
 - A inscrição por e-mail fica oculta até que provedor, remetente e segredos internos estejam configurados, evitando formulário público inoperante.
+- Uma falha em qualquer player externo não interfere na câmera principal, na IA nem nas APIs do Fila Ponte; o link da origem permanece disponível.
 
 ## Testes (curl ou equivalente)
 
-- 58 testes unitários para analytics, autenticação, clima, telemetria, SEO, newsletter, contagem de veículos, rota do Maps, conexões do rodapé, WakaTime, projeção do overlay e regressões do Lighthouse.
+- 62 testes unitários para analytics, autenticação, câmeras, clima, telemetria, SEO, newsletter, contagem de veículos, rota do Maps, conexões do rodapé, WakaTime, projeção do overlay e regressões do Lighthouse.
 - Lint e build de produção aprovados.
 - Rotas públicas verificadas na hospedagem: painel, clima, privacidade, publicação de telemetria e analytics.
 - `/admin` verificado com redirecionamento obrigatório para login.
@@ -102,6 +105,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - Domínio próprio validado nos dois endereços de borda, com DNS público, HTTPS válido e resposta `200`.
 - Versão 7 verificada em produção com canonical, Open Graph, robots e sitemap exclusivamente no domínio próprio.
 - Credencial da telemetria renovada após reprodução de respostas `401`; publicação da revisão de ambiente e detector reiniciado com estado online validado na API pública.
+- Galeria validada em desktop e celular com um único `iframe`, troca de câmera funcional, ausência de rolagem horizontal e console sem erros.
 
 ## Decisões Técnicas
 
@@ -132,6 +136,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - Manter o tempo de travessia dentro do Google Maps: a alternativa oficial sem chave abre a rota, mas não devolve a duração para um cartão próprio.
 - Abrir conexões pessoais em nova aba e manter os links institucionais do próprio site na navegação normal.
 - Usar o badge público oficial do WakaTime para manter o total sincronizado sem expor chave ou depender do detector local.
+- Carregar somente uma câmera externa por vez, atribuir cada transmissão ao provedor e manter a IA exclusiva do monitor principal.
 
 ## Módulos relacionados
 
@@ -140,6 +145,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - [[contagem-veiculos]]
 - [[clima]]
 - [[newsletter]]
+- [[cameras]]
 
 ## Histórico
 
@@ -165,3 +171,4 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 | 2026-08-27 | Publicada a versão 8 e validados no domínio próprio o cartão de travessia e os links do rodapé. |
 | 2026-08-27 | Adicionado ao rodapé o tempo total público e atualizado do perfil WakaTime do autor. |
 | 2026-08-27 | Publicada a versão 9 e validado o badge do WakaTime no domínio próprio. |
+| 2026-08-27 | Adicionada galeria responsiva com nove pontos da fronteira e carregamento de um player externo por vez. |

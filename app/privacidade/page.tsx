@@ -27,6 +27,14 @@ export default function PrivacyPage() {
           identificador protegido, usado somente para evitar contagem duplicada.
           Os registros são removidos após 180 dias.
         </p>
+        <h2>Câmeras e conteúdo externo</h2>
+        <p>
+          A galeria usa players externos do Portal da Cidade, Atacado Connect e
+          Mega Eletrônicos. Ao visualizar uma dessas transmissões, o navegador se
+          conecta diretamente ao provedor, que pode processar dados técnicos da
+          conexão conforme a própria política. O Ponte Agora não retransmite nem
+          armazena essas imagens e carrega apenas o player selecionado.
+        </p>
         <h2>Newsletter diária</h2>
         <p>
           Quando você se inscreve, guardamos seu e-mail, o horário escolhido no
