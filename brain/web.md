@@ -164,3 +164,4 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 | 2026-08-27 | Rodapé passou a creditar o desenvolvimento por hobby e divulgar portfólio, GitHub e LinkedIn do autor. |
 | 2026-08-27 | Publicada a versão 8 e validados no domínio próprio o cartão de travessia e os links do rodapé. |
 | 2026-08-27 | Adicionado ao rodapé o tempo total público e atualizado do perfil WakaTime do autor. |
+| 2026-08-27 | Publicada a versão 9 e validado o badge do WakaTime no domínio próprio. |

@@ -3,7 +3,7 @@
 # Estado do Projeto
 
 **Última atualização:** 2026-08-27
-**Fase atual:** versão 8 ativa; WakaTime pronto para a próxima publicação
+**Fase atual:** versão 9 publicada com o tempo total do WakaTime
 
 ## O que foi feito
 
@@ -12,6 +12,7 @@
 - Reformulado o rodapé para creditar o desenvolvimento por hobby e incluir portfólio, GitHub e LinkedIn de Ilan Wendling Thoele.
 - Publicada a versão 8 e confirmados no domínio próprio o cartão do Google Maps, a autoria e os três links pessoais.
 - Adicionado ao rodapé o tempo total de programação do autor por meio do badge público oficial do WakaTime, com link para o perfil `@ilann47` e sem chave de API.
+- Publicada a versão 9 e confirmado em `filaponte.com.br` que o badge e o link do perfil WakaTime estão visíveis.
 
 - Refatorado `teste.py` para eliminar efeitos colaterais na importação e organizar o loop em `main()`.
 - Criado `congestion_core.py` com ROI, ocupação, score e suavização testáveis.
