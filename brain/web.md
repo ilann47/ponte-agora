@@ -159,3 +159,4 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 | 2026-08-25 | Sincronizada a credencial da telemetria, republicada a configuração da versão 7 e restaurada a IA online no painel público. |
 | 2026-08-26 | Adicionado cartão gratuito que abre a rota da travessia no Google Maps sem chave de API. |
 | 2026-08-27 | Rodapé passou a creditar o desenvolvimento por hobby e divulgar portfólio, GitHub e LinkedIn do autor. |
+| 2026-08-27 | Publicada a versão 8 e validados no domínio próprio o cartão de travessia e os links do rodapé. |

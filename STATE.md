@@ -3,13 +3,14 @@
 # Estado do Projeto
 
 **Última atualização:** 2026-08-27
-**Fase atual:** tempo de travessia e conexões pessoais validados antes da publicação
+**Fase atual:** versão 8 publicada com tempo de travessia e conexões pessoais
 
 ## O que foi feito
 
 - Adicionado cartão de tempo de travessia com rota pronta da aduana brasileira à paraguaia no Google Maps, sem chave, cobrança ou configuração externa.
 - Mantida a duração dentro do Google Maps para respeitar a alternativa oficial gratuita e preservar o desempenho da câmera, da ROI e da IA.
 - Reformulado o rodapé para creditar o desenvolvimento por hobby e incluir portfólio, GitHub e LinkedIn de Ilan Wendling Thoele.
+- Publicada a versão 8 e confirmados no domínio próprio o cartão do Google Maps, a autoria e os três links pessoais.
 
 - Refatorado `teste.py` para eliminar efeitos colaterais na importação e organizar o loop em `main()`.
 - Criado `congestion_core.py` com ROI, ocupação, score e suavização testáveis.
@@ -153,12 +154,11 @@
 
 ## Próximos passos
 
-1. Publicar o cartão de tempo de travessia após a aprovação do proprietário.
-2. Acompanhar as primeiras horas da contagem e comparar uma amostra manual para calibrar a linha virtual se necessário.
-3. Acompanhar no Google Search Console o processamento do sitemap e solicitar a indexação das páginas públicas.
-4. Criar ou acessar a conta Brevo, ativar o envio transacional e verificar o endereço remetente.
-5. Configurar os segredos da newsletter, agendar o disparo e validar uma assinatura real de ponta a ponta.
-6. Coletar exemplos rotulados de pista livre, moderada e congestionada para recalibrar os limites heurísticos e auditar a contagem.
+1. Acompanhar as primeiras horas da contagem e comparar uma amostra manual para calibrar a linha virtual se necessário.
+2. Acompanhar no Google Search Console o processamento do sitemap e solicitar a indexação das páginas públicas.
+3. Criar ou acessar a conta Brevo, ativar o envio transacional e verificar o endereço remetente.
+4. Configurar os segredos da newsletter, agendar o disparo e validar uma assinatura real de ponta a ponta.
+5. Coletar exemplos rotulados de pista livre, moderada e congestionada para recalibrar os limites heurísticos e auditar a contagem.
 
 ## Bloqueios / Dívidas técnicas
 

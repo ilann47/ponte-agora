@@ -4,7 +4,7 @@
 
 ## Fase
 
-Versão 7 publicada no domínio próprio e preparação da solicitação de indexação no Google.
+Versão 8 publicada no domínio próprio, com rota gratuita de travessia e conexões públicas do autor.
 
 ## Decisões vigentes
 
@@ -22,5 +22,6 @@ Versão 7 publicada no domínio próprio e preparação da solicitação de inde
 - Detector local online e alimentando telemetria.
 - DNS, validação da propriedade e certificado HTTPS de `filaponte.com.br` estão ativos.
 - Canonical, Open Graph, sitemap, `robots.txt` e links gerados usam `https://filaponte.com.br`; o endereço original é tratado somente como legado.
-- A versão 7 está ativa e foi verificada em produção nos dois endereços públicos.
+- A versão 8 está ativa e foi verificada em produção no domínio próprio.
+- O cartão de travessia abre a rota pública do Google Maps sem chave de API, e o rodapé divulga portfólio, GitHub e LinkedIn do autor.
 - Remoto `origin`: GitHub. Remoto `sites`: repositório interno da hospedagem.
