@@ -91,3 +91,4 @@ Aplicação Python local que lê um stream HLS da BR-277, detecta veículos com 
 | 2026-08-24 | Tornado `filaponte.com.br` a origem canônica única para indexação e links públicos. |
 | 2026-08-25 | Publicada a versão 7 e validado o domínio próprio como canonical também no endereço técnico da hospedagem. |
 | 2026-08-26 | Adicionada consulta gratuita do tempo atual de travessia por rota pública do Google Maps. |
+| 2026-08-27 | Adicionadas ao rodapé as conexões públicas e a autoria pessoal do projeto. |

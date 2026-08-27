@@ -24,6 +24,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 10. O servidor transforma o total acumulado do detector em incrementos idempotentes, agrupados pela data e hora de Foz do Iguaçu.
 11. A página pública apresenta o histórico de passagens em 7 ou 30 dias, fora da imagem da câmera.
 12. Um cartão abre no Google Maps a rota da aduana brasileira à paraguaia para consultar a duração atual da travessia sem usar chave de API.
+13. O rodapé credita o projeto pessoal e oferece conexões públicas para o portfólio, GitHub e LinkedIn do autor.
 
 ## Endpoints (se houver)
 
@@ -65,6 +66,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - Brevo para confirmação e entrega do resumo diário.
 - cron-job.org para chamar a rota de envio em intervalos regulares.
 - Google Maps URLs para a rota pública da travessia, sem integração paga nem extração automática da duração.
+- Portfólio público, GitHub e LinkedIn de Ilan Wendling Thoele.
 
 ## Tratamento de Erros
 
@@ -86,7 +88,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 
 ## Testes (curl ou equivalente)
 
-- 56 testes unitários para analytics, autenticação, clima, telemetria, SEO, newsletter, contagem de veículos, rota do Maps, projeção do overlay e regressões do Lighthouse.
+- 57 testes unitários para analytics, autenticação, clima, telemetria, SEO, newsletter, contagem de veículos, rota do Maps, conexões do rodapé, projeção do overlay e regressões do Lighthouse.
 - Lint e build de produção aprovados.
 - Rotas públicas verificadas na hospedagem: painel, clima, privacidade, publicação de telemetria e analytics.
 - `/admin` verificado com redirecionamento obrigatório para login.
@@ -126,6 +128,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - Tratar `filaponte.com.br` como a única origem canônica; o endereço técnico da hospedagem permanece acessível apenas como fallback.
 - Validar uma rotação da telemetria com uma requisição autenticada sem persistência antes de iniciar o detector, distinguindo falha de credencial de falha do modelo ou do vídeo.
 - Manter o tempo de travessia dentro do Google Maps: a alternativa oficial sem chave abre a rota, mas não devolve a duração para um cartão próprio.
+- Abrir conexões pessoais em nova aba e manter os links institucionais do próprio site na navegação normal.
 
 ## Módulos relacionados
 
@@ -155,3 +158,4 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 | 2026-08-25 | Publicada a versão 7 e confirmados em produção todos os sinais canônicos de `filaponte.com.br`. |
 | 2026-08-25 | Sincronizada a credencial da telemetria, republicada a configuração da versão 7 e restaurada a IA online no painel público. |
 | 2026-08-26 | Adicionado cartão gratuito que abre a rota da travessia no Google Maps sem chave de API. |
+| 2026-08-27 | Rodapé passou a creditar o desenvolvimento por hobby e divulgar portfólio, GitHub e LinkedIn do autor. |

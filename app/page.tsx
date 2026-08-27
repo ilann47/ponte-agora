@@ -188,11 +188,42 @@ export default async function Home() {
       </section>
 
       <footer>
-        <span>Ponte Agora</span>
-        <p>
+        <div className="footer-identity">
+          <span>Ponte Agora</span>
+          <p>
+            Desenvolvido por hobby por{' '}
+            <a
+              href="https://ilan-wendling-portfolio.ilanwendling.chatgpt.site"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Ilan Wendling Thoele
+            </a>
+          </p>
+        </div>
+        <nav className="footer-links" aria-label="Links do projeto e do desenvolvedor">
+          <a href="/como-funciona">Como funciona</a>
+          <a href="/privacidade">Privacidade</a>
+          <a
+            href="https://ilan-wendling-portfolio.ilanwendling.chatgpt.site"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Portfólio <span aria-hidden="true">↗</span>
+          </a>
+          <a href="https://github.com/ilann47" target="_blank" rel="noreferrer">
+            GitHub <span aria-hidden="true">↗</span>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/ilan-wendling-thoele"
+            target="_blank"
+            rel="noreferrer"
+          >
+            LinkedIn <span aria-hidden="true">↗</span>
+          </a>
+        </nav>
+        <p className="footer-note">
           Informação para planejamento. Dirija com atenção e respeite a sinalização.
-          {' · '}<a href="/como-funciona">Como funciona</a>
-          {' · '}<a href="/privacidade">Privacidade</a>
         </p>
       </footer>
       <VisitTracker />

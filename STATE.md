@@ -2,13 +2,14 @@
 
 # Estado do Projeto
 
-**Última atualização:** 2026-08-26
-**Fase atual:** consulta gratuita do tempo de travessia em validação antes da publicação
+**Última atualização:** 2026-08-27
+**Fase atual:** tempo de travessia e conexões pessoais validados antes da publicação
 
 ## O que foi feito
 
 - Adicionado cartão de tempo de travessia com rota pronta da aduana brasileira à paraguaia no Google Maps, sem chave, cobrança ou configuração externa.
 - Mantida a duração dentro do Google Maps para respeitar a alternativa oficial gratuita e preservar o desempenho da câmera, da ROI e da IA.
+- Reformulado o rodapé para creditar o desenvolvimento por hobby e incluir portfólio, GitHub e LinkedIn de Ilan Wendling Thoele.
 
 - Refatorado `teste.py` para eliminar efeitos colaterais na importação e organizar o loop em `main()`.
 - Criado `congestion_core.py` com ROI, ocupação, score e suavização testáveis.
