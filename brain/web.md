@@ -25,6 +25,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 11. A página pública apresenta o histórico de passagens em 7 ou 30 dias, fora da imagem da câmera.
 12. Um cartão abre no Google Maps a rota da aduana brasileira à paraguaia para consultar a duração atual da travessia sem usar chave de API.
 13. O rodapé credita o projeto pessoal e oferece conexões públicas para o portfólio, GitHub e LinkedIn do autor.
+14. O rodapé carrega o badge oficial do WakaTime para mostrar o tempo total público de programação do autor.
 
 ## Endpoints (se houver)
 
@@ -67,6 +68,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - cron-job.org para chamar a rota de envio em intervalos regulares.
 - Google Maps URLs para a rota pública da travessia, sem integração paga nem extração automática da duração.
 - Portfólio público, GitHub e LinkedIn de Ilan Wendling Thoele.
+- WakaTime para o badge público e atualizado do perfil `@ilann47`, sem uso de chave de API.
 
 ## Tratamento de Erros
 
@@ -88,7 +90,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 
 ## Testes (curl ou equivalente)
 
-- 57 testes unitários para analytics, autenticação, clima, telemetria, SEO, newsletter, contagem de veículos, rota do Maps, conexões do rodapé, projeção do overlay e regressões do Lighthouse.
+- 58 testes unitários para analytics, autenticação, clima, telemetria, SEO, newsletter, contagem de veículos, rota do Maps, conexões do rodapé, WakaTime, projeção do overlay e regressões do Lighthouse.
 - Lint e build de produção aprovados.
 - Rotas públicas verificadas na hospedagem: painel, clima, privacidade, publicação de telemetria e analytics.
 - `/admin` verificado com redirecionamento obrigatório para login.
@@ -129,6 +131,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - Validar uma rotação da telemetria com uma requisição autenticada sem persistência antes de iniciar o detector, distinguindo falha de credencial de falha do modelo ou do vídeo.
 - Manter o tempo de travessia dentro do Google Maps: a alternativa oficial sem chave abre a rota, mas não devolve a duração para um cartão próprio.
 - Abrir conexões pessoais em nova aba e manter os links institucionais do próprio site na navegação normal.
+- Usar o badge público oficial do WakaTime para manter o total sincronizado sem expor chave ou depender do detector local.
 
 ## Módulos relacionados
 
@@ -160,3 +163,4 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 | 2026-08-26 | Adicionado cartão gratuito que abre a rota da travessia no Google Maps sem chave de API. |
 | 2026-08-27 | Rodapé passou a creditar o desenvolvimento por hobby e divulgar portfólio, GitHub e LinkedIn do autor. |
 | 2026-08-27 | Publicada a versão 8 e validados no domínio próprio o cartão de travessia e os links do rodapé. |
+| 2026-08-27 | Adicionado ao rodapé o tempo total público e atualizado do perfil WakaTime do autor. |

@@ -200,6 +200,23 @@ export default async function Home() {
               Ilan Wendling Thoele
             </a>
           </p>
+          <a
+            className="footer-wakatime"
+            href="https://wakatime.com/@ilann47"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Ver o perfil de Ilan no WakaTime"
+          >
+            <span>Tempo programando</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://wakatime.com/badge/user/018b0b91-2d41-4402-9942-e1c3c2f7d91a.svg"
+              alt="Tempo total de programação de Ilan no WakaTime"
+              width="190"
+              height="20"
+              loading="lazy"
+            />
+          </a>
         </div>
         <nav className="footer-links" aria-label="Links do projeto e do desenvolvedor">
           <a href="/como-funciona">Como funciona</a>

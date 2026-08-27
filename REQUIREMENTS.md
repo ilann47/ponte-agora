@@ -15,6 +15,7 @@
 - Publicar telemetria sem bloquear vídeo ou inferência.
 - Responder em `https://filaponte.com.br` com DNS e certificado HTTPS válidos.
 - Publicar canonical, Open Graph, `robots.txt`, sitemap e links externos usando exclusivamente `https://filaponte.com.br`.
+- Exibir no rodapé o tempo total público de programação do autor, atualizado pelo WakaTime sem chave de API.
 
 ## Próxima versão
 

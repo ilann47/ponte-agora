@@ -3,7 +3,7 @@
 # Estado do Projeto
 
 **Última atualização:** 2026-08-27
-**Fase atual:** versão 8 publicada com tempo de travessia e conexões pessoais
+**Fase atual:** versão 8 ativa; WakaTime pronto para a próxima publicação
 
 ## O que foi feito
 
@@ -11,6 +11,7 @@
 - Mantida a duração dentro do Google Maps para respeitar a alternativa oficial gratuita e preservar o desempenho da câmera, da ROI e da IA.
 - Reformulado o rodapé para creditar o desenvolvimento por hobby e incluir portfólio, GitHub e LinkedIn de Ilan Wendling Thoele.
 - Publicada a versão 8 e confirmados no domínio próprio o cartão do Google Maps, a autoria e os três links pessoais.
+- Adicionado ao rodapé o tempo total de programação do autor por meio do badge público oficial do WakaTime, com link para o perfil `@ilann47` e sem chave de API.
 
 - Refatorado `teste.py` para eliminar efeitos colaterais na importação e organizar o loop em `main()`.
 - Criado `congestion_core.py` com ROI, ocupação, score e suavização testáveis.
@@ -151,6 +152,7 @@
 - **Canonical único:** mesmo que uma variável hospedada ainda contenha o endereço antigo, metadados e links públicos convertem essa origem para `https://filaponte.com.br`.
 - **Rotação coordenada da telemetria:** a credencial hospedada e a configuração local devem ser atualizadas juntas e validadas por autenticação antes de reiniciar o detector, evitando um processo ativo que tenha suas leituras rejeitadas.
 - **Rota pública do Google Maps:** oferece a duração atual da travessia sem chave nem cobrança; o valor permanece dentro do Maps porque a opção gratuita não fornece o tempo para o painel próprio.
+- **Badge público do WakaTime:** o total é carregado diretamente da imagem oficial do perfil e se mantém atualizado sem expor credencial ou adicionar backend.
 
 ## Próximos passos
 
