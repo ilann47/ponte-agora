@@ -8,10 +8,11 @@
 ## O que foi feito
 
 - Ativada novamente a IA da câmera principal e confirmada a telemetria online em `filaponte.com.br`.
-- Reduzida somente a entrada do YOLO para 320 px; o vídeo HLS permanece na resolução original e limitado à velocidade real de 25 FPS.
+- Calibrada somente a entrada do YOLO para 416 px e confiança 10%; o vídeo HLS permanece na resolução original e limitado à velocidade real de 25 FPS.
 - Adicionado limite máximo de 25 FPS à inferência sem criar fila de frames.
 - Criado modo servidor sem janela local para liberar CPU, preservando ROI, caixas, probabilidades, contagem e publicação web.
-- Verificados 36 testes Python; no stream real, o vídeo permaneceu perto de 24,6 FPS e a IA atingiu picos de 24,9 FPS, com mediana de 18,6 FPS em dez amostras.
+- Limitado o PyTorch a quatro threads após benchmark comparativo, evitando a perda de desempenho observada com oito threads.
+- Verificados 37 testes Python; no stream real, o vídeo permaneceu perto de 25 FPS, a IA teve mediana de 17,0 FPS sob alta carga e reconheceu até cinco veículos com classes e probabilidades.
 
 - Catalogadas as seis câmeras públicas do Portal da Cidade e três visões adicionais encontradas no Ponte Agora, totalizando nove pontos sem duplicidade.
 - Mantidos o HLS, a ROI, as caixas e as probabilidades da câmera principal sem alterações.
@@ -128,7 +129,9 @@
 - **IA exclusiva da câmera principal:** as métricas existentes descrevem somente a BR-277 e não devem ser aplicadas a ângulos sem calibração.
 - **Players incorporados com atribuição:** o site organiza fontes públicas, não retransmite nem armazena as imagens de terceiros.
 
-- **Recorte da pista em 320 px:** prioriza a cadência da IA no pipeline completo; o recorte preserva a área útil e a precisão para veículos distantes será acompanhada.
+- **Recorte da pista em 416 px:** recupera veículos pequenos perdidos em 320 px e mantém desempenho suficiente para atualizar o overlay em tempo quase real.
+- **Confiança 10%:** mantém no overlay objetos distantes com probabilidade menor; a ROI continua filtrando detecções fora da pista monitorada.
+- **Quatro threads de inferência:** foi o melhor resultado medido e evita a contenção que reduziu o desempenho com oito threads.
 - **Meta, não promessa de 25 FPS:** a IA é limitada a 25 FPS, mas publica a cadência real quando o computador está mais lento.
 - **Modo servidor sem janela:** remove somente o desenho OpenCV local e mantém intacta a telemetria visual do site.
 - **Confiança 0,20 e IoU 0,40:** aumentam a sensibilidade e removem caixas duplicadas.
@@ -184,7 +187,7 @@
 3. Criar ou acessar a conta Brevo, ativar o envio transacional e verificar o endereço remetente.
 4. Configurar os segredos da newsletter, agendar o disparo e validar uma assinatura real de ponta a ponta.
 5. Coletar exemplos rotulados de pista livre, moderada e congestionada para recalibrar os limites heurísticos e auditar a contagem.
-6. Comparar manualmente uma amostra de veículos distantes após a mudança para 320 px e ajustar a confiança somente se houver perda relevante.
+6. Comparar manualmente uma amostra maior em diferentes horários para medir falsos positivos da confiança de 10%.
 
 ## Bloqueios / Dívidas técnicas
 
@@ -201,4 +204,4 @@
 - A ativação da Brevo exige uma conta externa, uma chave privada e a verificação do remetente; esses passos dependem do proprietário.
 - A criação do agendamento externo depende de uma conta no cron-job.org depois que a rota estiver publicada.
 - O histórico de veículos começa vazio e depende de o detector atualizado permanecer ligado; a precisão deverá ser auditada com amostras de vídeo reais.
-- O alvo de 25 FPS da IA depende do Ryzen local: foram observados picos de 24,9 FPS, mas a mediana real foi 18,6 FPS e pode oscilar com a carga do computador.
+- O alvo de 25 FPS da IA depende do Ryzen local: com Java e outros programas consumindo CPU, a configuração final teve mediana de 17,0 FPS e pode oscilar.

@@ -8,7 +8,7 @@ Estimar o nível de congestionamento na pista em direção à Ponte da Amizade a
 
 ## Contexto
 
-A câmera é fixa, noturna e mostra veículos pequenos ao longe. O recorte da pista amplia os veículos para o modelo. A entrada de 320 px foi escolhida após medição do pipeline completo para aproximar a IA dos 25 FPS no Ryzen 7 5825U; o HLS continua em sua resolução original e a sensibilidade a objetos distantes deve ser acompanhada.
+A câmera é fixa e mostra veículos pequenos ao longe. O recorte da pista amplia os veículos para o modelo. A entrada de 416 px com confiança 10% foi escolhida em comparação sobre o mesmo quadro por reconhecer mais veículos úteis que a configuração de 320 px, mantendo desempenho próximo do tempo real; o HLS continua em sua resolução original.
 
 ## Fluxo (camadas da arquitetura)
 
@@ -89,7 +89,9 @@ Validação de 2026-08-28:
 
 - 36 testes automatizados aprovados e compilação Python válida.
 - A configuração de 416 px no pipeline completo ficou em torno de 16 FPS de IA, abaixo do benchmark isolado.
-- A entrada de 320 px com modo servidor preservou o vídeo em aproximadamente 24,6 FPS, atingiu picos de 24,9 FPS de IA e mediana observada de 18,6 FPS em dez amostras reais.
+- O benchmark de threads em 320 px mediu 17,7 FPS com 2 threads, 30,2 com 4, 30,0 com 6 e 23,6 com 8; quatro threads foram escolhidas por melhor desempenho e menor contenção.
+- A comparação no mesmo quadro escolheu 416 px e confiança 10%: cinco veículos aceitos em cerca de 47 ms, contra perda de objetos na configuração de 320 px.
+- A configuração final em modo servidor preservou o vídeo em aproximadamente 25 FPS, detectou até cinco veículos com classes e probabilidades e apresentou mediana de 17,0 FPS de IA em oito amostras reais sob alta carga do computador.
 - A telemetria pública confirmou estado online, ROI e detecções atualizadas no domínio próprio.
 
 ## Decisões Técnicas
@@ -98,10 +100,11 @@ Validação de 2026-08-28:
 - Medir a união das caixas para não contar pixels sobrepostos duas vezes.
 - Separar cálculo puro do loop de vídeo para permitir testes rápidos.
 - Usar o ponto inferior central da caixa como contato do veículo com a pista.
-- Recortar a pista com margem de 5% e inferir em 320 px com confiança 0,20 e NMS IoU 0,40.
+- Recortar a pista com margem de 5% e inferir em 416 px com confiança 0,10 e NMS IoU 0,40.
 - Remapear as caixas do recorte para o frame completo antes da análise e do desenho.
 - Limitar a inferência a no máximo 25 FPS; resultados mais lentos são publicados com a cadência real, sem maquiar a métrica.
 - Usar o modo servidor para remover o custo da janela local quando o objetivo é alimentar o site, sem alterar ROI, caixas ou probabilidades publicadas.
+- Limitar o PyTorch a quatro threads, configuração mais rápida no benchmark deste Ryzen e menos sujeita à contenção que oito threads.
 - Executar a IA em um `ThreadPoolExecutor` com apenas um worker.
 - Nunca enfileirar frames: se a IA estiver ocupada, manter o último resultado e continuar exibindo o vídeo.
 - Mostrar separadamente FPS do vídeo e da IA para tornar o desempenho observável.
@@ -135,4 +138,4 @@ Validação de 2026-08-28:
 | 2026-08-23 | Adicionada publicação autenticada e não bloqueante das métricas no painel web. |
 | 2026-08-23 | Incluídas ROI, classes, caixas e probabilidades na telemetria web normalizada. |
 | 2026-08-24 | Integradas as detecções ao contador de passagens sem alterar o ritmo de 25 FPS nem o overlay. |
-| 2026-08-28 | Reduzida a entrada da IA para 320 px, adicionado limitador de 25 FPS e ativado o modo servidor sem renderização local. |
+| 2026-08-28 | Calibrada a IA em 416 px, confiança 10% e quatro threads; no teste real foram reconhecidos até cinco veículos com vídeo a 25 FPS. |

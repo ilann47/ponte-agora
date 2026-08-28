@@ -60,6 +60,20 @@ class ManualExecutor:
 
 
 class RuntimeStructureTests(unittest.TestCase):
+    def test_limits_torch_to_the_benchmarked_thread_count(self):
+        module = importlib.import_module("teste")
+        configured_threads = []
+
+        class FakeTorch:
+            @staticmethod
+            def set_num_threads(value):
+                configured_threads.append(value)
+
+        module.configure_inference_runtime(FakeTorch())
+
+        self.assertEqual(module.INFERENCE_THREADS, 4)
+        self.assertEqual(configured_threads, [4])
+
     def test_import_has_no_model_or_stream_side_effects(self):
         sys.modules.pop("teste", None)
 
@@ -87,12 +101,12 @@ class RuntimeStructureTests(unittest.TestCase):
         )
         self.assertFalse(module.headless_mode({}))
 
-    def test_uses_fast_resolution_after_cropping_to_the_road(self):
+    def test_uses_benchmarked_resolution_after_cropping_to_the_road(self):
         module = importlib.import_module("teste")
 
-        self.assertEqual(module.INFERENCE_SIZE, 320)
+        self.assertEqual(module.INFERENCE_SIZE, 416)
         self.assertEqual(module.TARGET_INFERENCE_FPS, 25.0)
-        self.assertEqual(module.CONFIDENCE, 0.20)
+        self.assertEqual(module.CONFIDENCE, 0.10)
         self.assertEqual(module.NMS_IOU, 0.40)
 
     def test_crops_frame_to_roi_bounding_rectangle(self):

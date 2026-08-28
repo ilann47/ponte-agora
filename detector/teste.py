@@ -12,6 +12,7 @@ from pathlib import Path
 from uuid import uuid4
 
 import cv2
+import torch
 from ultralytics import YOLO
 
 from congestion_core import (
@@ -45,11 +46,12 @@ STREAM_URL = (
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_NAME = str(BASE_DIR / "yolo11n.pt")
 
-# O modelo recebe somente o recorte da pista. 320 px mantém a cadência de
-# 25 FPS no pipeline completo do Ryzen 7 5825U sem alterar o vídeo original.
-INFERENCE_SIZE = 320
+# O modelo recebe somente o recorte da pista. 416 px preserva veículos
+# distantes e mantém desempenho próximo do tempo real com quatro threads.
+INFERENCE_SIZE = 416
 TARGET_INFERENCE_FPS = 25.0
-CONFIDENCE = 0.20
+INFERENCE_THREADS = 4
+CONFIDENCE = 0.10
 NMS_IOU = 0.40
 ROI_CROP_PADDING = 0.05
 
@@ -115,6 +117,12 @@ def headless_mode(environ: Mapping[str, str] | None = None) -> bool:
     values = os.environ if environ is None else environ
     value = values.get("PONTE_DETECTOR_HEADLESS", "").strip().lower()
     return value in {"1", "true", "yes", "on"}
+
+
+def configure_inference_runtime(torch_module: object = torch) -> None:
+    """Evita a saturação do CPU com o número de threads medido como ideal."""
+
+    torch_module.set_num_threads(INFERENCE_THREADS)
 
 
 def connect_stream(stream_url: str = STREAM_URL) -> cv2.VideoCapture:
@@ -650,6 +658,7 @@ def draw_dashboard(
 # ============================================================
 
 def main() -> int:
+    configure_inference_runtime()
     print("Carregando modelo YOLO...")
     model = YOLO(MODEL_NAME)
     print("Modelo carregado.")
