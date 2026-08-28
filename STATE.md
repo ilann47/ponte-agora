@@ -3,7 +3,7 @@
 # Estado do Projeto
 
 **Última atualização:** 2026-08-27
-**Fase atual:** versão 10 preparada localmente com a galeria de câmeras
+**Fase atual:** versão 10 publicada com a galeria de câmeras
 
 ## O que foi feito
 
@@ -12,6 +12,7 @@
 - Criada galeria responsiva que carrega somente um player externo por vez, com localização, provedor, atribuição e link de contingência.
 - Adicionada navegação para a nova seção e atualizada a apresentação da página para informar as nove câmeras.
 - Validados 62 testes web, TypeScript, lint, build, troca de câmera, layout desktop e celular e ausência de erros no console.
+- Publicada a versão 10 e confirmados no domínio próprio a galeria, as nove opções, os novos metadados e a API de trânsito.
 
 - Adicionado cartão de tempo de travessia com rota pronta da aduana brasileira à paraguaia no Google Maps, sem chave, cobrança ou configuração externa.
 - Mantida a duração dentro do Google Maps para respeitar a alternativa oficial gratuita e preservar o desempenho da câmera, da ROI e da IA.
@@ -167,8 +168,8 @@
 
 ## Próximos passos
 
-1. Publicar a versão 10 após confirmação explícita do usuário.
-2. Verificar no domínio próprio as nove opções, a troca de player e os links de origem.
+1. Acompanhar a disponibilidade dos players externos e substituir fontes que deixarem de responder.
+2. Avaliar a análise leve por IA nas câmeras adicionais sem reduzir a fluidez do monitor principal.
 
 1. Acompanhar as primeiras horas da contagem e comparar uma amostra manual para calibrar a linha virtual se necessário.
 2. Acompanhar no Google Search Console o processamento do sitemap e solicitar a indexação das páginas públicas.

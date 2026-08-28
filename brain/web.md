@@ -172,3 +172,4 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 | 2026-08-27 | Adicionado ao rodapé o tempo total público e atualizado do perfil WakaTime do autor. |
 | 2026-08-27 | Publicada a versão 9 e validado o badge do WakaTime no domínio próprio. |
 | 2026-08-27 | Adicionada galeria responsiva com nove pontos da fronteira e carregamento de um player externo por vez. |
+| 2026-08-28 | Publicada a versão 10 e confirmados galeria, metadados e telemetria no domínio próprio. |
