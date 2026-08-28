@@ -8,7 +8,7 @@ Estimar o nível de congestionamento na pista em direção à Ponte da Amizade a
 
 ## Contexto
 
-A câmera é fixa, noturna e mostra veículos pequenos ao longe. A inferência em 640 pixels sobre o frame completo não detecta adequadamente esses objetos. O recorte da pista amplia os veículos para o modelo e permite usar 640 pixels com maior velocidade e boa sensibilidade.
+A câmera é fixa, noturna e mostra veículos pequenos ao longe. O recorte da pista amplia os veículos para o modelo. A entrada de 320 px foi escolhida após medição do pipeline completo para aproximar a IA dos 25 FPS no Ryzen 7 5825U; o HLS continua em sua resolução original e a sensibilidade a objetos distantes deve ser acompanhada.
 
 ## Fluxo (camadas da arquitetura)
 
@@ -20,8 +20,8 @@ A câmera é fixa, noturna e mostra veículos pequenos ao longe. A inferência e
 6. Filtrar caixas pelo ponto de contato com a ROI poligonal.
 7. Calcular contagem, ocupação sem sobreposição e score bruto.
 8. Reaproveitar o último resultado enquanto a próxima inferência está em andamento.
-9. Reduzir o frame para 1100×650 e remapear as detecções para essa resolução.
-10. Suavizar o score e desenhar painel, ROI e detecções na imagem de exibição.
+9. No modo visual, reduzir o frame para 1100×650 e remapear as detecções para essa resolução.
+10. No modo visual, suavizar o score e desenhar painel, ROI e detecções na imagem de exibição; no modo servidor, omitir somente esse desenho local.
 11. Aguardar apenas o tempo restante do quadro para manter a reprodução em 25 FPS.
 12. Normalizar ROI e caixas para coordenadas entre 0 e 1.
 13. Publicar leitura, classes e probabilidades no site em segundo plano, no máximo uma vez por segundo e sem fila.
@@ -29,7 +29,7 @@ A câmera é fixa, noturna e mostra veículos pequenos ao longe. A inferência e
 
 ## Endpoints (se houver)
 
-- Consome o stream HLS e exibe uma janela local.
+- Consome o stream HLS e, quando `PONTE_DETECTOR_HEADLESS` não está ativo, exibe uma janela local.
 - Publica em `POST /api/traffic` do [[web]] quando a conexão está configurada.
 
 ## Estrutura de Dados (DTOs, Entidades)
@@ -85,15 +85,23 @@ Validação de 2026-08-23:
 - Reprodução limitada após a otimização: 100 frames em 4,04 s, equivalente a 24,72 FPS e à velocidade original da câmera.
 - Detector reiniciado após a publicação do overlay: 3 carros enviados ao site, vídeo a 24,6 FPS e IA a 15,6 FPS.
 
+Validação de 2026-08-28:
+
+- 36 testes automatizados aprovados e compilação Python válida.
+- A configuração de 416 px no pipeline completo ficou em torno de 16 FPS de IA, abaixo do benchmark isolado.
+- A entrada de 320 px com modo servidor preservou o vídeo em aproximadamente 24,6 FPS, atingiu picos de 24,9 FPS de IA e mediana observada de 18,6 FPS em dez amostras reais.
+- A telemetria pública confirmou estado online, ROI e detecções atualizadas no domínio próprio.
+
 ## Decisões Técnicas
 
 - Usar coordenadas normalizadas para a ROI.
 - Medir a união das caixas para não contar pixels sobrepostos duas vezes.
 - Separar cálculo puro do loop de vídeo para permitir testes rápidos.
 - Usar o ponto inferior central da caixa como contato do veículo com a pista.
-- Recortar a pista com margem de 5% e inferir em 640 px com confiança 0,20 e NMS IoU 0,40.
+- Recortar a pista com margem de 5% e inferir em 320 px com confiança 0,20 e NMS IoU 0,40.
 - Remapear as caixas do recorte para o frame completo antes da análise e do desenho.
-- Manter 640 px porque detectou mais veículos que 512 e 576 nos testes comparativos, com diferença pequena de tempo.
+- Limitar a inferência a no máximo 25 FPS; resultados mais lentos são publicados com a cadência real, sem maquiar a métrica.
+- Usar o modo servidor para remover o custo da janela local quando o objetivo é alimentar o site, sem alterar ROI, caixas ou probabilidades publicadas.
 - Executar a IA em um `ThreadPoolExecutor` com apenas um worker.
 - Nunca enfileirar frames: se a IA estiver ocupada, manter o último resultado e continuar exibindo o vídeo.
 - Mostrar separadamente FPS do vídeo e da IA para tornar o desempenho observável.
@@ -127,3 +135,4 @@ Validação de 2026-08-23:
 | 2026-08-23 | Adicionada publicação autenticada e não bloqueante das métricas no painel web. |
 | 2026-08-23 | Incluídas ROI, classes, caixas e probabilidades na telemetria web normalizada. |
 | 2026-08-24 | Integradas as detecções ao contador de passagens sem alterar o ritmo de 25 FPS nem o overlay. |
+| 2026-08-28 | Reduzida a entrada da IA para 320 px, adicionado limitador de 25 FPS e ativado o modo servidor sem renderização local. |

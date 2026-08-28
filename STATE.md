@@ -2,10 +2,16 @@
 
 # Estado do Projeto
 
-**Última atualização:** 2026-08-27
-**Fase atual:** versão 10 publicada com a galeria de câmeras
+**Última atualização:** 2026-08-28
+**Fase atual:** versão 10 publicada e IA principal ativa em modo servidor
 
 ## O que foi feito
+
+- Ativada novamente a IA da câmera principal e confirmada a telemetria online em `filaponte.com.br`.
+- Reduzida somente a entrada do YOLO para 320 px; o vídeo HLS permanece na resolução original e limitado à velocidade real de 25 FPS.
+- Adicionado limite máximo de 25 FPS à inferência sem criar fila de frames.
+- Criado modo servidor sem janela local para liberar CPU, preservando ROI, caixas, probabilidades, contagem e publicação web.
+- Verificados 36 testes Python; no stream real, o vídeo permaneceu perto de 24,6 FPS e a IA atingiu picos de 24,9 FPS, com mediana de 18,6 FPS em dez amostras.
 
 - Catalogadas as seis câmeras públicas do Portal da Cidade e três visões adicionais encontradas no Ponte Agora, totalizando nove pontos sem duplicidade.
 - Mantidos o HLS, a ROI, as caixas e as probabilidades da câmera principal sem alterações.
@@ -122,7 +128,9 @@
 - **IA exclusiva da câmera principal:** as métricas existentes descrevem somente a BR-277 e não devem ser aplicadas a ângulos sem calibração.
 - **Players incorporados com atribuição:** o site organiza fontes públicas, não retransmite nem armazena as imagens de terceiros.
 
-- **Recorte da pista em 640 px:** mantém os veículos grandes para o modelo e evita processar áreas irrelevantes do frame.
+- **Recorte da pista em 320 px:** prioriza a cadência da IA no pipeline completo; o recorte preserva a área útil e a precisão para veículos distantes será acompanhada.
+- **Meta, não promessa de 25 FPS:** a IA é limitada a 25 FPS, mas publica a cadência real quando o computador está mais lento.
+- **Modo servidor sem janela:** remove somente o desenho OpenCV local e mantém intacta a telemetria visual do site.
 - **Confiança 0,20 e IoU 0,40:** aumentam a sensibilidade e removem caixas duplicadas.
 - **ROI pela base da caixa:** aproxima a posição real do veículo sobre a pista.
 - **Média exponencial:** reage mais rápido que a média móvel longa do código original.
@@ -176,6 +184,7 @@
 3. Criar ou acessar a conta Brevo, ativar o envio transacional e verificar o endereço remetente.
 4. Configurar os segredos da newsletter, agendar o disparo e validar uma assinatura real de ponta a ponta.
 5. Coletar exemplos rotulados de pista livre, moderada e congestionada para recalibrar os limites heurísticos e auditar a contagem.
+6. Comparar manualmente uma amostra de veículos distantes após a mudança para 320 px e ajustar a confiança somente se houver perda relevante.
 
 ## Bloqueios / Dívidas técnicas
 
@@ -192,3 +201,4 @@
 - A ativação da Brevo exige uma conta externa, uma chave privada e a verificação do remetente; esses passos dependem do proprietário.
 - A criação do agendamento externo depende de uma conta no cron-job.org depois que a rota estiver publicada.
 - O histórico de veículos começa vazio e depende de o detector atualizado permanecer ligado; a precisão deverá ser auditada com amostras de vídeo reais.
+- O alvo de 25 FPS da IA depende do Ryzen local: foram observados picos de 24,9 FPS, mas a mediana real foi 18,6 FPS e pode oscilar com a carga do computador.

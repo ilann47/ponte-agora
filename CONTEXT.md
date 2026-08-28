@@ -4,7 +4,7 @@
 
 ## Fase
 
-Versão 10 publicada no domínio próprio com a galeria de nove câmeras.
+Versão 10 publicada no domínio próprio com a galeria de nove câmeras e IA principal ativa em modo servidor.
 
 ## Decisões vigentes
 
@@ -19,7 +19,8 @@ Versão 10 publicada no domínio próprio com a galeria de nove câmeras.
 
 - Site público principal: `https://filaponte.com.br/`.
 - Endereço original da hospedagem preservado como fallback: `https://ponte-agora.ilanwendling.chatgpt.site/`.
-- Detector local online e alimentando telemetria.
+- Detector local online e alimentando telemetria em modo headless, com entrada YOLO de 320 px e meta máxima de 25 FPS.
+- O vídeo continua na velocidade real; a cadência medida da IA oscila conforme a carga do Ryzen local e não é artificialmente arredondada para 25 FPS.
 - DNS, validação da propriedade e certificado HTTPS de `filaponte.com.br` estão ativos.
 - Canonical, Open Graph, sitemap, `robots.txt` e links gerados usam `https://filaponte.com.br`; o endereço original é tratado somente como legado.
 - A versão 9 está ativa e foi verificada em produção no domínio próprio.

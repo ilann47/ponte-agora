@@ -43,6 +43,8 @@ Aplicação Python local que lê um stream HLS da BR-277, detecta veículos com 
 - O frame é reduzido para 1100×650 antes dos efeitos visuais; painel, ROI e caixas são desenhados nessa resolução para manter texto nítido e reduzir o custo por quadro.
 - O painel calcula sua escala a partir da janela e limita sua borda inferior antes do início da ROI.
 - O loop respeita o ritmo original de 25 FPS, mesmo quando consegue consumir o buffer HLS mais rapidamente.
+- A IA recebe o recorte em 320 px e limita sua cadência a no máximo 25 FPS; a resolução e a velocidade do HLS original não são alteradas.
+- O modo servidor (`PONTE_DETECTOR_HEADLESS=1`) desativa somente a janela e o desenho local, preservando ROI, detecções e telemetria no site.
 - Um publicador de telemetria com worker único envia somente a leitura mais recente a cada segundo, incluindo ROI e caixas normalizadas.
 - O site reproduz o HLS diretamente; o detector local não retransmite frames.
 - A galeria incorpora somente um player externo por vez e preserva o monitor principal como a única câmera com análise por IA.
@@ -96,3 +98,4 @@ Aplicação Python local que lê um stream HLS da BR-277, detecta veículos com 
 | 2026-08-26 | Adicionada consulta gratuita do tempo atual de travessia por rota pública do Google Maps. |
 | 2026-08-27 | Adicionadas ao rodapé as conexões públicas e a autoria pessoal do projeto. |
 | 2026-08-27 | Reunidas nove câmeras da fronteira em uma galeria leve, mantendo o monitor principal e a IA intactos. |
+| 2026-08-28 | Ativada a IA principal em modo servidor, com entrada de 320 px e meta máxima de 25 FPS sem acelerar o vídeo. |

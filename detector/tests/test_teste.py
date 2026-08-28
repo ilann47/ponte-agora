@@ -73,10 +73,25 @@ class RuntimeStructureTests(unittest.TestCase):
         video_capture.assert_not_called()
         self.assertTrue(callable(module.main))
 
+    def test_enables_headless_server_mode_from_environment(self):
+        module = importlib.import_module("teste")
+
+        self.assertTrue(
+            module.headless_mode({"PONTE_DETECTOR_HEADLESS": "1"}),
+        )
+        self.assertTrue(
+            module.headless_mode({"PONTE_DETECTOR_HEADLESS": "true"}),
+        )
+        self.assertFalse(
+            module.headless_mode({"PONTE_DETECTOR_HEADLESS": "0"}),
+        )
+        self.assertFalse(module.headless_mode({}))
+
     def test_uses_fast_resolution_after_cropping_to_the_road(self):
         module = importlib.import_module("teste")
 
-        self.assertEqual(module.INFERENCE_SIZE, 640)
+        self.assertEqual(module.INFERENCE_SIZE, 320)
+        self.assertEqual(module.TARGET_INFERENCE_FPS, 25.0)
         self.assertEqual(module.CONFIDENCE, 0.20)
         self.assertEqual(module.NMS_IOU, 0.40)
 
@@ -216,6 +231,29 @@ class RuntimeStructureTests(unittest.TestCase):
 
 
 class AsyncInferenceTests(unittest.TestCase):
+    def test_paces_fast_inference_to_25_fps(self):
+        module = importlib.import_module("teste")
+        snapshot = module.InferenceSnapshot(
+            analysis=object(),
+            duration_seconds=0.03,
+        )
+        clock_values = iter((10.0, 10.03, 10.04))
+        sleep_calls = []
+
+        with patch.object(module, "process_frame", return_value=snapshot):
+            paced = module.process_frame_at_target_fps(
+                model=object(),
+                frame=object(),
+                roi_polygon=object(),
+                target_fps=25.0,
+                clock=lambda: next(clock_values),
+                sleeper=sleep_calls.append,
+            )
+
+        self.assertAlmostEqual(sleep_calls[0], 0.01)
+        self.assertAlmostEqual(paced.duration_seconds, 0.04)
+        self.assertIs(paced.analysis, snapshot.analysis)
+
     def test_keeps_only_one_inference_in_flight_without_queueing_frames(self):
         module = importlib.import_module("teste")
         executor = ManualExecutor()

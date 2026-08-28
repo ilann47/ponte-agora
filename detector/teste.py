@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import os
 import time
+from collections.abc import Callable, Mapping
 from concurrent.futures import Executor, Future, ThreadPoolExecutor
 from dataclasses import dataclass
 from datetime import datetime
@@ -43,8 +45,10 @@ STREAM_URL = (
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_NAME = str(BASE_DIR / "yolo11n.pt")
 
-# O modelo recebe somente o recorte da pista, preservando os objetos pequenos.
-INFERENCE_SIZE = 640
+# O modelo recebe somente o recorte da pista. 320 px mantém a cadência de
+# 25 FPS no pipeline completo do Ryzen 7 5825U sem alterar o vídeo original.
+INFERENCE_SIZE = 320
+TARGET_INFERENCE_FPS = 25.0
 CONFIDENCE = 0.20
 NMS_IOU = 0.40
 ROI_CROP_PADDING = 0.05
@@ -103,6 +107,15 @@ def remaining_frame_delay(
     current_time = time.perf_counter() if now is None else now
     elapsed = max(0.0, current_time - cycle_started_at)
     return max(0.0, (1.0 / target_fps) - elapsed)
+
+
+def headless_mode(environ: Mapping[str, str] | None = None) -> bool:
+    """Informa se o detector deve operar sem renderização local."""
+
+    values = os.environ if environ is None else environ
+    value = values.get("PONTE_DETECTOR_HEADLESS", "").strip().lower()
+    return value in {"1", "true", "yes", "on"}
+
 
 def connect_stream(stream_url: str = STREAM_URL) -> cv2.VideoCapture:
     print("Conectando ao stream...")
@@ -234,6 +247,36 @@ def process_frame(
     )
 
 
+def process_frame_at_target_fps(
+    model: YOLO,
+    frame: object,
+    roi_polygon: object,
+    target_fps: float = TARGET_INFERENCE_FPS,
+    clock: Callable[[], float] = time.perf_counter,
+    sleeper: Callable[[float], None] = time.sleep,
+) -> InferenceSnapshot:
+    """Limita a cadência da IA sem bloquear ou acelerar o vídeo."""
+
+    cycle_started_at = clock()
+    snapshot = process_frame(model, frame, roi_polygon)
+    remaining_delay = remaining_frame_delay(
+        cycle_started_at,
+        target_fps,
+        now=clock(),
+    )
+    if remaining_delay > 0:
+        sleeper(remaining_delay)
+
+    cycle_duration = max(
+        snapshot.duration_seconds,
+        clock() - cycle_started_at,
+    )
+    return InferenceSnapshot(
+        analysis=snapshot.analysis,
+        duration_seconds=cycle_duration,
+    )
+
+
 class AsyncInferenceWorker:
     """Mantém no máximo uma inferência ativa e nunca acumula frames."""
 
@@ -264,10 +307,11 @@ class AsyncInferenceWorker:
             return False
 
         self._future = self._executor.submit(
-            process_frame,
+            process_frame_at_target_fps,
             self._model,
             frame.copy(),
             roi_polygon.copy(),
+            TARGET_INFERENCE_FPS,
         )
         return True
 
@@ -610,9 +654,13 @@ def main() -> int:
     model = YOLO(MODEL_NAME)
     print("Modelo carregado.")
 
+    headless = headless_mode()
     capture = connect_stream()
-    cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
-    cv2.resizeWindow(WINDOW_NAME, WINDOW_WIDTH, WINDOW_HEIGHT)
+    if headless:
+        print("Modo servidor: renderizacao local desativada.")
+    else:
+        cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
+        cv2.resizeWindow(WINDOW_NAME, WINDOW_WIDTH, WINDOW_HEIGHT)
     inference_worker = AsyncInferenceWorker(model)
     weather_service = AsyncWeatherService()
     weather_service.refresh_if_due()
@@ -733,45 +781,46 @@ def main() -> int:
                 fps_frames = 0
                 fps_started_at = now
 
-            display_frame = cv2.resize(
-                frame,
-                (WINDOW_WIDTH, WINDOW_HEIGHT),
-                interpolation=cv2.INTER_LINEAR,
-            )
-            display_roi = scale_polygon(
-                ROI_NORMALIZED,
-                WINDOW_WIDTH,
-                WINDOW_HEIGHT,
-            )
-            draw_roi(display_frame, display_roi)
-            draw_detections(
-                display_frame,
-                analysis,
-                scale_x=WINDOW_WIDTH / width,
-                scale_y=WINDOW_HEIGHT / height,
-            )
-            draw_dashboard(
-                display_frame,
-                smoothed_score,
-                raw_score,
-                metrics,
-                video_fps,
-                inference_fps,
-                weather_report=weather_report,
-                weather_error=weather_error,
-                roi_top_y=int(display_roi[:, 1].min()),
-            )
-            cv2.imshow(WINDOW_NAME, display_frame)
+            if not headless:
+                display_frame = cv2.resize(
+                    frame,
+                    (WINDOW_WIDTH, WINDOW_HEIGHT),
+                    interpolation=cv2.INTER_LINEAR,
+                )
+                display_roi = scale_polygon(
+                    ROI_NORMALIZED,
+                    WINDOW_WIDTH,
+                    WINDOW_HEIGHT,
+                )
+                draw_roi(display_frame, display_roi)
+                draw_detections(
+                    display_frame,
+                    analysis,
+                    scale_x=WINDOW_WIDTH / width,
+                    scale_y=WINDOW_HEIGHT / height,
+                )
+                draw_dashboard(
+                    display_frame,
+                    smoothed_score,
+                    raw_score,
+                    metrics,
+                    video_fps,
+                    inference_fps,
+                    weather_report=weather_report,
+                    weather_error=weather_error,
+                    roi_top_y=int(display_roi[:, 1].min()),
+                )
+                cv2.imshow(WINDOW_NAME, display_frame)
 
-            key = cv2.waitKey(1) & 0xFF
-            if key in (ord("q"), 27):
-                print("Encerrando...")
-                break
-            if key == ord("r"):
-                smoother.reset()
-                smoothed_score = raw_score
-                last_score_update = float("-inf")
-                print("Media suavizada recalibrada.")
+                key = cv2.waitKey(1) & 0xFF
+                if key in (ord("q"), 27):
+                    print("Encerrando...")
+                    break
+                if key == ord("r"):
+                    smoother.reset()
+                    smoothed_score = raw_score
+                    last_score_update = float("-inf")
+                    print("Media suavizada recalibrada.")
 
             frame_delay = remaining_frame_delay(
                 frame_cycle_started,
@@ -787,7 +836,8 @@ def main() -> int:
         telemetry_publisher.close()
         inference_worker.close()
         capture.release()
-        cv2.destroyAllWindows()
+        if not headless:
+            cv2.destroyAllWindows()
         print("Finalizado.")
 
     return 0
