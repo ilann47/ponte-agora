@@ -93,7 +93,7 @@ O stream HLS da Aduana permite acesso direto pelo navegador. O YOLO permanece no
 
 ## Testes (curl ou equivalente)
 
-- 62 testes unitários para analytics, autenticação, câmeras, clima, telemetria, SEO, newsletter, contagem de veículos, rota do Maps, conexões do rodapé, WakaTime, projeção do overlay e regressões do Lighthouse.
+- 63 testes unitários para analytics, autenticação, câmeras, clima, telemetria, SEO, newsletter, contagem de veículos, rota do Maps, conexões do rodapé, WakaTime, projeção do overlay e regressões do Lighthouse.
 - Lint e build de produção aprovados.
 - Rotas públicas verificadas na hospedagem: painel, clima, privacidade, publicação de telemetria e analytics.
 - `/admin` verificado com redirecionamento obrigatório para login.
@@ -117,6 +117,7 @@ O stream HLS da Aduana permite acesso direto pelo navegador. O YOLO permanece no
 - Manter o site público, mas restringir `/admin` à conta proprietária.
 - Usar uma imagem social própria e metadados Open Graph para compartilhamento.
 - Desenhar a camada da IA em canvas para preservar o HLS e adaptar as coordenadas a qualquer tela.
+- Aceitar polígonos de ROI com até 12 pontos, limite necessário para acompanhar a curva das pistas da Aduana.
 - Compartilhar uma única consulta de telemetria entre o player e o painel lateral.
 - Persistir somente o overlay atual, sem histórico de caixas ou imagens.
 - Usar a página inicial para a intenção “fila da Ponte da Amizade agora” e uma página separada para explicar a metodologia sem duplicar conteúdo.
@@ -174,3 +175,4 @@ O stream HLS da Aduana permite acesso direto pelo navegador. O YOLO permanece no
 | 2026-08-27 | Adicionada galeria responsiva com nove pontos da fronteira e carregamento de um player externo por vez. |
 | 2026-08-28 | Publicada a versão 10 e confirmados galeria, metadados e telemetria no domínio próprio. |
 | 2026-08-29 | Trocado o monitor principal para a Aduana e removida a IA da câmera anterior, que permaneceu na galeria. |
+| 2026-08-29 | Corrigida a validação da telemetria para aceitar a ROI de 12 pontos da câmera da Aduana. |

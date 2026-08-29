@@ -114,7 +114,7 @@ export function parseTrafficPayload(value: unknown): TrafficReading {
 }
 
 function parseRoi(value: unknown): NormalizedPoint[] | null {
-  if (!Array.isArray(value) || value.length < 3 || value.length > 8) return null;
+  if (!Array.isArray(value) || value.length < 3 || value.length > 12) return null;
   const points = value.map((point) => parseTuple(point, 2));
   return points.every((point): point is [number, number] => point !== null)
     ? points

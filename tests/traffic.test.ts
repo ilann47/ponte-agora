@@ -67,6 +67,24 @@ test('usa a ROI padrão quando uma leitura antiga não possui overlay', () => {
   assert.equal(reading.vehiclePassages, null);
 });
 
+test('aceita a ROI de doze pontos enviada pelo detector da Aduana', () => {
+  const reading = parseTrafficPayload({
+    score: 54,
+    rawScore: 55,
+    vehicleCount: 14,
+    occupancy: 0.21,
+    videoFps: 25,
+    inferenceFps: 8.9,
+    observedAt: '2026-08-29T10:50:00-03:00',
+    counterSessionId: 'aduana-20260829',
+    vehiclePassages: 0,
+    roi: DEFAULT_ROI,
+    detections: [],
+  });
+
+  assert.deepEqual(reading.roi, DEFAULT_ROI);
+});
+
 test('rejeita contador incompleto ou identificador de sessão inválido', () => {
   const base = {
     score: 20,
