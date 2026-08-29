@@ -161,3 +161,4 @@ Validação de 2026-08-29:
 | 2026-08-29 | Redesenhada a ROI com 12 pontos sobre o contorno vermelho e confirmados 7–8 carros em três quadros reais da pista curva. |
 | 2026-08-29 | Publicada a versão 14 e validada a nova geometria na página e na telemetria públicas. |
 | 2026-08-29 | Corrigido o reset preguiçoso para oito threads, adotada entrada de 320 px e recuperados 10,6–19,9 FPS de IA. |
+| 2026-08-29 | Publicada a versão 15 no domínio próprio com a otimização de FPS do detector. |

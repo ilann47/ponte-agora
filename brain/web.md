@@ -181,3 +181,4 @@ O stream HLS da Aduana permite acesso direto pelo navegador. O YOLO permanece no
 | 2026-08-29 | Publicada a versão 13 e confirmado o transporte da telemetria; a geometria ainda incorreta foi identificada depois por revisão visual. |
 | 2026-08-29 | Atualizado o fallback web para a ROI de 12 pontos baseada no contorno vermelho da pista curva. |
 | 2026-08-29 | Publicada a versão 14 e confirmado no navegador que o overlay acompanha a pista curva e exclui a via reta à direita. |
+| 2026-08-29 | Publicada a versão 15 com a inferência em 320 px e a correção do limite de threads do detector. |

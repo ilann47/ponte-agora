@@ -3,7 +3,7 @@
 # Estado do Projeto
 
 **Última atualização:** 2026-08-29
-**Fase atual:** versão 14 publicada com a ROI do contorno vermelho e a IA online
+**Fase atual:** versão 15 publicada com a ROI correta e a IA otimizada
 
 ## O que foi feito
 
@@ -14,6 +14,7 @@
 - Reduzida a entrada da ROI curva de 416 para 320 px; o comparativo manteve a mesma contagem de 6–7 veículos e reduziu o tempo mediano de inferência em aproximadamente 41%.
 - Reiniciado o detector otimizado e confirmadas oito leituras consecutivas entre 10,6 e 19,9 FPS de IA, com o vídeo entre 24,6 e 25,0 FPS.
 - Aprovados 63 testes web, 38 testes Python, lint e build após a correção de desempenho.
+- Publicada a versão 15 no Sites com o ajuste de 320 px e a reaplicação do limite de quatro threads.
 - Publicada a versão 13 em `filaponte.com.br`; a revisão visual posterior mostrou que a geometria ainda estava deslocada para a via reta à direita.
 - As quatro leituras públicas da versão 13 confirmaram transporte e atualização da telemetria, mas não validavam o sentido físico da pista.
 - Publicada a versão 12 em `filaponte.com.br` e confirmada a telemetria online da nova câmera.
