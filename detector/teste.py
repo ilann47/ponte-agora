@@ -45,9 +45,9 @@ STREAM_URL = (
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_NAME = str(BASE_DIR / "yolo11n.pt")
 
-# O modelo recebe somente o recorte da pista. 416 px preserva veículos
-# distantes e mantém desempenho próximo do tempo real com quatro threads.
-INFERENCE_SIZE = 416
+# O modelo recebe somente o recorte da pista. Na ROI curva atual, 320 px
+# manteve a contagem de 416 px e reduziu o tempo mediano de inferência.
+INFERENCE_SIZE = 320
 TARGET_INFERENCE_FPS = 25.0
 INFERENCE_THREADS = 4
 CONFIDENCE = 0.10
@@ -231,6 +231,10 @@ def run_inference(
         classes=list(VEHICLE_CLASSES),
         verbose=False,
     )[0]
+    # O primeiro predict inicializa o backend de forma preguiçosa e o
+    # Ultralytics redefine o PyTorch para oito threads. Reaplicar o limite
+    # depois da chamada garante quatro threads nas próximas inferências.
+    configure_inference_runtime()
     return extract_detections(result, offset)
 
 

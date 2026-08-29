@@ -43,7 +43,7 @@ Aplicação Python local que lê o stream HLS da Aduana brasileira da BR-277, de
 - O frame é reduzido para 1100×650 antes dos efeitos visuais; painel, ROI e caixas são desenhados nessa resolução para manter texto nítido e reduzir o custo por quadro.
 - O painel calcula sua escala a partir da janela e limita sua borda inferior antes do início da ROI.
 - O loop respeita o ritmo original de 25 FPS, mesmo quando consegue consumir o buffer HLS mais rapidamente.
-- A IA recebe o recorte em 416 px, usa quatro threads de CPU e limita sua cadência a no máximo 25 FPS; a resolução e a velocidade do HLS original não são alteradas.
+- A IA recebe o recorte em 320 px, reaplica quatro threads de CPU após a inicialização preguiçosa do backend e limita sua cadência a no máximo 25 FPS; a resolução e a velocidade do HLS original não são alteradas.
 - O modo servidor (`PONTE_DETECTOR_HEADLESS=1`) desativa somente a janela e o desenho local, preservando ROI, detecções e telemetria no site.
 - Um publicador de telemetria com worker único envia somente a leitura mais recente a cada segundo, incluindo ROI e caixas normalizadas.
 - O site reproduz o HLS diretamente; o detector local não retransmite frames.
@@ -102,3 +102,4 @@ Aplicação Python local que lê o stream HLS da Aduana brasileira da BR-277, de
 | 2026-08-28 | Ativada a IA principal em modo servidor e calibrada em 416 px, confiança 10% e quatro threads de CPU. |
 | 2026-08-29 | Transferida a análise para a câmera da Aduana e preservada a câmera anterior na galeria sem IA. |
 | 2026-08-29 | Recalibrada a ROI da Aduana pelo contorno vermelho da pista curva após rejeição visual da geometria anterior. |
+| 2026-08-29 | Corrigido o reset de threads do Ultralytics e reduzida a entrada da ROI curva para 320 px, recuperando 10,6–19,9 FPS de IA. |

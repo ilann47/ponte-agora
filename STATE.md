@@ -10,6 +10,10 @@
 - Transformada a câmera `BR-277 — Aduana da Ponte da Amizade` no monitor principal com IA.
 - Publicada a versão 14, reiniciado o detector e confirmado visualmente no site que o ROI acompanha a pista curva marcada em vermelho.
 - Confirmadas quatro leituras públicas consecutivas com 12 pontos, 6–9 veículos, vídeo entre 24,2 e 25,0 FPS e a via reta à direita fora do polígono.
+- Corrigida a queda da IA causada pela inicialização preguiçosa do Ultralytics, que sobrescrevia o limite planejado de quatro para oito threads após o primeiro `predict()`.
+- Reduzida a entrada da ROI curva de 416 para 320 px; o comparativo manteve a mesma contagem de 6–7 veículos e reduziu o tempo mediano de inferência em aproximadamente 41%.
+- Reiniciado o detector otimizado e confirmadas oito leituras consecutivas entre 10,6 e 19,9 FPS de IA, com o vídeo entre 24,6 e 25,0 FPS.
+- Aprovados 63 testes web, 38 testes Python, lint e build após a correção de desempenho.
 - Publicada a versão 13 em `filaponte.com.br`; a revisão visual posterior mostrou que a geometria ainda estava deslocada para a via reta à direita.
 - As quatro leituras públicas da versão 13 confirmaram transporte e atualização da telemetria, mas não validavam o sentido físico da pista.
 - Publicada a versão 12 em `filaponte.com.br` e confirmada a telemetria online da nova câmera.
@@ -23,7 +27,7 @@
 - A API aceita polígonos com até 12 pontos; a ROI revisada usa os 12 pontos e foi verificada visualmente em 1920×1080.
 
 - Ativada novamente a IA da câmera principal e confirmada a telemetria online em `filaponte.com.br`.
-- Calibrada somente a entrada do YOLO para 416 px e confiança 10%; o vídeo HLS permanece na resolução original e limitado à velocidade real de 25 FPS.
+- Calibrada somente a entrada do YOLO para 320 px e confiança 10%; o vídeo HLS permanece na resolução original e limitado à velocidade real de 25 FPS.
 - Adicionado limite máximo de 25 FPS à inferência sem criar fila de frames.
 - Criado modo servidor sem janela local para liberar CPU, preservando ROI, caixas, probabilidades, contagem e publicação web.
 - Limitado o PyTorch a quatro threads após benchmark comparativo, evitando a perda de desempenho observada com oito threads.
@@ -149,7 +153,7 @@
 - **IA exclusiva da câmera principal:** as métricas existentes descrevem somente a BR-277 e não devem ser aplicadas a ângulos sem calibração.
 - **Players incorporados com atribuição:** o site organiza fontes públicas, não retransmite nem armazena as imagens de terceiros.
 
-- **Recorte da pista em 416 px:** recupera veículos pequenos perdidos em 320 px e mantém desempenho suficiente para atualizar o overlay em tempo quase real.
+- **Recorte da pista em 320 px:** na ROI curva atual preservou a mesma contagem de 416 px e recuperou desempenho sob carga.
 - **Confiança 10%:** mantém no overlay objetos distantes com probabilidade menor; a ROI continua filtrando detecções fora da pista monitorada.
 - **Quatro threads de inferência:** foi o melhor resultado medido e evita a contenção que reduziu o desempenho com oito threads.
 - **Meta, não promessa de 25 FPS:** a IA é limitada a 25 FPS, mas publica a cadência real quando o computador está mais lento.
@@ -224,5 +228,5 @@
 - A ativação da Brevo exige uma conta externa, uma chave privada e a verificação do remetente; esses passos dependem do proprietário.
 - A criação do agendamento externo depende de uma conta no cron-job.org depois que a rota estiver publicada.
 - O histórico de veículos começa vazio e depende de o detector atualizado permanecer ligado; a precisão deverá ser auditada com amostras de vídeo reais.
-- O alvo de 25 FPS da IA depende do Ryzen local: com Java e outros programas consumindo CPU, a configuração final teve mediana de 17,0 FPS e pode oscilar.
+- O alvo de 25 FPS da IA depende do Ryzen local: após a correção de threads e a entrada em 320 px, oito amostras reais ficaram entre 10,6 e 19,9 FPS e ainda podem oscilar com a carga do computador.
 - A contagem histórica anterior a 2026-08-29 foi produzida pela câmera antiga e não é diretamente comparável à nova visão da Aduana.

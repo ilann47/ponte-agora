@@ -8,7 +8,7 @@ Estimar o nível de congestionamento na pista em direção à Ponte da Amizade a
 
 ## Contexto
 
-A câmera principal mostra a Aduana brasileira em 1920×1080, com uma via curva e fluxos opostos. A ROI de 12 pontos reproduz a pista contornada em vermelho: entra pela borda inferior esquerda e converge no topo central. O recorte amplia essa área para o modelo; a entrada de 416 px e confiança 10% continuam preservadas.
+A câmera principal mostra a Aduana brasileira em 1920×1080, com uma via curva e fluxos opostos. A ROI de 12 pontos reproduz a pista contornada em vermelho: entra pela borda inferior esquerda e converge no topo central. O recorte amplia essa área para o modelo; a entrada atual usa 320 px e confiança 10%.
 
 ## Fluxo (camadas da arquitetura)
 
@@ -104,6 +104,9 @@ Validação de 2026-08-29:
 - Três quadros reais reconheceram 7–8 carros dentro dessa pista, com ocupação entre 9,4% e 9,8%; a inspeção do overlay confirmou a exclusão da via reta à direita.
 - Após a versão 14 e o reinício do detector, quatro leituras públicas registraram 6–9 veículos, ocupação entre 11,8% e 20,3% e vídeo entre 24,2 e 25,0 FPS com os 12 pontos corretos.
 - A captura da página publicada confirmou visualmente que o overlay segue o contorno vermelho e não invade a via reta à direita.
+- O comparativo na ROI curva mediu 320 px cerca de 41% mais rápido que 416 px sob a mesma contenção, preservando 6–7 detecções nos quadros usados.
+- Foi confirmado que o primeiro `predict()` do Ultralytics redefinia o PyTorch de quatro para oito threads; reaplicar o limite depois da chamada eliminou esse estado permanente.
+- Após reiniciar com a correção, oito leituras públicas ficaram entre 10,6 e 19,9 FPS de IA, enquanto o vídeo permaneceu entre 24,6 e 25,0 FPS.
 - 37 testes Python aprovados após a troca do stream e da calibração.
 - As leituras da versão 12 com 9 a 14 detecções expuseram o erro de direção e não devem ser usadas como validação do sentido Ponte.
 
@@ -113,7 +116,7 @@ Validação de 2026-08-29:
 - Medir a união das caixas para não contar pixels sobrepostos duas vezes.
 - Separar cálculo puro do loop de vídeo para permitir testes rápidos.
 - Usar o ponto inferior central da caixa como contato do veículo com a pista.
-- Recortar a pista com margem de 5% e inferir em 416 px com confiança 0,10 e NMS IoU 0,40.
+- Recortar a pista com margem de 5% e inferir em 320 px com confiança 0,10 e NMS IoU 0,40.
 - Remapear as caixas do recorte para o frame completo antes da análise e do desenho.
 - Limitar a inferência a no máximo 25 FPS; resultados mais lentos são publicados com a cadência real, sem maquiar a métrica.
 - Usar o modo servidor para remover o custo da janela local quando o objetivo é alimentar o site, sem alterar ROI, caixas ou probabilidades publicadas.
@@ -157,3 +160,4 @@ Validação de 2026-08-29:
 | 2026-08-29 | Tentativa de ROI de 10 pontos publicada e posteriormente rejeitada por estar deslocada para a via reta à direita. |
 | 2026-08-29 | Redesenhada a ROI com 12 pontos sobre o contorno vermelho e confirmados 7–8 carros em três quadros reais da pista curva. |
 | 2026-08-29 | Publicada a versão 14 e validada a nova geometria na página e na telemetria públicas. |
+| 2026-08-29 | Corrigido o reset preguiçoso para oito threads, adotada entrada de 320 px e recuperados 10,6–19,9 FPS de IA. |

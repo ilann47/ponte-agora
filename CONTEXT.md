@@ -19,9 +19,10 @@ Versão 14 publicada e validada visualmente com a ROI sobre o contorno vermelho 
 
 - Site público principal: `https://filaponte.com.br/`.
 - Endereço original da hospedagem preservado como fallback: `https://ponte-agora.ilanwendling.chatgpt.site/`.
-- O código do detector aponta para a Aduana em 1920×1080, com ROI de 12 pontos sobre a pista curva marcada em vermelho, YOLO em 416 px, confiança 10%, quatro threads e meta máxima de 25 FPS.
+- O código do detector aponta para a Aduana em 1920×1080, com ROI de 12 pontos sobre a pista curva marcada em vermelho, YOLO em 320 px, confiança 10%, quatro threads e meta máxima de 25 FPS.
 - A versão 14 está ativa e o detector reiniciado publica os 12 pontos, caixas e probabilidades da pista curva.
 - A validação isolada encontrou 7–8 carros em três quadros; em produção, quatro amostras consecutivas registraram 6–9 veículos sem incluir a via reta à direita.
+- O limite de quatro threads é reaplicado depois do primeiro `predict()`, pois a inicialização preguiçosa do Ultralytics o sobrescreve para oito; a correção operacional elevou a IA para 10,6–19,9 FPS em oito amostras.
 - O vídeo continua na velocidade real; a cadência medida da IA oscila conforme a carga do Ryzen local e não é artificialmente arredondada para 25 FPS.
 - DNS, validação da propriedade e certificado HTTPS de `filaponte.com.br` estão ativos.
 - Canonical, Open Graph, sitemap, `robots.txt` e links gerados usam `https://filaponte.com.br`; o endereço original é tratado somente como legado.

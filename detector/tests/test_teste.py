@@ -126,7 +126,7 @@ class RuntimeStructureTests(unittest.TestCase):
                 (0.39, 0.44),
             ),
         )
-        self.assertEqual(module.INFERENCE_SIZE, 416)
+        self.assertEqual(module.INFERENCE_SIZE, 320)
         self.assertEqual(module.TARGET_INFERENCE_FPS, 25.0)
         self.assertEqual(module.CONFIDENCE, 0.10)
         self.assertEqual(module.NMS_IOU, 0.40)
@@ -160,6 +160,31 @@ class RuntimeStructureTests(unittest.TestCase):
 
         self.assertEqual(len(detections), 1)
         self.assertEqual(detections[0].box, (60, 120, 81, 141))
+
+    def test_reapplies_thread_limit_after_lazy_yolo_initialization(self):
+        module = importlib.import_module("teste")
+        events = []
+
+        class FakeModel:
+            @staticmethod
+            def predict(*args, **kwargs):
+                events.append("predict")
+                return [FakeResult([])]
+
+        frame = np.zeros((100, 200, 3), dtype=np.uint8)
+        roi = np.asarray(
+            [[50, 20], [150, 20], [150, 80], [50, 80]],
+            dtype=np.int32,
+        )
+
+        with patch.object(
+            module,
+            "configure_inference_runtime",
+            side_effect=lambda: events.append("configure"),
+        ):
+            module.run_inference(FakeModel(), frame, roi)
+
+        self.assertEqual(events, ["predict", "configure"])
 
     def test_ignores_non_vehicle_classes_when_mapping(self):
         module = importlib.import_module("teste")
