@@ -4,7 +4,7 @@
 
 ## Fase
 
-Versão 13 publicada e validada com a ROI correta do sentido Foz → Ponte e a IA online.
+Correção da ROI pelo contorno vermelho validada em quadros reais e pronta para a versão 14.
 
 ## Decisões vigentes
 
@@ -19,9 +19,9 @@ Versão 13 publicada e validada com a ROI correta do sentido Foz → Ponte e a I
 
 - Site público principal: `https://filaponte.com.br/`.
 - Endereço original da hospedagem preservado como fallback: `https://ponte-agora.ilanwendling.chatgpt.site/`.
-- O código do detector aponta para a Aduana em 1920×1080, com ROI de 10 pontos na pista central direita, YOLO em 416 px, confiança 10%, quatro threads e meta máxima de 25 FPS.
-- O processo antigo foi encerrado após a publicação; o detector atual analisa somente a câmera da Aduana e publica ROI, caixas e probabilidades no domínio próprio.
-- A versão 13 está ativa; quatro amostras consecutivas da API pública confirmaram a ROI de 10 pontos e contagens de um a três veículos somente na pista monitorada.
+- O código do detector aponta para a Aduana em 1920×1080, com ROI de 12 pontos sobre a pista curva marcada em vermelho, YOLO em 416 px, confiança 10%, quatro threads e meta máxima de 25 FPS.
+- A versão 13 continua ativa durante a preparação da correção; o detector será reiniciado somente depois da publicação da versão 14.
+- A validação isolada da nova geometria encontrou 7–8 carros em três quadros reais, sem incluir a via reta à direita.
 - O vídeo continua na velocidade real; a cadência medida da IA oscila conforme a carga do Ryzen local e não é artificialmente arredondada para 25 FPS.
 - DNS, validação da propriedade e certificado HTTPS de `filaponte.com.br` estão ativos.
 - Canonical, Open Graph, sitemap, `robots.txt` e links gerados usam `https://filaponte.com.br`; o endereço original é tratado somente como legado.

@@ -59,8 +59,9 @@ test('usa a ROI padrão quando uma leitura antiga não possui overlay', () => {
     observedAt: '2026-08-23T21:30:00-03:00',
   });
 
-  assert.equal(DEFAULT_ROI.length, 10);
-  assert.deepEqual(DEFAULT_ROI[0], [0.61, 0.06]);
+  assert.equal(DEFAULT_ROI.length, 12);
+  assert.deepEqual(DEFAULT_ROI[0], [0.55, 0.18]);
+  assert.deepEqual(DEFAULT_ROI[8], [0, 0.995]);
   assert.deepEqual(reading.roi, DEFAULT_ROI);
   assert.deepEqual(reading.detections, []);
   assert.equal(reading.counterSessionId, null);

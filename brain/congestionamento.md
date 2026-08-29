@@ -8,7 +8,7 @@ Estimar o nível de congestionamento na pista em direção à Ponte da Amizade a
 
 ## Contexto
 
-A câmera principal mostra a Aduana brasileira em 1920×1080, com uma via curva e fluxos opostos. A ROI de 10 pontos acompanha a pista central à direita do canteiro, no fluxo que se afasta da câmera em direção à Ponte. O recorte amplia essa área para o modelo; a entrada de 416 px e confiança 10% continuam preservadas.
+A câmera principal mostra a Aduana brasileira em 1920×1080, com uma via curva e fluxos opostos. A ROI de 12 pontos reproduz a pista contornada em vermelho: entra pela borda inferior esquerda e converge no topo central. O recorte amplia essa área para o modelo; a entrada de 416 px e confiança 10% continuam preservadas.
 
 ## Fluxo (camadas da arquitetura)
 
@@ -98,9 +98,10 @@ Validação de 2026-08-28:
 Validação de 2026-08-29:
 
 - Stream da Aduana confirmado em 1920×1080; manifesto principal, variante e segmento responderam `200` com CORS público.
-- A calibração inicial de 12 pontos foi descartada por cobrir a fila da pista esquerda, que trafega da Ponte para Foz.
-- A ROI final de 10 pontos foi desenhada usando o canteiro como limite e cobre somente a pista central do sentido Foz → Ponte.
-- Um quadro de referência e um quadro atual reconheceram somente o veículo presente na pista correta, sem aceitar os carros da fila contrária.
+- A calibração inicial de 12 pontos foi descartada por cobrir uma área ampla sem seguir os limites visuais da pista.
+- A tentativa seguinte de 10 pontos também foi descartada: ela ficou deslocada para a via reta à direita e para a árvore.
+- A ROI atual usa 12 pontos extraídos do contorno vermelho fornecido pelo usuário e fecha pelas bordas esquerda e inferior do vídeo.
+- Três quadros reais reconheceram 7–8 carros dentro dessa pista, com ocupação entre 9,4% e 9,8%; a inspeção do overlay confirmou a exclusão da via reta à direita.
 - 37 testes Python aprovados após a troca do stream e da calibração.
 - As leituras da versão 12 com 9 a 14 detecções expuseram o erro de direção e não devem ser usadas como validação do sentido Ponte.
 
@@ -124,7 +125,7 @@ Validação de 2026-08-29:
 - Atualizar a média exponencial a cada 2 segundos com alfa 0,35, mantendo as detecções visuais em tempo real.
 - Publicar o overlay a cada segundo; o score continua suavizado no intervalo próprio de 2 segundos.
 - Normalizar caixas no frame original para o site projetá-las corretamente em telas responsivas.
-- Na pista central da câmera da Aduana, calibrar o limite em 24 veículos e 18% de ocupação por causa da área visível mais estreita e parcialmente encoberta pela árvore.
+- Na pista curva da câmera da Aduana, manter inicialmente o limite em 24 veículos e 18% de ocupação até acumular amostras suficientes para nova calibração.
 - Atualizar o contador apenas com snapshots novos da IA, nunca a cada quadro reapresentado do vídeo.
 
 ## Módulos relacionados
@@ -151,5 +152,5 @@ Validação de 2026-08-29:
 | 2026-08-28 | Calibrada a IA em 416 px, confiança 10% e quatro threads; no teste real foram reconhecidos até cinco veículos com vídeo a 25 FPS. |
 | 2026-08-29 | Transferidos stream, ROI e calibração para a Aduana; a nova visão reconheceu até 19 veículos no teste real. |
 | 2026-08-29 | Confirmada em produção a telemetria da Aduana com ROI, caixas e probabilidades atualizadas. |
-| 2026-08-29 | Corrigida a ROI para a pista central do sentido Foz → Ponte e excluída a fila do fluxo contrário. |
-| 2026-08-29 | Reiniciado o detector com a ROI de 10 pontos e confirmadas quatro leituras públicas online, com um a três veículos e vídeo entre 23,6 e 25,0 FPS. |
+| 2026-08-29 | Tentativa de ROI de 10 pontos publicada e posteriormente rejeitada por estar deslocada para a via reta à direita. |
+| 2026-08-29 | Redesenhada a ROI com 12 pontos sobre o contorno vermelho e confirmados 7–8 carros em três quadros reais da pista curva. |

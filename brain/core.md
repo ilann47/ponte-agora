@@ -101,3 +101,4 @@ Aplicação Python local que lê o stream HLS da Aduana brasileira da BR-277, de
 | 2026-08-27 | Reunidas nove câmeras da fronteira em uma galeria leve, mantendo o monitor principal e a IA intactos. |
 | 2026-08-28 | Ativada a IA principal em modo servidor e calibrada em 416 px, confiança 10% e quatro threads de CPU. |
 | 2026-08-29 | Transferida a análise para a câmera da Aduana e preservada a câmera anterior na galeria sem IA. |
+| 2026-08-29 | Recalibrada a ROI da Aduana pelo contorno vermelho da pista curva após rejeição visual da geometria anterior. |

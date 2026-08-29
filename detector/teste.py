@@ -58,20 +58,23 @@ ROI_CROP_PADDING = 0.05
 SCORE_UPDATE_INTERVAL = 2.0
 SCORE_SMOOTHING_ALPHA = 0.35
 
-# Contorno normalizado da pista central à direita do canteiro.
-# O polígono acompanha o fluxo que se afasta da câmera em direção à Ponte
-# e exclui a fila da pista esquerda, que vem da Ponte para Foz do Iguaçu.
+# Contorno normalizado da pista curva indicada no monitor: ela entra pela
+# borda inferior esquerda e converge para o topo central no sentido da Ponte.
+# O fechamento pelas bordas esquerda e inferior mantém o acostamento, a árvore
+# e a via reta à direita completamente fora da análise.
 ROI_NORMALIZED = (
-    (0.61, 0.06),
-    (0.69, 0.06),
-    (0.67, 0.30),
-    (0.64, 0.55),
-    (0.61, 0.80),
-    (0.59, 0.995),
-    (0.40, 0.995),
-    (0.43, 0.80),
-    (0.49, 0.55),
-    (0.58, 0.30),
+    (0.55, 0.18),
+    (0.59, 0.20),
+    (0.56, 0.30),
+    (0.49, 0.44),
+    (0.42, 0.58),
+    (0.34, 0.73),
+    (0.26, 0.87),
+    (0.19, 0.995),
+    (0.00, 0.995),
+    (0.00, 0.75),
+    (0.22, 0.58),
+    (0.39, 0.44),
 )
 
 # Linha virtual transversal à pista. Veículos são contados ao cruzá-la para cima.
