@@ -101,6 +101,7 @@ Validação de 2026-08-29:
 - ROI curva inspecionada sobre um quadro real e restrita às pistas no sentido Ponte.
 - Três quadros reais reconheceram 17, 16 e 19 veículos, incluindo carros e caminhões.
 - 37 testes Python aprovados após a troca do stream e da calibração.
+- Após a versão 12, quatro leituras públicas consecutivas permaneceram online com ROI de 12 pontos, 9 a 14 detecções, vídeo entre 23,5 e 25 FPS e IA entre 1,7 e 7,2 FPS.
 
 ## Decisões Técnicas
 
@@ -148,3 +149,4 @@ Validação de 2026-08-29:
 | 2026-08-24 | Integradas as detecções ao contador de passagens sem alterar o ritmo de 25 FPS nem o overlay. |
 | 2026-08-28 | Calibrada a IA em 416 px, confiança 10% e quatro threads; no teste real foram reconhecidos até cinco veículos com vídeo a 25 FPS. |
 | 2026-08-29 | Transferidos stream, ROI e calibração para a Aduana; a nova visão reconheceu até 19 veículos no teste real. |
+| 2026-08-29 | Confirmada em produção a telemetria da Aduana com ROI, caixas e probabilidades atualizadas. |

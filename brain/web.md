@@ -176,3 +176,4 @@ O stream HLS da Aduana permite acesso direto pelo navegador. O YOLO permanece no
 | 2026-08-28 | Publicada a versão 10 e confirmados galeria, metadados e telemetria no domínio próprio. |
 | 2026-08-29 | Trocado o monitor principal para a Aduana e removida a IA da câmera anterior, que permaneceu na galeria. |
 | 2026-08-29 | Corrigida a validação da telemetria para aceitar a ROI de 12 pontos da câmera da Aduana. |
+| 2026-08-29 | Publicada a versão 12 e confirmada a IA da Aduana online no domínio próprio. |

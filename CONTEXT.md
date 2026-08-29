@@ -4,7 +4,7 @@
 
 ## Fase
 
-Troca da câmera principal para a Aduana validada localmente e pronta para publicação sobre a versão 10.
+Versão 12 publicada com a câmera da Aduana como monitor principal e telemetria da IA online.
 
 ## Decisões vigentes
 
@@ -20,7 +20,7 @@ Troca da câmera principal para a Aduana validada localmente e pronta para publi
 - Site público principal: `https://filaponte.com.br/`.
 - Endereço original da hospedagem preservado como fallback: `https://ponte-agora.ilanwendling.chatgpt.site/`.
 - O código do detector aponta para a Aduana em 1920×1080, com ROI curva de 12 pontos, YOLO em 416 px, confiança 10%, quatro threads e meta máxima de 25 FPS.
-- Até a publicação e o reinício coordenado, o processo antigo continua alimentando a versão pública para evitar indisponibilidade antecipada.
+- O processo antigo foi encerrado após a publicação; o detector atual analisa somente a câmera da Aduana e publica ROI, caixas e probabilidades no domínio próprio.
 - O vídeo continua na velocidade real; a cadência medida da IA oscila conforme a carga do Ryzen local e não é artificialmente arredondada para 25 FPS.
 - DNS, validação da propriedade e certificado HTTPS de `filaponte.com.br` estão ativos.
 - Canonical, Open Graph, sitemap, `robots.txt` e links gerados usam `https://filaponte.com.br`; o endereço original é tratado somente como legado.

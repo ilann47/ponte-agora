@@ -3,17 +3,19 @@
 # Estado do Projeto
 
 **Última atualização:** 2026-08-29
-**Fase atual:** troca da IA para a câmera da Aduana pronta para publicação
+**Fase atual:** versão 12 publicada e IA da câmera da Aduana online
 
 ## O que foi feito
 
 - Transformada a câmera `BR-277 — Aduana da Ponte da Amizade` no monitor principal com IA.
+- Publicada a versão 12 em `filaponte.com.br` e confirmada a telemetria online da nova câmera.
 - Movida a antiga `BR-277 — sentido Ponte da Amizade` para a galeria como transmissão comum, sem ROI, caixas ou métricas próprias.
 - Confirmado o HLS direto da Aduana em 1920×1080, com manifestos, segmentos e CORS públicos válidos.
 - Calibrada uma ROI de 12 pontos sobre as pistas que avançam para a Ponte, excluindo o fluxo de retorno.
 - Recalibrado o limite visual para 45 veículos e 20% de ocupação; o teste real reconheceu entre 16 e 19 veículos em quadros da nova câmera.
 - Atualizados monitor, galeria, metodologia, acessibilidade, SEO e textos para identificar a Aduana como origem da análise.
-- Aprovados 62 testes web, 37 testes Python, lint e build de produção.
+- Aprovados 63 testes web, 37 testes Python, lint e build de produção.
+- Corrigido o limite da API que recusava a nova ROI de 12 pontos; quatro leituras consecutivas confirmaram estado online, 9 a 14 detecções, vídeo entre 23,5 e 25 FPS e IA entre 1,7 e 7,2 FPS sob a carga atual do computador.
 
 - Ativada novamente a IA da câmera principal e confirmada a telemetria online em `filaponte.com.br`.
 - Calibrada somente a entrada do YOLO para 416 px e confiança 10%; o vídeo HLS permanece na resolução original e limitado à velocidade real de 25 FPS.
