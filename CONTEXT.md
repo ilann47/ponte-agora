@@ -4,7 +4,7 @@
 
 ## Fase
 
-Versão 12 publicada com a câmera da Aduana como monitor principal e telemetria da IA online.
+Correção da ROI do sentido Ponte validada localmente sobre a versão 12 e pronta para publicação.
 
 ## Decisões vigentes
 
@@ -19,7 +19,7 @@ Versão 12 publicada com a câmera da Aduana como monitor principal e telemetria
 
 - Site público principal: `https://filaponte.com.br/`.
 - Endereço original da hospedagem preservado como fallback: `https://ponte-agora.ilanwendling.chatgpt.site/`.
-- O código do detector aponta para a Aduana em 1920×1080, com ROI curva de 12 pontos, YOLO em 416 px, confiança 10%, quatro threads e meta máxima de 25 FPS.
+- O código do detector aponta para a Aduana em 1920×1080, com ROI de 10 pontos na pista central direita, YOLO em 416 px, confiança 10%, quatro threads e meta máxima de 25 FPS.
 - O processo antigo foi encerrado após a publicação; o detector atual analisa somente a câmera da Aduana e publica ROI, caixas e probabilidades no domínio próprio.
 - O vídeo continua na velocidade real; a cadência medida da IA oscila conforme a carga do Ryzen local e não é artificialmente arredondada para 25 FPS.
 - DNS, validação da propriedade e certificado HTTPS de `filaponte.com.br` estão ativos.

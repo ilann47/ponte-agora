@@ -59,15 +59,15 @@ test('usa a ROI padrão quando uma leitura antiga não possui overlay', () => {
     observedAt: '2026-08-23T21:30:00-03:00',
   });
 
-  assert.equal(DEFAULT_ROI.length, 12);
-  assert.deepEqual(DEFAULT_ROI[0], [0.44, 0.08]);
+  assert.equal(DEFAULT_ROI.length, 10);
+  assert.deepEqual(DEFAULT_ROI[0], [0.61, 0.06]);
   assert.deepEqual(reading.roi, DEFAULT_ROI);
   assert.deepEqual(reading.detections, []);
   assert.equal(reading.counterSessionId, null);
   assert.equal(reading.vehiclePassages, null);
 });
 
-test('aceita a ROI de doze pontos enviada pelo detector da Aduana', () => {
+test('aceita a ROI correta enviada pelo detector da Aduana', () => {
   const reading = parseTrafficPayload({
     score: 54,
     rawScore: 55,

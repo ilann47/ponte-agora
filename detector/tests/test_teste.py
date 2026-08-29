@@ -112,25 +112,24 @@ class RuntimeStructureTests(unittest.TestCase):
         self.assertEqual(
             module.ROI_NORMALIZED,
             (
-                (0.44, 0.08),
-                (0.55, 0.08),
-                (0.52, 0.25),
-                (0.48, 0.43),
-                (0.41, 0.62),
-                (0.33, 0.80),
-                (0.22, 0.995),
-                (0.00, 0.995),
-                (0.00, 0.77),
-                (0.15, 0.62),
-                (0.26, 0.43),
-                (0.36, 0.24),
+                (0.61, 0.06),
+                (0.69, 0.06),
+                (0.67, 0.30),
+                (0.64, 0.55),
+                (0.61, 0.80),
+                (0.59, 0.995),
+                (0.40, 0.995),
+                (0.43, 0.80),
+                (0.49, 0.55),
+                (0.58, 0.30),
             ),
         )
         self.assertEqual(module.INFERENCE_SIZE, 416)
         self.assertEqual(module.TARGET_INFERENCE_FPS, 25.0)
         self.assertEqual(module.CONFIDENCE, 0.10)
         self.assertEqual(module.NMS_IOU, 0.40)
-        self.assertEqual(module.MAX_VEHICLES, 45)
+        self.assertEqual(module.MAX_VEHICLES, 24)
+        self.assertEqual(module.MAX_OCCUPANCY, 0.18)
 
     def test_crops_frame_to_roi_bounding_rectangle(self):
         module = importlib.import_module("teste")

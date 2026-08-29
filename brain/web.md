@@ -117,7 +117,7 @@ O stream HLS da Aduana permite acesso direto pelo navegador. O YOLO permanece no
 - Manter o site público, mas restringir `/admin` à conta proprietária.
 - Usar uma imagem social própria e metadados Open Graph para compartilhamento.
 - Desenhar a camada da IA em canvas para preservar o HLS e adaptar as coordenadas a qualquer tela.
-- Aceitar polígonos de ROI com até 12 pontos, limite necessário para acompanhar a curva das pistas da Aduana.
+- Aceitar polígonos de ROI com até 12 pontos; a calibração final usa 10 pontos sobre a pista central no sentido Ponte.
 - Compartilhar uma única consulta de telemetria entre o player e o painel lateral.
 - Persistir somente o overlay atual, sem histórico de caixas ou imagens.
 - Usar a página inicial para a intenção “fila da Ponte da Amizade agora” e uma página separada para explicar a metodologia sem duplicar conteúdo.
@@ -177,3 +177,4 @@ O stream HLS da Aduana permite acesso direto pelo navegador. O YOLO permanece no
 | 2026-08-29 | Trocado o monitor principal para a Aduana e removida a IA da câmera anterior, que permaneceu na galeria. |
 | 2026-08-29 | Corrigida a validação da telemetria para aceitar a ROI de 12 pontos da câmera da Aduana. |
 | 2026-08-29 | Publicada a versão 12 e confirmada a IA da Aduana online no domínio próprio. |
+| 2026-08-29 | Preparada a correção da ROI para excluir a fila da pista no sentido contrário. |

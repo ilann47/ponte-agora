@@ -3,7 +3,7 @@
 # Estado do Projeto
 
 **Última atualização:** 2026-08-29
-**Fase atual:** versão 12 publicada e IA da câmera da Aduana online
+**Fase atual:** correção da ROI do sentido Ponte validada e pronta para publicação
 
 ## O que foi feito
 
@@ -11,11 +11,12 @@
 - Publicada a versão 12 em `filaponte.com.br` e confirmada a telemetria online da nova câmera.
 - Movida a antiga `BR-277 — sentido Ponte da Amizade` para a galeria como transmissão comum, sem ROI, caixas ou métricas próprias.
 - Confirmado o HLS direto da Aduana em 1920×1080, com manifestos, segmentos e CORS públicos válidos.
-- Calibrada uma ROI de 12 pontos sobre as pistas que avançam para a Ponte, excluindo o fluxo de retorno.
-- Recalibrado o limite visual para 45 veículos e 20% de ocupação; o teste real reconheceu entre 16 e 19 veículos em quadros da nova câmera.
+- Corrigida a ROI para um polígono de 10 pontos sobre a pista central à direita do canteiro, no fluxo que se afasta da câmera em direção à Ponte.
+- Excluída da análise a fila da pista esquerda, que segue no sentido contrário, da Ponte para Foz do Iguaçu.
+- Recalibrado o limite visual para 24 veículos e 18% de ocupação; os quadros de referência e atual reconheceram somente o veículo presente na pista correta.
 - Atualizados monitor, galeria, metodologia, acessibilidade, SEO e textos para identificar a Aduana como origem da análise.
 - Aprovados 63 testes web, 37 testes Python, lint e build de produção.
-- Corrigido o limite da API que recusava a nova ROI de 12 pontos; quatro leituras consecutivas confirmaram estado online, 9 a 14 detecções, vídeo entre 23,5 e 25 FPS e IA entre 1,7 e 7,2 FPS sob a carga atual do computador.
+- A API continua aceitando polígonos com até 12 pontos; a ROI final usa 10 pontos e foi verificada em 1920×1080.
 
 - Ativada novamente a IA da câmera principal e confirmada a telemetria online em `filaponte.com.br`.
 - Calibrada somente a entrada do YOLO para 416 px e confiança 10%; o vídeo HLS permanece na resolução original e limitado à velocidade real de 25 FPS.
@@ -137,7 +138,7 @@
 
 - **Aduana como única câmera com IA:** o enquadramento aberto mostra melhor a formação da fila e substitui integralmente a análise da câmera anterior.
 - **Câmera anterior preservada sem IA:** continua acessível na galeria pelo player oficial, mas não recebe telemetria, ROI nem probabilidades.
-- **ROI curva de 12 pontos:** acompanha a geometria das pistas no sentido Ponte e evita misturar veículos do retorno.
+- **ROI de 10 pontos na pista central direita:** usa o canteiro como limite e evita misturar a fila do sentido Ponte → Foz com o fluxo Foz → Ponte.
 - **Histórico não apagado:** dados anteriores permanecem, mas a mudança de câmera e calibração deve ser considerada em comparações entre períodos.
 
 - **Uma transmissão externa por vez:** evita multiplicar banda, uso de CPU e tempo de carregamento em conexões móveis.

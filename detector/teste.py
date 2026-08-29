@@ -58,29 +58,28 @@ ROI_CROP_PADDING = 0.05
 SCORE_UPDATE_INTERVAL = 2.0
 SCORE_SMOOTHING_ALPHA = 0.35
 
-# Contorno normalizado das pistas da BR-277 que avançam para a Ponte.
-# O polígono acompanha a curva da via e exclui o fluxo de retorno.
+# Contorno normalizado da pista central à direita do canteiro.
+# O polígono acompanha o fluxo que se afasta da câmera em direção à Ponte
+# e exclui a fila da pista esquerda, que vem da Ponte para Foz do Iguaçu.
 ROI_NORMALIZED = (
-    (0.44, 0.08),
-    (0.55, 0.08),
-    (0.52, 0.25),
-    (0.48, 0.43),
-    (0.41, 0.62),
-    (0.33, 0.80),
-    (0.22, 0.995),
-    (0.00, 0.995),
-    (0.00, 0.77),
-    (0.15, 0.62),
-    (0.26, 0.43),
-    (0.36, 0.24),
+    (0.61, 0.06),
+    (0.69, 0.06),
+    (0.67, 0.30),
+    (0.64, 0.55),
+    (0.61, 0.80),
+    (0.59, 0.995),
+    (0.40, 0.995),
+    (0.43, 0.80),
+    (0.49, 0.55),
+    (0.58, 0.30),
 )
 
 # Linha virtual transversal à pista. Veículos são contados ao cruzá-la para cima.
 COUNTING_LINE_Y_RATIO = 0.58
 
 # Valores iniciais de calibração da câmera.
-MAX_VEHICLES = 45
-MAX_OCCUPANCY = 0.20
+MAX_VEHICLES = 24
+MAX_OCCUPANCY = 0.18
 COUNT_WEIGHT = 0.65
 OCCUPANCY_WEIGHT = 0.35
 
