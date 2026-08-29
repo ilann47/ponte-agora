@@ -102,6 +102,8 @@ Validação de 2026-08-29:
 - A tentativa seguinte de 10 pontos também foi descartada: ela ficou deslocada para a via reta à direita e para a árvore.
 - A ROI atual usa 12 pontos extraídos do contorno vermelho fornecido pelo usuário e fecha pelas bordas esquerda e inferior do vídeo.
 - Três quadros reais reconheceram 7–8 carros dentro dessa pista, com ocupação entre 9,4% e 9,8%; a inspeção do overlay confirmou a exclusão da via reta à direita.
+- Após a versão 14 e o reinício do detector, quatro leituras públicas registraram 6–9 veículos, ocupação entre 11,8% e 20,3% e vídeo entre 24,2 e 25,0 FPS com os 12 pontos corretos.
+- A captura da página publicada confirmou visualmente que o overlay segue o contorno vermelho e não invade a via reta à direita.
 - 37 testes Python aprovados após a troca do stream e da calibração.
 - As leituras da versão 12 com 9 a 14 detecções expuseram o erro de direção e não devem ser usadas como validação do sentido Ponte.
 
@@ -154,3 +156,4 @@ Validação de 2026-08-29:
 | 2026-08-29 | Confirmada em produção a telemetria da Aduana com ROI, caixas e probabilidades atualizadas. |
 | 2026-08-29 | Tentativa de ROI de 10 pontos publicada e posteriormente rejeitada por estar deslocada para a via reta à direita. |
 | 2026-08-29 | Redesenhada a ROI com 12 pontos sobre o contorno vermelho e confirmados 7–8 carros em três quadros reais da pista curva. |
+| 2026-08-29 | Publicada a versão 14 e validada a nova geometria na página e na telemetria públicas. |

@@ -3,11 +3,13 @@
 # Estado do Projeto
 
 **Última atualização:** 2026-08-29
-**Fase atual:** ROI redesenhada pelo contorno vermelho e pronta para publicação
+**Fase atual:** versão 14 publicada com a ROI do contorno vermelho e a IA online
 
 ## O que foi feito
 
 - Transformada a câmera `BR-277 — Aduana da Ponte da Amizade` no monitor principal com IA.
+- Publicada a versão 14, reiniciado o detector e confirmado visualmente no site que o ROI acompanha a pista curva marcada em vermelho.
+- Confirmadas quatro leituras públicas consecutivas com 12 pontos, 6–9 veículos, vídeo entre 24,2 e 25,0 FPS e a via reta à direita fora do polígono.
 - Publicada a versão 13 em `filaponte.com.br`; a revisão visual posterior mostrou que a geometria ainda estava deslocada para a via reta à direita.
 - As quatro leituras públicas da versão 13 confirmaram transporte e atualização da telemetria, mas não validavam o sentido físico da pista.
 - Publicada a versão 12 em `filaponte.com.br` e confirmada a telemetria online da nova câmera.
