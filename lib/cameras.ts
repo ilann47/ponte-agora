@@ -5,6 +5,7 @@ export type PrimaryBorderCamera = {
   location: string;
   provider: string;
   sourceUrl: string;
+  streamUrl: string;
 };
 
 export type EmbeddedBorderCamera = {
@@ -20,23 +21,24 @@ export type EmbeddedBorderCamera = {
 export type BorderCamera = PrimaryBorderCamera | EmbeddedBorderCamera;
 
 export const PRIMARY_CAMERA: PrimaryBorderCamera = {
-  id: 'br277-sentido-ponte',
+  id: 'br277-aduana',
   kind: 'primary',
-  name: 'BR-277 — sentido Ponte da Amizade',
+  name: 'BR-277 — Aduana da Ponte da Amizade',
   location: 'Foz do Iguaçu · Brasil',
   provider: 'Portal da Cidade',
-  sourceUrl: 'https://foz.portaldacidade.com/cameras-ao-vivo',
+  sourceUrl: 'https://foz.portaldacidade.com/cameras-ao-vivo/br-277-aduana-ponte-da-amizade',
+  streamUrl: 'https://video04.logicahost.com.br/portovelhomamore/fozaduanapontedaamizade.stream/playlist.m3u8',
 };
 
 export const EMBEDDED_CAMERAS: EmbeddedBorderCamera[] = [
   {
-    id: 'br277-aduana',
+    id: 'br277-sentido-ponte',
     kind: 'embedded',
-    name: 'BR-277 — Aduana da Ponte da Amizade',
+    name: 'BR-277 — sentido Ponte da Amizade',
     location: 'Foz do Iguaçu · Brasil',
     provider: 'Portal da Cidade',
-    sourceUrl: 'https://foz.portaldacidade.com/cameras-ao-vivo/br-277-aduana-ponte-da-amizade',
-    embedUrl: 'https://playerv.logicahost.com.br/video-ip-camera/portovelhomamore//false/false/dmlkZW8wNC5sb2dpY2Fob3N0LmNvbS5icisx/16:9/YUhSMGNITTZMeTg9K1o=/fozaduanapontedaamizade.stream/',
+    sourceUrl: 'https://foz.portaldacidade.com/cameras-ao-vivo/br-277-sentido-ponte-da-amizade',
+    embedUrl: 'https://playerv.logicahost.com.br/video-ip-camera/portaldacidade//false/false/V2tjeGMyRXhjRmhQU0dST1lWUldlbGxxU210alJtdDVVbTA1YVUwd05IZFVSekZQWkcxS1ZFNVhiR3BhZWpBNStS/16:9/aHR0cHM6Ly8rMQ==/fozsentidopontedaamizade01.stream/',
   },
   {
     id: 'amizade-paraguai',

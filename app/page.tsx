@@ -5,6 +5,7 @@ import {
 } from '@/lib/seo';
 import { isTrafficFresh } from '@/lib/traffic';
 import { GOOGLE_MAPS_CROSSING_ROUTE_URL } from '@/lib/maps-route';
+import { PRIMARY_CAMERA } from '@/lib/cameras';
 import { fozVehicleBucket, summarizeVehicleHistory } from '@/lib/vehicle-history';
 import { LiveMonitor } from './components/live-monitor';
 import { NewsletterForm } from './components/newsletter-form';
@@ -12,9 +13,6 @@ import { VisitTracker } from './components/visit-tracker';
 import { VehicleHistoryChart } from './components/vehicle-history-chart';
 import { WeatherPanel } from './components/weather-panel';
 import { CameraGallery } from './components/camera-gallery';
-
-const STREAM_URL =
-  'https://video02.logicahost.com.br/portaldacidade/fozsentidopontedaamizade01.stream/chunklist_w121647601.m3u8';
 
 export const dynamic = 'force-dynamic';
 
@@ -68,8 +66,8 @@ export default async function Home() {
           <p className="eyebrow">Trânsito em tempo real</p>
           <h1>Fila da Ponte da Amizade agora</h1>
           <p className="hero-description">
-            Veja nove câmeras ao vivo da fronteira, acompanhe a BR-277 no sentido
-            Paraguai com análise por IA e confira a previsão do tempo em Foz do Iguaçu.
+            Veja nove câmeras ao vivo da fronteira, acompanhe a Aduana brasileira
+            da BR-277 com análise por IA e confira a previsão do tempo em Foz do Iguaçu.
           </p>
         </div>
         <div className="updated-at">
@@ -78,7 +76,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <LiveMonitor source={STREAM_URL} initialState={initialTraffic} />
+      <LiveMonitor source={PRIMARY_CAMERA.streamUrl} initialState={initialTraffic} />
 
       <CameraGallery />
 
@@ -129,8 +127,8 @@ export default async function Home() {
         <div className="information-grid">
           <article>
             <span>01</span>
-            <h3>Câmera ao vivo sentido Paraguai</h3>
-            <p>Acompanhe a pista da BR-277 que leva à aduana e à Ponte Internacional da Amizade.</p>
+            <h3>Câmera ao vivo da Aduana brasileira</h3>
+            <p>Acompanhe as pistas da BR-277 na Aduana da Ponte da Amizade.</p>
           </article>
           <article>
             <span>02</span>
@@ -164,7 +162,7 @@ export default async function Home() {
         <div className="faq-list">
           <details>
             <summary>A câmera mostra qual sentido da Ponte da Amizade?</summary>
-            <p>Ela mostra a BR-277 no sentido da Ponte da Amizade, saindo de Foz do Iguaçu em direção ao Paraguai.</p>
+            <p>Ela mostra a Aduana brasileira e a pista da BR-277 usada por quem segue de Foz do Iguaçu em direção ao Paraguai.</p>
           </details>
           <details>
             <summary>O percentual representa o tempo de espera na aduana?</summary>

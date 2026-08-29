@@ -8,11 +8,11 @@ Disponibilizar o monitor da Ponte da Amizade no navegador, com nove câmeras da 
 
 ## Contexto
 
-O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo Python local e publica somente as métricas calculadas, evitando executar visão computacional na hospedagem web. A versão de produção está em `https://filaponte.com.br`; o endereço `chatgpt.site` permanece disponível como fallback da hospedagem.
+O stream HLS da Aduana permite acesso direto pelo navegador. O YOLO permanece no processo Python local e publica somente as métricas calculadas, evitando executar visão computacional na hospedagem web. A versão de produção está em `https://filaponte.com.br`; o endereço `chatgpt.site` permanece disponível como fallback da hospedagem.
 
 ## Fluxo (camadas da arquitetura)
 
-1. O navegador reproduz o stream HLS original.
+1. O navegador reproduz o stream HLS original da câmera da Aduana brasileira.
 2. A página consulta as métricas de trânsito pelo site e o clima diretamente na Open-Meteo.
 3. `detector/teste.py` envia atualizações autenticadas de congestionamento, ROI, detecções normalizadas, sessão do contador e passagens acumuladas.
 4. Um canvas transparente desenha ROI, caixas, classes e confiança sobre o vídeo original.
@@ -26,7 +26,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 12. Um cartão abre no Google Maps a rota da aduana brasileira à paraguaia para consultar a duração atual da travessia sem usar chave de API.
 13. O rodapé credita o projeto pessoal e oferece conexões públicas para o portfólio, GitHub e LinkedIn do autor.
 14. O rodapé carrega o badge oficial do WakaTime para mostrar o tempo total público de programação do autor.
-15. A galeria oferece oito players externos além do monitor principal e mantém apenas a transmissão escolhida no DOM.
+15. A galeria oferece oito players externos, incluindo a antiga câmera com IA, além do monitor principal da Aduana e mantém apenas a transmissão escolhida no DOM.
 
 ## Endpoints (se houver)
 
@@ -136,7 +136,7 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 - Manter o tempo de travessia dentro do Google Maps: a alternativa oficial sem chave abre a rota, mas não devolve a duração para um cartão próprio.
 - Abrir conexões pessoais em nova aba e manter os links institucionais do próprio site na navegação normal.
 - Usar o badge público oficial do WakaTime para manter o total sincronizado sem expor chave ou depender do detector local.
-- Carregar somente uma câmera externa por vez, atribuir cada transmissão ao provedor e manter a IA exclusiva do monitor principal.
+- Carregar somente uma câmera externa por vez, atribuir cada transmissão ao provedor e manter a IA exclusiva da câmera principal da Aduana.
 
 ## Módulos relacionados
 
@@ -173,3 +173,4 @@ O stream HLS permite acesso direto pelo navegador. O YOLO permanece no processo 
 | 2026-08-27 | Publicada a versão 9 e validado o badge do WakaTime no domínio próprio. |
 | 2026-08-27 | Adicionada galeria responsiva com nove pontos da fronteira e carregamento de um player externo por vez. |
 | 2026-08-28 | Publicada a versão 10 e confirmados galeria, metadados e telemetria no domínio próprio. |
+| 2026-08-29 | Trocado o monitor principal para a Aduana e removida a IA da câmera anterior, que permaneceu na galeria. |

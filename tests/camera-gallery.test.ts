@@ -12,8 +12,15 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../lib/seo.ts';
 test('catalogo reune as nove cameras dos dois enderecos sem duplicar transmissoes', () => {
   assert.equal(BORDER_CAMERAS.length, 9);
   assert.equal(EMBEDDED_CAMERAS.length, 8);
-  assert.equal(PRIMARY_CAMERA.id, 'br277-sentido-ponte');
+  assert.equal(PRIMARY_CAMERA.id, 'br277-aduana');
   assert.equal(PRIMARY_CAMERA.kind, 'primary');
+  assert.match(PRIMARY_CAMERA.streamUrl, /fozaduanapontedaamizade\.stream\/playlist\.m3u8/);
+
+  const formerPrimary = EMBEDDED_CAMERAS.find(
+    (camera) => camera.id === 'br277-sentido-ponte',
+  );
+  assert.equal(formerPrimary?.kind, 'embedded');
+  assert.match(formerPrimary?.embedUrl ?? '', /fozsentidopontedaamizade01\.stream/);
 
   const ids = new Set(BORDER_CAMERAS.map((camera) => camera.id));
   assert.equal(ids.size, BORDER_CAMERAS.length);
@@ -53,13 +60,15 @@ test('galeria carrega somente a camera escolhida e explica o limite da IA', asyn
   assert.match(component, /activeCamera\.embedUrl/);
   assert.match(component, /loading="lazy"/);
   assert.match(component, /title=\{`Câmera ao vivo: \$\{activeCamera\.name\}`\}/);
-  assert.match(component, /A análise por IA continua exclusiva da câmera principal/);
+  assert.match(component, /A análise por IA está na câmera da Aduana/);
+  assert.doesNotMatch(component, /continua exclusiva da câmera principal/);
   assert.match(component, /Imagens fornecidas por/);
   assert.doesNotMatch(component, /EMBEDDED_CAMERAS\.map\([\s\S]*?<iframe/);
 
   assert.match(page, /<CameraGallery \/>/);
   assert.match(page, /href="#cameras"/);
   assert.match(page, /nove câmeras ao vivo/);
+  assert.match(page, /source=\{PRIMARY_CAMERA\.streamUrl\}/);
 });
 
 test('metadados apresentam as varias cameras sem perder a busca principal', () => {

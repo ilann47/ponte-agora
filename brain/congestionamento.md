@@ -8,7 +8,7 @@ Estimar o nível de congestionamento na pista em direção à Ponte da Amizade a
 
 ## Contexto
 
-A câmera é fixa e mostra veículos pequenos ao longe. O recorte da pista amplia os veículos para o modelo. A entrada de 416 px com confiança 10% foi escolhida em comparação sobre o mesmo quadro por reconhecer mais veículos úteis que a configuração de 320 px, mantendo desempenho próximo do tempo real; o HLS continua em sua resolução original.
+A câmera principal agora mostra a Aduana brasileira em 1920×1080, com uma via curva e fluxos opostos. A ROI de 12 pontos acompanha somente as pistas que avançam para a Ponte. O recorte amplia essa área para o modelo; a entrada de 416 px e confiança 10% continuam preservadas.
 
 ## Fluxo (camadas da arquitetura)
 
@@ -48,6 +48,7 @@ A câmera é fixa e mostra veículos pequenos ao longe. O recorte da pista ampli
 - Stream HLS do Portal da Cidade.
 - Modelo local `yolo11n.pt` executado pela biblioteca Ultralytics.
 - Painel [[web]] para publicação autenticada da telemetria.
+- HLS público da câmera `fozaduanapontedaamizade.stream` fornecido pela Lógica Host ao Portal da Cidade.
 
 ## Tratamento de Erros
 
@@ -94,6 +95,13 @@ Validação de 2026-08-28:
 - A configuração final em modo servidor preservou o vídeo em aproximadamente 25 FPS, detectou até cinco veículos com classes e probabilidades e apresentou mediana de 17,0 FPS de IA em oito amostras reais sob alta carga do computador.
 - A telemetria pública confirmou estado online, ROI e detecções atualizadas no domínio próprio.
 
+Validação de 2026-08-29:
+
+- Stream da Aduana confirmado em 1920×1080; manifesto principal, variante e segmento responderam `200` com CORS público.
+- ROI curva inspecionada sobre um quadro real e restrita às pistas no sentido Ponte.
+- Três quadros reais reconheceram 17, 16 e 19 veículos, incluindo carros e caminhões.
+- 37 testes Python aprovados após a troca do stream e da calibração.
+
 ## Decisões Técnicas
 
 - Usar coordenadas normalizadas para a ROI.
@@ -114,7 +122,7 @@ Validação de 2026-08-28:
 - Atualizar a média exponencial a cada 2 segundos com alfa 0,35, mantendo as detecções visuais em tempo real.
 - Publicar o overlay a cada segundo; o score continua suavizado no intervalo próprio de 2 segundos.
 - Normalizar caixas no frame original para o site projetá-las corretamente em telas responsivas.
-- Calibrar inicialmente o limite em 24 veículos, ocupação de 18%, peso de contagem 65% e peso de ocupação 35%.
+- Na câmera da Aduana, calibrar o limite em 45 veículos e 20% de ocupação por causa do campo de visão mais amplo.
 - Atualizar o contador apenas com snapshots novos da IA, nunca a cada quadro reapresentado do vídeo.
 
 ## Módulos relacionados
@@ -139,3 +147,4 @@ Validação de 2026-08-28:
 | 2026-08-23 | Incluídas ROI, classes, caixas e probabilidades na telemetria web normalizada. |
 | 2026-08-24 | Integradas as detecções ao contador de passagens sem alterar o ritmo de 25 FPS nem o overlay. |
 | 2026-08-28 | Calibrada a IA em 416 px, confiança 10% e quatro threads; no teste real foram reconhecidos até cinco veículos com vídeo a 25 FPS. |
+| 2026-08-29 | Transferidos stream, ROI e calibração para a Aduana; a nova visão reconheceu até 19 veículos no teste real. |

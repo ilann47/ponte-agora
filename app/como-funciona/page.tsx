@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Como funciona a análise da fila | Ponte Agora',
   description:
-    'Entenda como a câmera da BR-277 e a inteligência artificial estimam o movimento no sentido da Ponte da Amizade.',
+    'Entenda como a câmera da Aduana da BR-277 e a inteligência artificial estimam o movimento no sentido da Ponte da Amizade.',
   alternates: { canonical: '/como-funciona' },
 };
 
@@ -24,7 +24,7 @@ export default function HowItWorksPage() {
           <p className="eyebrow">Metodologia</p>
           <h1>Como a IA analisa o trânsito para a Ponte da Amizade</h1>
           <p className="article-lead">
-            O Ponte Agora transforma a imagem ao vivo da BR-277 em um indicador
+            O Ponte Agora transforma a imagem ao vivo da Aduana da BR-277 em um indicador
             simples de movimento, preservando o vídeo original e mostrando o que
             foi reconhecido pela inteligência artificial.
           </p>
@@ -33,10 +33,10 @@ export default function HowItWorksPage() {
         <section>
           <span className="article-number">01</span>
           <div>
-            <h2>A câmera acompanha o sentido Paraguai</h2>
+            <h2>A câmera acompanha a Aduana brasileira</h2>
             <p>
-              O vídeo mostra o acesso brasileiro à Ponte Internacional da Amizade,
-              na BR-277, saindo de Foz do Iguaçu em direção a Ciudad del Este. As
+              O vídeo mostra as pistas da Aduana brasileira da Ponte Internacional
+              da Amizade, na BR-277, incluindo o fluxo em direção a Ciudad del Este. As
               imagens ao vivo são fornecidas pelo Portal da Cidade.
             </p>
           </div>

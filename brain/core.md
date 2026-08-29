@@ -4,7 +4,7 @@
 
 ## Visão geral
 
-Aplicação Python local que lê um stream HLS da BR-277, detecta veículos com YOLO e apresenta um indicador visual de congestionamento no sentido da Ponte da Amizade.
+Aplicação Python local que lê o stream HLS da Aduana brasileira da BR-277, detecta veículos com YOLO e apresenta um indicador visual de congestionamento no sentido da Ponte da Amizade.
 
 ## Arquitetura
 
@@ -48,6 +48,7 @@ Aplicação Python local que lê um stream HLS da BR-277, detecta veículos com 
 - Um publicador de telemetria com worker único envia somente a leitura mais recente a cada segundo, incluindo ROI e caixas normalizadas.
 - O site reproduz o HLS diretamente; o detector local não retransmite frames.
 - A galeria incorpora somente um player externo por vez e preserva o monitor principal como a única câmera com análise por IA.
+- A câmera da Aduana ocupa o monitor principal; a antiga visão da BR-277 sentido Ponte permanece apenas como player externo sem IA.
 - O navegador desenha a camada da IA em canvas transparente sobre o vídeo original.
 - O detector Python não ganhou dependências; telemetria e testes continuam usando a biblioteca padrão.
 - O site renderiza a última telemetria disponível no HTML inicial e continua a atualização no navegador a cada dois segundos.
@@ -99,3 +100,4 @@ Aplicação Python local que lê um stream HLS da BR-277, detecta veículos com 
 | 2026-08-27 | Adicionadas ao rodapé as conexões públicas e a autoria pessoal do projeto. |
 | 2026-08-27 | Reunidas nove câmeras da fronteira em uma galeria leve, mantendo o monitor principal e a IA intactos. |
 | 2026-08-28 | Ativada a IA principal em modo servidor e calibrada em 416 px, confiança 10% e quatro threads de CPU. |
+| 2026-08-29 | Transferida a análise para a câmera da Aduana e preservada a câmera anterior na galeria sem IA. |

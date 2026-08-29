@@ -104,10 +104,33 @@ class RuntimeStructureTests(unittest.TestCase):
     def test_uses_benchmarked_resolution_after_cropping_to_the_road(self):
         module = importlib.import_module("teste")
 
+        self.assertEqual(
+            module.STREAM_URL,
+            "https://video04.logicahost.com.br/portovelhomamore/"
+            "fozaduanapontedaamizade.stream/playlist.m3u8",
+        )
+        self.assertEqual(
+            module.ROI_NORMALIZED,
+            (
+                (0.44, 0.08),
+                (0.55, 0.08),
+                (0.52, 0.25),
+                (0.48, 0.43),
+                (0.41, 0.62),
+                (0.33, 0.80),
+                (0.22, 0.995),
+                (0.00, 0.995),
+                (0.00, 0.77),
+                (0.15, 0.62),
+                (0.26, 0.43),
+                (0.36, 0.24),
+            ),
+        )
         self.assertEqual(module.INFERENCE_SIZE, 416)
         self.assertEqual(module.TARGET_INFERENCE_FPS, 25.0)
         self.assertEqual(module.CONFIDENCE, 0.10)
         self.assertEqual(module.NMS_IOU, 0.40)
+        self.assertEqual(module.MAX_VEHICLES, 45)
 
     def test_crops_frame_to_roi_bounding_rectangle(self):
         module = importlib.import_module("teste")

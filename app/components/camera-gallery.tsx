@@ -79,7 +79,7 @@ export function CameraGallery() {
 
       <div className="camera-gallery-note">
         <p>
-          <strong>A análise por IA continua exclusiva da câmera principal.</strong>{' '}
+          <strong>A análise por IA está na câmera da Aduana.</strong>{' '}
           As outras visões são transmissões externas e podem ficar indisponíveis na origem.
         </p>
         <p>

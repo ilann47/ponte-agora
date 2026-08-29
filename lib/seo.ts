@@ -4,7 +4,7 @@ export const SITE_NAME = 'Ponte Agora';
 export const SITE_TITLE =
   'Fila da Ponte da Amizade Agora | 9 Câmeras ao Vivo';
 export const SITE_DESCRIPTION =
-  'Veja nove câmeras ao vivo da fronteira, incluindo a BR-277 sentido Paraguai com análise por IA, clima e trânsito da Ponte da Amizade em Foz do Iguaçu.';
+  'Veja nove câmeras ao vivo da fronteira, incluindo a Aduana da BR-277 com análise por IA, clima e trânsito da Ponte da Amizade em Foz do Iguaçu.';
 
 export function resolveSiteOrigin(configured?: string): string {
   if (!configured) return DEFAULT_SITE_ORIGIN;
@@ -55,7 +55,7 @@ export function buildSiteStructuredData(
       areaServed: ['Foz do Iguaçu', 'Ciudad del Este'],
       featureList: [
         'Nove câmeras ao vivo da fronteira entre Brasil, Paraguai e Argentina',
-        'Câmera principal da BR-277 sentido Ponte da Amizade',
+        'Câmera principal da Aduana da BR-277 com análise por IA',
         'Análise de congestionamento por inteligência artificial',
         'Clima atual e previsão para hoje e amanhã',
         'Resumo diário de clima e trânsito por e-mail',

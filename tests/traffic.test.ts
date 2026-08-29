@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import {
+  DEFAULT_ROI,
   congestionLabel,
   isTrafficFresh,
   parseTrafficPayload,
@@ -58,7 +59,9 @@ test('usa a ROI padrão quando uma leitura antiga não possui overlay', () => {
     observedAt: '2026-08-23T21:30:00-03:00',
   });
 
-  assert.equal(reading.roi.length, 4);
+  assert.equal(DEFAULT_ROI.length, 12);
+  assert.deepEqual(DEFAULT_ROI[0], [0.44, 0.08]);
+  assert.deepEqual(reading.roi, DEFAULT_ROI);
   assert.deepEqual(reading.detections, []);
   assert.equal(reading.counterSessionId, null);
   assert.equal(reading.vehiclePassages, null);

@@ -1,4 +1,4 @@
-"""Monitor visual de congestionamento da BR-277 no sentido Ponte da Amizade."""
+"""Monitor visual da Aduana da BR-277 no sentido Ponte da Amizade."""
 
 from __future__ import annotations
 
@@ -38,9 +38,8 @@ from vehicle_counter import VehiclePassageCounter
 # ============================================================
 
 STREAM_URL = (
-    "https://video02.logicahost.com.br/"
-    "portaldacidade/fozsentidopontedaamizade01.stream/"
-    "chunklist_w121647601.m3u8"
+    "https://video04.logicahost.com.br/portovelhomamore/"
+    "fozaduanapontedaamizade.stream/playlist.m3u8"
 )
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -59,21 +58,29 @@ ROI_CROP_PADDING = 0.05
 SCORE_UPDATE_INTERVAL = 2.0
 SCORE_SMOOTHING_ALPHA = 0.35
 
-# Pontos normalizados da pista direita, no sentido Ponte.
-# Ordem: superior esquerdo, superior direito, inferior direito, inferior esquerdo.
+# Contorno normalizado das pistas da BR-277 que avançam para a Ponte.
+# O polígono acompanha a curva da via e exclui o fluxo de retorno.
 ROI_NORMALIZED = (
-    (0.455, 0.350),
-    (0.665, 0.350),
-    (0.610, 0.995),
-    (0.440, 0.995),
+    (0.44, 0.08),
+    (0.55, 0.08),
+    (0.52, 0.25),
+    (0.48, 0.43),
+    (0.41, 0.62),
+    (0.33, 0.80),
+    (0.22, 0.995),
+    (0.00, 0.995),
+    (0.00, 0.77),
+    (0.15, 0.62),
+    (0.26, 0.43),
+    (0.36, 0.24),
 )
 
 # Linha virtual transversal à pista. Veículos são contados ao cruzá-la para cima.
 COUNTING_LINE_Y_RATIO = 0.58
 
 # Valores iniciais de calibração da câmera.
-MAX_VEHICLES = 24
-MAX_OCCUPANCY = 0.18
+MAX_VEHICLES = 45
+MAX_OCCUPANCY = 0.20
 COUNT_WEIGHT = 0.65
 OCCUPANCY_WEIGHT = 0.35
 
@@ -84,7 +91,7 @@ VEHICLE_CLASSES = {
     7: "caminhao",
 }
 
-WINDOW_NAME = "BR-277 - Sentido Ponte da Amizade"
+WINDOW_NAME = "BR-277 - Aduana da Ponte da Amizade"
 WINDOW_WIDTH = 1100
 WINDOW_HEIGHT = 650
 TARGET_DISPLAY_FPS = 25.0

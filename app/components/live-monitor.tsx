@@ -51,7 +51,7 @@ export function LiveMonitor({
   }, []);
 
   return (
-    <section className="monitor-grid" id="camera" aria-label="Câmera e trânsito da Ponte da Amizade agora">
+    <section className="monitor-grid" id="camera" aria-label="Câmera e trânsito da Aduana da Ponte da Amizade agora">
       <article className="video-card">
         <HlsPlayer source={source} reading={state.reading} detectorOnline={state.online} />
         <div className="video-shade" aria-hidden="true" />
@@ -62,7 +62,7 @@ export function LiveMonitor({
           </span>
         </div>
         <div className="video-caption">
-          <span>BR-277</span>
+          <span>BR-277 · Aduana brasileira</span>
           <strong>Sentido Ponte da Amizade</strong>
         </div>
       </article>

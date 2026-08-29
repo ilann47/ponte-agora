@@ -78,7 +78,7 @@ export function HlsPlayer({
         muted
         autoPlay
         playsInline
-        aria-label="Câmera ao vivo da BR-277 no sentido Ponte da Amizade"
+        aria-label="Câmera ao vivo da BR-277 na Aduana da Ponte da Amizade"
       />
       <canvas
         ref={canvasRef}

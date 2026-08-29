@@ -2,10 +2,18 @@
 
 # Estado do Projeto
 
-**Última atualização:** 2026-08-28
-**Fase atual:** versão 10 publicada e IA principal ativa em modo servidor
+**Última atualização:** 2026-08-29
+**Fase atual:** troca da IA para a câmera da Aduana pronta para publicação
 
 ## O que foi feito
+
+- Transformada a câmera `BR-277 — Aduana da Ponte da Amizade` no monitor principal com IA.
+- Movida a antiga `BR-277 — sentido Ponte da Amizade` para a galeria como transmissão comum, sem ROI, caixas ou métricas próprias.
+- Confirmado o HLS direto da Aduana em 1920×1080, com manifestos, segmentos e CORS públicos válidos.
+- Calibrada uma ROI de 12 pontos sobre as pistas que avançam para a Ponte, excluindo o fluxo de retorno.
+- Recalibrado o limite visual para 45 veículos e 20% de ocupação; o teste real reconheceu entre 16 e 19 veículos em quadros da nova câmera.
+- Atualizados monitor, galeria, metodologia, acessibilidade, SEO e textos para identificar a Aduana como origem da análise.
+- Aprovados 62 testes web, 37 testes Python, lint e build de produção.
 
 - Ativada novamente a IA da câmera principal e confirmada a telemetria online em `filaponte.com.br`.
 - Calibrada somente a entrada do YOLO para 416 px e confiança 10%; o vídeo HLS permanece na resolução original e limitado à velocidade real de 25 FPS.
@@ -125,6 +133,11 @@
 
 ## Decisões tomadas
 
+- **Aduana como única câmera com IA:** o enquadramento aberto mostra melhor a formação da fila e substitui integralmente a análise da câmera anterior.
+- **Câmera anterior preservada sem IA:** continua acessível na galeria pelo player oficial, mas não recebe telemetria, ROI nem probabilidades.
+- **ROI curva de 12 pontos:** acompanha a geometria das pistas no sentido Ponte e evita misturar veículos do retorno.
+- **Histórico não apagado:** dados anteriores permanecem, mas a mudança de câmera e calibração deve ser considerada em comparações entre períodos.
+
 - **Uma transmissão externa por vez:** evita multiplicar banda, uso de CPU e tempo de carregamento em conexões móveis.
 - **IA exclusiva da câmera principal:** as métricas existentes descrevem somente a BR-277 e não devem ser aplicadas a ângulos sem calibração.
 - **Players incorporados com atribuição:** o site organiza fontes públicas, não retransmite nem armazena as imagens de terceiros.
@@ -205,3 +218,4 @@
 - A criação do agendamento externo depende de uma conta no cron-job.org depois que a rota estiver publicada.
 - O histórico de veículos começa vazio e depende de o detector atualizado permanecer ligado; a precisão deverá ser auditada com amostras de vídeo reais.
 - O alvo de 25 FPS da IA depende do Ryzen local: com Java e outros programas consumindo CPU, a configuração final teve mediana de 17,0 FPS e pode oscilar.
+- A contagem histórica anterior a 2026-08-29 foi produzida pela câmera antiga e não é diretamente comparável à nova visão da Aduana.

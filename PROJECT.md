@@ -4,7 +4,7 @@
 
 ## Visão
 
-Oferecer uma consulta gratuita e simples da fronteira, reunindo nove câmeras ao vivo, leitura visual por IA na BR-277, clima e histórico diário de veículos no sentido Paraguai.
+Oferecer uma consulta gratuita e simples da fronteira, reunindo nove câmeras ao vivo, leitura visual por IA na Aduana brasileira da BR-277, clima e histórico diário de veículos no sentido Paraguai.
 
 ## Arquitetura
 
