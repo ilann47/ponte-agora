@@ -1,5 +1,14 @@
 import type { NormalizedBox, NormalizedPoint } from './traffic.ts';
 
+export function formatDetectionLabel(
+  label: string,
+  confidence: number,
+  showClass: boolean,
+): string {
+  const percentage = `${Math.round(confidence * 100)}%`;
+  return showClass ? `${label} · ${percentage}` : percentage;
+}
+
 export function projectNormalizedPoint(
   point: NormalizedPoint,
   width: number,

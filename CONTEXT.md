@@ -4,7 +4,7 @@
 
 ## Fase
 
-Versão 15 publicada com a ROI sobre o contorno vermelho e a IA otimizada.
+Overlay limpo implementado e validado sobre a versão 15, pronto para publicação.
 
 ## Decisões vigentes
 
@@ -20,6 +20,7 @@ Versão 15 publicada com a ROI sobre o contorno vermelho e a IA otimizada.
 - Site público principal: `https://filaponte.com.br/`.
 - Endereço original da hospedagem preservado como fallback: `https://ponte-agora.ilanwendling.chatgpt.site/`.
 - O código do detector aponta para a Aduana em 1920×1080, com ROI de 12 pontos sobre a pista curva marcada em vermelho, YOLO em 320 px, confiança 10%, quatro threads e meta máxima de 25 FPS.
+- A visão padrão do player preserva a pista com ROI quase transparente, caixas finas e apenas o percentual compacto; `Ver classes` restaura classe, percentual e identificação da ROI sob demanda.
 - A versão 15 está ativa e o detector reiniciado publica os 12 pontos, caixas e probabilidades da pista curva.
 - A validação isolada encontrou 7–8 carros em três quadros; em produção, quatro amostras consecutivas registraram 6–9 veículos sem incluir a via reta à direita.
 - O limite de quatro threads é reaplicado depois do primeiro `predict()`, pois a inicialização preguiçosa do Ultralytics o sobrescreve para oito; a correção operacional elevou a IA para 10,6–19,9 FPS em oito amostras.

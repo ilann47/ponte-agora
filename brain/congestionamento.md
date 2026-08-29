@@ -130,6 +130,7 @@ Validação de 2026-08-29:
 - Atualizar a média exponencial a cada 2 segundos com alfa 0,35, mantendo as detecções visuais em tempo real.
 - Publicar o overlay a cada segundo; o score continua suavizado no intervalo próprio de 2 segundos.
 - Normalizar caixas no frame original para o site projetá-las corretamente em telas responsivas.
+- No site, manter a visão padrão sem preenchimento visual forte nem textos extensos sobre a pista; as probabilidades continuam visíveis em etiquetas compactas e as classes completas ficam sob demanda.
 - Na pista curva da câmera da Aduana, manter inicialmente o limite em 24 veículos e 18% de ocupação até acumular amostras suficientes para nova calibração.
 - Atualizar o contador apenas com snapshots novos da IA, nunca a cada quadro reapresentado do vídeo.
 
@@ -162,3 +163,4 @@ Validação de 2026-08-29:
 | 2026-08-29 | Publicada a versão 14 e validada a nova geometria na página e na telemetria públicas. |
 | 2026-08-29 | Corrigido o reset preguiçoso para oito threads, adotada entrada de 320 px e recuperados 10,6–19,9 FPS de IA. |
 | 2026-08-29 | Publicada a versão 15 no domínio próprio com a otimização de FPS do detector. |
+| 2026-08-29 | Reduzida a obstrução do vídeo pelo overlay sem remover caixas, probabilidades ou acesso às classes completas. |

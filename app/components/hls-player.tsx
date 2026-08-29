@@ -2,17 +2,23 @@
 
 import Hls from 'hls.js';
 import { useEffect, useRef, useState } from 'react';
-import { projectNormalizedBox, projectNormalizedPoint } from '@/lib/detection-overlay';
+import {
+  formatDetectionLabel,
+  projectNormalizedBox,
+  projectNormalizedPoint,
+} from '@/lib/detection-overlay';
 import { DEFAULT_ROI, type TrafficReading } from '@/lib/traffic';
 
 export function HlsPlayer({
   source,
   reading,
   detectorOnline,
+  showDetails,
 }: {
   source: string;
   reading: TrafficReading | null;
   detectorOnline: boolean;
+  showDetails: boolean;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -62,12 +68,12 @@ export function HlsPlayer({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const draw = () => drawOverlay(canvas, reading, detectorOnline);
+    const draw = () => drawOverlay(canvas, reading, detectorOnline, showDetails);
     const observer = new ResizeObserver(draw);
     observer.observe(canvas);
     draw();
     return () => observer.disconnect();
-  }, [reading, detectorOnline]);
+  }, [reading, detectorOnline, showDetails]);
 
   return (
     <>
@@ -98,6 +104,7 @@ function drawOverlay(
   canvas: HTMLCanvasElement,
   reading: TrafficReading | null,
   detectorOnline: boolean,
+  showDetails: boolean,
 ) {
   const width = canvas.clientWidth;
   const height = canvas.clientHeight;
@@ -121,12 +128,14 @@ function drawOverlay(
       context.lineTo(x, y);
     }
     context.closePath();
-    context.fillStyle = 'rgba(210, 72, 255, 0.12)';
+    context.fillStyle = 'rgba(210, 72, 255, 0.035)';
     context.fill();
     context.strokeStyle = detectorOnline ? '#e05dff' : 'rgba(224, 93, 255, 0.55)';
-    context.lineWidth = 2;
+    context.lineWidth = 1.5;
     context.stroke();
-    drawLabel(context, 'ROI SENTIDO PONTE', firstX, firstY + 8, '#e56dff');
+    if (showDetails) {
+      drawLabel(context, 'ROI · PONTE', firstX, firstY + 8, '#e56dff', false);
+    }
   }
 
   if (!detectorOnline || !reading) return;
@@ -134,15 +143,16 @@ function drawOverlay(
     const [x1, y1, x2, y2] = projectNormalizedBox(detection.box, width, height);
     const boxWidth = x2 - x1;
     const boxHeight = y2 - y1;
-    context.strokeStyle = '#62ef8a';
-    context.lineWidth = Math.max(2, width / 520);
+    context.strokeStyle = 'rgba(98, 239, 138, 0.9)';
+    context.lineWidth = Math.max(1.25, width / 760);
     context.strokeRect(x1, y1, boxWidth, boxHeight);
     drawLabel(
       context,
-      `${detection.label} ${Math.round(detection.confidence * 100)}%`,
-      x1,
-      y1,
+      formatDetectionLabel(detection.label, detection.confidence, showDetails),
+      x1 + 2,
+      y1 + 2,
       '#62ef8a',
+      !showDetails,
     );
   }
 }
@@ -153,16 +163,21 @@ function drawLabel(
   x: number,
   y: number,
   color: string,
+  compact: boolean,
 ) {
-  const fontSize = Math.max(11, Math.min(16, context.canvas.clientWidth / 55));
+  const fontSize = compact
+    ? Math.max(8, Math.min(10, context.canvas.clientWidth / 100))
+    : Math.max(10, Math.min(13, context.canvas.clientWidth / 85));
   context.font = `800 ${fontSize}px Arial, sans-serif`;
-  const paddingX = 6;
+  const paddingX = compact ? 4 : 5;
   const labelWidth = context.measureText(text).width + paddingX * 2;
-  const labelHeight = fontSize + 8;
-  const labelY = Math.max(0, y - labelHeight);
+  const labelHeight = fontSize + (compact ? 5 : 7);
+  const labelY = compact
+    ? Math.min(Math.max(0, y), context.canvas.clientHeight - labelHeight)
+    : Math.max(0, y - labelHeight);
   const labelX = Math.min(Math.max(0, x), context.canvas.clientWidth - labelWidth);
-  context.fillStyle = 'rgba(5, 18, 14, 0.88)';
+  context.fillStyle = compact ? 'rgba(5, 18, 14, 0.66)' : 'rgba(5, 18, 14, 0.82)';
   context.fillRect(labelX, labelY, labelWidth, labelHeight);
   context.fillStyle = color;
-  context.fillText(text, labelX + paddingX, labelY + fontSize + 2);
+  context.fillText(text, labelX + paddingX, labelY + fontSize + 1);
 }

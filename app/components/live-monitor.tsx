@@ -18,6 +18,7 @@ export function LiveMonitor({
   initialState?: TrafficResponse;
 }) {
   const [state, setState] = useState<TrafficResponse>(initialState);
+  const [showOverlayDetails, setShowOverlayDetails] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -53,12 +54,27 @@ export function LiveMonitor({
   return (
     <section className="monitor-grid" id="camera" aria-label="Câmera e trânsito da Aduana da Ponte da Amizade agora">
       <article className="video-card">
-        <HlsPlayer source={source} reading={state.reading} detectorOnline={state.online} />
+        <HlsPlayer
+          source={source}
+          reading={state.reading}
+          detectorOnline={state.online}
+          showDetails={showOverlayDetails}
+        />
         <div className="video-shade" aria-hidden="true" />
         <div className="camera-meta">
           <span className="camera-live"><i /> AO VIVO</span>
-          <span className={state.online ? 'ai-status ai-online' : 'ai-status'}>
-            <i /> {state.online ? `IA · ${state.reading?.detections.length ?? 0} itens` : 'IA offline'}
+          <span className="camera-meta-actions">
+            <button
+              className="overlay-detail-toggle"
+              type="button"
+              aria-pressed={showOverlayDetails}
+              onClick={() => setShowOverlayDetails((visible) => !visible)}
+            >
+              {showOverlayDetails ? 'Visão limpa' : 'Ver classes'}
+            </button>
+            <span className={state.online ? 'ai-status ai-online' : 'ai-status'}>
+              <i /> {state.online ? `IA · ${state.reading?.detections.length ?? 0} itens` : 'IA offline'}
+            </span>
           </span>
         </div>
         <div className="video-caption">
