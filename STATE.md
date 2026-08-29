@@ -3,11 +3,13 @@
 # Estado do Projeto
 
 **Última atualização:** 2026-08-29
-**Fase atual:** correção da ROI do sentido Ponte validada e pronta para publicação
+**Fase atual:** versão 13 publicada com a ROI correta e a IA online
 
 ## O que foi feito
 
 - Transformada a câmera `BR-277 — Aduana da Ponte da Amizade` no monitor principal com IA.
+- Publicada a versão 13 em `filaponte.com.br` com a ROI corrigida e reiniciado o detector local com a nova geometria.
+- Confirmadas quatro leituras públicas consecutivas online com 10 pontos, primeiro ponto `0.61,0.06`, de um a três veículos e vídeo entre 23,6 e 25,0 FPS.
 - Publicada a versão 12 em `filaponte.com.br` e confirmada a telemetria online da nova câmera.
 - Movida a antiga `BR-277 — sentido Ponte da Amizade` para a galeria como transmissão comum, sem ROI, caixas ou métricas próprias.
 - Confirmado o HLS direto da Aduana em 1920×1080, com manifestos, segmentos e CORS públicos válidos.

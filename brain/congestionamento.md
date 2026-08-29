@@ -152,3 +152,4 @@ Validação de 2026-08-29:
 | 2026-08-29 | Transferidos stream, ROI e calibração para a Aduana; a nova visão reconheceu até 19 veículos no teste real. |
 | 2026-08-29 | Confirmada em produção a telemetria da Aduana com ROI, caixas e probabilidades atualizadas. |
 | 2026-08-29 | Corrigida a ROI para a pista central do sentido Foz → Ponte e excluída a fila do fluxo contrário. |
+| 2026-08-29 | Reiniciado o detector com a ROI de 10 pontos e confirmadas quatro leituras públicas online, com um a três veículos e vídeo entre 23,6 e 25,0 FPS. |
