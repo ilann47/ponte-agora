@@ -3,13 +3,14 @@
 # Estado do Projeto
 
 **Última atualização:** 2026-08-29
-**Fase atual:** overlay limpo da IA validado e pronto para publicação
+**Fase atual:** versão 16 publicada com o overlay limpo da IA
 
 ## O que foi feito
 
 - Reduzida a interferência visual do overlay: a visão padrão usa percentuais compactos dentro das caixas, ROI quase transparente e sem título sobre a pista.
 - Adicionado o controle acessível `Ver classes`/`Visão limpa`, mantendo disponível a identificação completa de cada detecção quando desejada.
 - Aprovados 64 testes web, 38 testes Python, lint e build de produção com o novo overlay.
+- Publicada a versão 16 no domínio próprio com a visão limpa ativada por padrão e o modo detalhado sob demanda.
 - Transformada a câmera `BR-277 — Aduana da Ponte da Amizade` no monitor principal com IA.
 - Publicada a versão 14, reiniciado o detector e confirmado visualmente no site que o ROI acompanha a pista curva marcada em vermelho.
 - Confirmadas quatro leituras públicas consecutivas com 12 pontos, 6–9 veículos, vídeo entre 24,2 e 25,0 FPS e a via reta à direita fora do polígono.
